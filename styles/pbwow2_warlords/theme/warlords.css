@@ -1,0 +1,71 @@
+/* PBWoW Warlords style specific markup */
+
+body {
+	background-color: #100806;
+	background-image: url("{T_THEME_PATH}/images/bg.jpg");
+}
+
+#logo {
+	background: url("{T_THEME_PATH}/images/logo-small.png") no-repeat 50% 50%;
+	width: 330px;
+	height: 178px;
+	background-size: 100% 100%;
+}
+
+#page-body {
+	background: rgba(0,0,0,0.85);
+	box-shadow: 0 3px 12px 8px rgba(10,6,4,0.7);	
+}
+
+.headerbar { 
+	background: rgba(0,0,0,0.8);
+}
+
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Small devices. */
+@media screen and (max-width: 859px) {
+	#logo {
+		margin: 0 0 25px 0;
+		width: 264px;
+		height: 142px;
+	}
+}
+
+@media screen and (max-width: 999px) {
+	body {
+		background-image: url("{T_THEME_PATH}/images/bg-small.jpg");
+	}
+}
+
+@media screen and (min-width: 860px) and (max-width: 999px) {
+	#logo {
+		margin: -10px 0 25px -10px;
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	#logo-wrap {
+		min-height: 240px;
+	}
+	#logo {
+		margin-top: 20px !important;
+		margin-left: 0;
+	}
+	#wrapper {
+		min-height: 1000px;
+	}
+	#video-background {
+		/*height: 1000px;*/
+		left: 50%;
+		position: absolute;
+		top: 0;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+		width: 1920px;
+		z-index: -1000;
+	}
+}

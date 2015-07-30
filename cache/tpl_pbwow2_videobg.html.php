@@ -1,0 +1,1 @@
+<?php if (!defined('IN_PHPBB')) exit; ?><div id="video-background"></div>

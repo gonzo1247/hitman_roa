@@ -1,0 +1,63 @@
+/* TBC style specific markup */
+
+body {
+	background-image: url("{T_THEME_PATH}/images/bg.jpg");
+}
+
+#logo {
+	background: url("{T_THEME_PATH}/images/logo.png") no-repeat 50% 0;
+	width: 280px;
+	height: 130px;
+	background-size: 100% 100%;
+}
+
+#page-body {
+	box-shadow: 0 3px 12px 8px rgba(0,0,0,0.65);	
+}
+
+.headerbar { 
+	background: rgba(0,0,0,0.75);
+}
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Small devices. */
+@media screen and (max-width: 859px) {
+	#logo {
+		width: 224px;
+		height: 104px;
+		margin-top: 10px;
+	}
+}
+
+@media screen and (max-width: 999px) {
+	body {
+		background-image: url("{T_THEME_PATH}/images/bg-small.jpg");
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	#logo-wrap {
+		min-height: 200px;
+	}
+	#logo {
+		margin-top: 20px !important;
+	}
+	#wrapper {
+		min-height: 850px;
+	}
+	#video-background {
+		/*height: 1000px;*/
+		left: 50%;
+		position: absolute;
+		top: 0;
+		z-index: -1000;
+	}
+	#video-element1 {
+		background-image: none;
+		position: absolute;
+		top: 160px;
+		left: 427px;
+	}
+}
