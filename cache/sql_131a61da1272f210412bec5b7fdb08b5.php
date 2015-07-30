@@ -1,10 +1,10 @@
 <?php exit; ?>
-1438288385
-SELECT s.style_id, c.theme_id, c.theme_data, c.theme_path, c.theme_name, c.theme_mtime, i.*, t.template_path FROM phpbb_3styles s, phpbb_3styles_template t, phpbb_3styles_theme c, phpbb_3styles_imageset i WHERE s.style_id = 2 AND t.template_id = s.template_id AND c.theme_id = s.theme_id AND i.imageset_id = s.imageset_id
-116973
-a:1:{i:0;a:11:{s:8:"style_id";s:1:"2";s:8:"theme_id";s:1:"2";s:10:"theme_data";s:116599:"/*  phpBB3 Style Sheet
+1438288355
+SELECT s.style_id, c.theme_id, c.theme_data, c.theme_path, c.theme_name, c.theme_mtime, i.*, t.template_path FROM phpbb_3styles s, phpbb_3styles_template t, phpbb_3styles_theme c, phpbb_3styles_imageset i WHERE s.style_id = 9 AND t.template_id = s.template_id AND c.theme_id = s.theme_id AND i.imageset_id = s.imageset_id
+117470
+a:1:{i:0;a:11:{s:8:"style_id";s:1:"9";s:8:"theme_id";s:1:"9";s:10:"theme_data";s:117069:"/*  phpBB3 Style Sheet
     --------------------------------------------------------------
-	Style name:			PBWoW2
+	Style name:			PBWoW 2 Tribute
 	Based on style:		prosilver (the default phpBB 3.0.x style)
 	Original author:	Tom Beddard ( http://www.subblue.com/ )
 	Modified by:		PayBas ( http://pbwow.com/ )
@@ -5231,34 +5231,67 @@ my personal preference so to speak */
 	background-repeat: no-repeat;
 	padding: 1px 0 0 18px;
 }
-/* PBWoW Default (Pandaria) style specific markup */
+/* PBWoW Tribute style specific markup */
 
 body {
-	background-image: url("{T_IMAGESET_PATH}/images/themes/pandaria.jpg");
+	background-image: url("{T_THEME_PATH}/images/tribute2.jpg");
 }
 
-body.bg-fixed {
-	background-attachment: scroll !important;
+#page-body {
+	box-shadow: 0 3px 12px 8px rgba(0,0,0,0.65);	
 }
 
-#logo-wrap {
-	min-height: 184px !important;
-	height: 184px !important;
+.headerbar { 
+	background: rgba(0,0,0,0.75);
 }
 
-#logo {
-	background-image: none !important;
-	width: 266px !important;
-	height: 126px !important;
-	margin: 15px 10px 10px -10px !important;
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Small devices. */
+@media screen and (max-width: 859px) {
+	/* inherit from master */
 }
 
 @media screen and (max-width: 999px) {
 	body {
-		background-image: url("{T_IMAGESET_PATH}/images/themes/pandaria-small.jpg");
-		background-position: 0 0;
+		background-image: url("{T_THEME_PATH}/images/tribute2-small.jpg");
 	}
-	body.body-top-bar {
-		background-position: 0 41px;
+}
+
+@media screen and (min-width: 1000px) {
+	#logo-wrap {
+		min-height: 255px;
 	}
-}";s:10:"theme_path";s:6:"pbwow2";s:10:"theme_name";s:6:"PBWoW2";s:11:"theme_mtime";s:10:"1418478670";s:11:"imageset_id";s:1:"2";s:13:"imageset_name";s:6:"PBWoW2";s:18:"imageset_copyright";s:19:"&copy; PayBas, 2013";s:13:"imageset_path";s:6:"pbwow2";s:13:"template_path";s:6:"pbwow2";}}
+	#logo {
+		margin-top: 20px !important;
+	}
+	#wrapper {
+		min-height: 700px;
+	}
+	#video-background {
+		/*height: 600px;*/
+		left: 50%;
+		position: absolute;
+		top: 0;
+		z-index: -1000;
+	}
+	#video-element1 {
+		background-image: none;
+		position: absolute;
+		top: 144px;
+		right: 499px;
+	}
+	#video-element2 {
+		background-image: none;
+		position: absolute;
+		top: 160px;
+		left: 427px;
+	}
+	#video-element3 {
+		background-image: none;
+		position: absolute;
+		top: -73px;
+		left: -259px;
+	}
+}";s:10:"theme_path";s:14:"pbwow2_tribute";s:10:"theme_name";s:14:"PBWoW2_Tribute";s:11:"theme_mtime";s:10:"1418483082";s:11:"imageset_id";s:1:"2";s:13:"imageset_name";s:6:"PBWoW2";s:18:"imageset_copyright";s:19:"&copy; PayBas, 2013";s:13:"imageset_path";s:6:"pbwow2";s:13:"template_path";s:14:"pbwow2_tribute";}}
