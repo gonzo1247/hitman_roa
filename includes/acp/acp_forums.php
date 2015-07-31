@@ -57,7 +57,6 @@ $user->add_lang('mods/info_acp_recenttopics');
 				$total = request_var('total', 0);
 
 				$this->display_progress_bar($start, $total);
-				exit;
 			break;
 
 			case 'delete':
