@@ -165,6 +165,7 @@ $template->assign_vars(array(
 	'S_PORTAL_LEFT_COLUMN'	=> $config['board3_left_column_width'],
 	'S_PORTAL_RIGHT_COLUMN'	=> $config['board3_right_column_width'],
 	'S_LEFT_COLUMN'			=> ($module_count['left'] > 0 && $config['board3_left_column']) ? true : false,
+	'NORMAL_PORTAL'			=> (isset($_GET["mod"])) ? false : true, // Set custom var for roa control
 	'S_CENTER_COLUMN'		=> ($module_count['center'] > 0) ? true : false,
 	'S_RIGHT_COLUMN'		=> ($module_count['right'] > 0 && $config['board3_right_column']) ? true : false,
 	'S_TOP_COLUMN'			=> ($module_count['top'] > 0) ? true : false,
