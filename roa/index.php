@@ -10,7 +10,6 @@ define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
 
-//echo phpinfo();
 $roa_output_html = "testtretetext"; // todo make better
 
 // Include mainclasses
@@ -36,5 +35,5 @@ $char_db = new db(
 	array()
 );
 
-// test
+
 
