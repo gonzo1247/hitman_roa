@@ -35,3 +35,5 @@ $char_db = new db(
 	array()
 );
 
+// test
+
