@@ -18,7 +18,18 @@ class account {
 
 			// Check is Username Already exist in wow account Database?
 
-			auth.account::get($username);
+			$usnam = auth.account::get($username);
+			if ($usnam[0] == $username)
+				return "Error: Benutzername exestiert bereits schon. <br> Bitte waehle einen anderen Namen!";
+			$ujoin = gmdate("Y-m-d H:i:s", $date);
+			$pass_sha = $this->sha_password($username, $paswd);
+
+			// Now we need the phpbb ID
+			$phpid = "";
+
+			auth.account::add($id, $username, $pass_sha, $email, $ujoin, $ip);
+
+
 
 
 

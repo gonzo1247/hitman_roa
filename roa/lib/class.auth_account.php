@@ -63,6 +63,10 @@ class auth_account {
 
 	}
 
+	public static function getID($id) {
+	//	$sql = 'SELECT '
+	}
+
 
 	public static function delete() {
 
