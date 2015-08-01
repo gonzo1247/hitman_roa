@@ -304,8 +304,19 @@ class ucp_register
 					$user_row['user_new'] = 1;
 				}
 
+				// Roa Account start
 				// Register user...
-				$user_id = user_add($user_row, $cp_data);
+				require_once($phpbb_root_path . "roa/classes/class.server.php");
+				global $auth_server_adress;
+				global $auth_server_port;
+				if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+					// Register Forums-User
+					$user_id = user_add($user_row, $cp_data);
+
+					// todo create wow account
+				} else
+					throw new Exception("Auth-Server nicht erreichbar! Adresse: \"" . $auth_server_adress . ":" . $auth_server_port . "\"");
+				// Roa Account end
 
 				// This should not happen, because the required variables are listed above...
 				if ($user_id === false)
