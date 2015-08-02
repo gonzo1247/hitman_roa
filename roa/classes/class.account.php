@@ -72,7 +72,6 @@ class account {
 
 			auth_account::update_email(auth_account::get_id($username), $email);
 			auth_account::update_locked(auth_account::get_id($username));
-
 			return false;
 		}
 
