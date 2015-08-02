@@ -126,20 +126,6 @@ class auth_account {
 		);
 	}
 
-	public static function update_locked($userid, $locked = 1, $ip = "127.0.0.1") {
-		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET locked = :locked, last_ip = :ip WHERE id = :userid';
-
-		return SQL::execute(
-			self::getConnection(),
-			$sql,
-			array(
-				"locked" => (string) $locked,
-				"ip" => $ip,
-				"userid" => (int) $userid
-			)
-		);
-	}
-
 	/**
 	 * @return string
 	 */

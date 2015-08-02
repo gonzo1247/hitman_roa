@@ -164,10 +164,10 @@ class ucp_profile
 							require_once($phpbb_root_path . "roa/classes/class.server.php");
 							global $auth_server_adress;
 							global $auth_server_port;
-							if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+							if(server::serverstatus($auth_server_adress, $auth_server_port)) { //todo break on server con error
 								require_once($phpbb_root_path . "roa/roa_account.php");
-								account::game_account_email($data['username'], $data['email']);
-
+								account::game_account_email($data['username'], $data['email']); // todo use return parameter
+								// todo break on error
 							}
 
 							$messenger->send(NOTIFY_EMAIL);

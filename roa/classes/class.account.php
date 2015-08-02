@@ -7,25 +7,23 @@
  */
 
 class account {
-	public static function game_account_create ($username = "", $paswd = "", $email = "", $date = "", $ip = "" ) {
+	public static function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "") {
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
 		// with RAF functions: recruiter (account guid)
 
-		if (!empty ($username) && !empty ($paswd) && !empty ($email) && !empty ($date) && !empty ($ip)) {
+		if (! empty($username) && ! empty($paswd) && ! empty($email) && ! empty($date) && ! empty($ip)) {
 			$username = mb_strtolower($username);
 
 			// Check is Username Already exist in wow account Database?
 			$usnam = auth_account::get($username);
-			if ($usnam != null)
+			if($usnam != null)
 				return false;
 
 			$ujoin = gmdate("Y-m-d H:i:s", $date);
 			$pass_sha = self::sha_password($username, $paswd);
 			auth_account::add($username, $pass_sha, $email, $ujoin, $ip);
 
-			$username2 = auth_account::get($username);
-
-			if ($username2)
+			if(auth_account::get($username))
 				return true;
 
 			return false;
@@ -34,13 +32,17 @@ class account {
 		return false;
 	}
 
-	public static function sha_password ($username, $pass ) {
+	/**
+	 * @param string $username
+	 * @param string $pass
+	 * @return string - WoW-Passwd
+	 */
+	public static function sha_password($username, $pass) {
+		$username = mb_strtoupper($username);
+		$pass = mb_strtoupper($pass);
+		$SHA1P = ($username . ':' . $pass);
 
-		$username = strtoupper ( $username );
-		$pass = strtoupper ( $pass );
-		$SHA1P = ( $username . ':' . $pass );
-
-		return hash ( 'sha1', $SHA1P );
+		return hash('sha1', $SHA1P);
 	}
 
 	public static function game_account_activate ($userid) {
@@ -53,28 +55,27 @@ class account {
 		return false;
 	}
 
-	public static function game_account_password ($pwd = "", $username = ""){
-		if (!empty ($pwd) && !empty($username)) {
+	public static function game_account_password($pwd = "", $username = "") {
+		if(! empty($pwd) && ! empty($username)) {
 			$username = mb_strtolower($username);
 
 			$pwd_sha = self::sha_password($username, $pwd);
-			auth_account::update_password(auth_account::get_id($username), $pwd_sha);
-
-			return false;
+			if(auth_account::update_password(auth_account::get_id($username), $pwd_sha))
+				return true;
 		}
-
 		return false;
 	}
 
-	public  static function game_account_email ($username, $email = "") {
+	public static function game_account_email($username, $email = "") {
 		if (!empty ($username) && !empty ($email)) {
 			$username = mb_strtolower($username);
 
-			auth_account::update_email(auth_account::get_id($username), $email);
-			auth_account::update_locked(auth_account::get_id($username));
-			return false;
+			if(auth_account::update_email(auth_account::get_id($username), $email)) {
+				// Lock user on change E-Mail
+				if(auth_account::update_activated(auth_account::get_id($username), "127.0.0.1", 1))
+					return true;
+			}
 		}
-
 		return false;
 	}
 

@@ -12,7 +12,7 @@ class sql {
 	protected static $sqlCache = array();
 
 	/**
-	 * @param db|null $name
+	 * @param string|null $name
 	 * @param string $statement
 	 * @param null $fields
 	 * @param int $type
@@ -37,7 +37,7 @@ class sql {
 	}
 
 	/**
-	 * @param db|null $name
+	 * @param string|null $name
 	 * @param string $statement
 	 * @param array|null $fields
 	 * @return int
@@ -58,7 +58,7 @@ class sql {
 	}
 
 	/**
-	 * @param db|null $name
+	 * @param string|null $name
 	 * @param string $statement
 	 * @param null $fields
 	 * @return int
