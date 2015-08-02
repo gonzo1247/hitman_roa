@@ -6,26 +6,26 @@
  */
 
 class auth_account {
+	private static $prefix;
 	private static $tablename = "account";
+	private static $connection = "auth_db";
 
-	public static function add($id = "" , $username = "", $sha_pass_hash = "", $email = "", $joindata = "", $last_ip = "", $expansion = "3", $locale = "3", $recruiter = "", $activated = "" ) {
-		$sql = 'INSERT INTO account (
-			id,
+	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "", $expansion = "3", $locale = "3", $recruiter = "", $activated = "" ) {
+		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
 			username,
 			sha_pass_hash,
 			email,
-			joindata,
+			joindate,
 			last_ip,
 			expansion,
 			locale,
 			recruiter,
 			activated
 		) VALUES (
-			:id,
 			:username,
 			:pwd_hash,
 			:email,
-			:data,
+			:date,
 			:ip,
 			:expansion,
 			:locale,
@@ -33,12 +33,13 @@ class auth_account {
 			:activated
 		)';
 		return SQL::execute(
+			self::getConnection(),
 			$sql,
 			array(
-				"id" => $id,
+				"username" => $username,
 				"pwd_hash" => $sha_pass_hash,
 				"email" => $email,
-				"data" => $joindata,
+				"date" => $joinDate,
 				"ip" => $last_ip,
 				"expansion" => $expansion,
 				"locale" => $locale,
@@ -52,21 +53,15 @@ class auth_account {
 	public static function get($username = "") {
 		$sql = 'SELECT username FROM account WHERE username = :username';
 
-		return SQL::execute(
+		return SQL::query(
+			self::getConnection(),
 			$sql,
 			array(
 				"username" => $username
 			)
 		);
 
-		return array();
-
 	}
-
-	public static function getID($id) {
-	//	$sql = 'SELECT '
-	}
-
 
 	public static function delete() {
 
@@ -75,4 +70,45 @@ class auth_account {
 	public static function update() {
 
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function getTablename() {
+		return self::$tablename;
+	}
+
+	/**
+	 * @param string $tablename
+	 */
+	public static function setTablename($tablename) {
+		self::$tablename = $tablename;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function getPrefix() {
+		global $db_auth_prefix;
+		if(! isset(self::$prefix))
+			self::setPrefix($db_auth_prefix);
+
+		return self::$prefix;
+	}
+
+	/**
+	 * @param mixed $prefix
+	 */
+	private static function setPrefix($prefix) {
+		self::$prefix = $prefix;
+	}
+
+	/**
+	 * @return string
+	 */
+	private static function getConnection() {
+		return self::$connection;
+	}
+
+
 }

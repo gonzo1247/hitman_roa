@@ -7,36 +7,40 @@
  */
 
 class account {
-	public function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "" ) {
+	public static function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "" ) {
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
 		// with RAF functions: recruiter (account guid)
-
-	//	require_once(/roa/classes/class.auth.account.php);
 
 		if (!empty ($username) && !empty ($paswd) && !empty ($email) && !empty ($date) && !empty ($ip)) {
 			$username = mb_strtolower(($username));
 
 			// Check is Username Already exist in wow account Database?
+			$usnam = auth_account::get($username);
+			if ($usnam != null)
+				return "Error: Benutzername exestiert bereits schon.<br>" . PHP_EOL . "Bitte waehle einen anderen Namen!";
 
-			$usnam = auth.account::get($username);
-			if ($usnam[0] == $username)
-				return "Error: Benutzername exestiert bereits schon. <br> Bitte waehle einen anderen Namen!";
 			$ujoin = gmdate("Y-m-d H:i:s", $date);
-			$pass_sha = $this->sha_password($username, $paswd);
+			$pass_sha = self::sha_password($username, $paswd);
+			auth_account::add($username, $pass_sha, $email, $ujoin, $ip);
 
-			// Now we need the phpbb ID
-			$phpid = "";
+			$username2 = auth_account::get($username);
 
-			auth.account::add($id, $username, $pass_sha, $email, $ujoin, $ip);
+			if ($username2)
+				return true;
 
-
-
-
-
-
-
-
+			return false;
 		}
+
+		return false;
+	}
+
+	public static function sha_password ( $username, $pass ) {
+
+		$username = strtoupper ( $username );
+		$pass = strtoupper ( $pass );
+		$SHA1P = ( $username . ':' . $pass );
+
+		return hash ( 'sha1', $SHA1P );
 	}
 
 }

@@ -13,6 +13,7 @@ define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
 $roa_output_html = "testtretetext"; // todo make better
 
 // Include mainclasses
+require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
 
@@ -35,5 +36,7 @@ $char_db = new db(
 	array()
 );
 
-
-
+// Assign connections
+db_con::setDbCon($auth_db, "auth_db");
+db_con::setDbCon($char_db, "char_db");
+db_con::setDbCon($world_db, "world_db");

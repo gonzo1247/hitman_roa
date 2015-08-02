@@ -306,6 +306,7 @@ class ucp_register
 
 				// Roa Account start
 				// Register user...
+				$user_id = false;
 				require_once($phpbb_root_path . "roa/classes/class.server.php");
 				global $auth_server_adress;
 				global $auth_server_port;
@@ -313,7 +314,13 @@ class ucp_register
 					// Register Forums-User
 					$user_id = user_add($user_row, $cp_data);
 
-					// todo create wow account
+					// Create WoW-Account
+					require_once($phpbb_root_path . "roa/roa_account.php");
+					if(! account::game_account_create($data['username'], $data['new_password'], $data['email'], time(), $user->ip)) {
+						user_delete("retain", (int) $user_id);
+						trigger_error('NO_USER', E_USER_ERROR);
+					}
+
 				} else
 					throw new Exception("Auth-Server nicht erreichbar! Adresse: \"" . $auth_server_adress . ":" . $auth_server_port . "\"");
 				// Roa Account end
