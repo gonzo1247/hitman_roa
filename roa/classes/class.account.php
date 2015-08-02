@@ -17,7 +17,7 @@ class account {
 			// Check is Username Already exist in wow account Database?
 			$usnam = auth_account::get($username);
 			if ($usnam != null)
-				return "Error: Benutzername exestiert bereits schon.<br>" . PHP_EOL . "Bitte waehle einen anderen Namen!";
+				return false;
 
 			$ujoin = gmdate("Y-m-d H:i:s", $date);
 			$pass_sha = self::sha_password($username, $paswd);
@@ -41,6 +41,16 @@ class account {
 		$SHA1P = ( $username . ':' . $pass );
 
 		return hash ( 'sha1', $SHA1P );
+	}
+
+	public static function game_account_activate($userid) {
+		if (empty ($userid))
+			return false;
+
+		if (auth_account::update_activated($userid))
+			return true;
+
+		return false;
 	}
 
 }

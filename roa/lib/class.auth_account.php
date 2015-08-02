@@ -10,13 +10,14 @@ class auth_account {
 	private static $tablename = "account";
 	private static $connection = "auth_db";
 
-	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "", $expansion = "3", $locale = "3", $recruiter = "", $activated = "" ) {
+	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = "", $activated = "" ) {
 		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
 			username,
 			sha_pass_hash,
 			email,
 			joindate,
 			last_ip,
+			locked,
 			expansion,
 			locale,
 			recruiter,
@@ -27,6 +28,7 @@ class auth_account {
 			:email,
 			:date,
 			:ip,
+			:locked,
 			:expansion,
 			:locale,
 			:recruiter,
@@ -41,6 +43,7 @@ class auth_account {
 				"email" => $email,
 				"date" => $joinDate,
 				"ip" => $last_ip,
+				"locked" => $locked,
 				"expansion" => $expansion,
 				"locale" => $locale,
 				"recruiter" => $recruiter,
@@ -63,12 +66,38 @@ class auth_account {
 
 	}
 
+	public static function get_id($username = "") {
+		$sql = 'SELECT id FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username LIMIT 1';
+
+		$result = SQL::query(
+			self::getConnection(),
+			$sql,
+			array(
+				"username" => $username
+			)
+		);
+		if($result)
+			return $result[0]["id"];
+
+		return false;
+	}
+
 	public static function delete() {
 
 	}
 
-	public static function update() {
+	public static function update_activated($userid, $ip = "0.0.0.0", $locked = 0) {
+		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET last_ip = :userip, locked = :locked WHERE id = :userid';
 
+		return SQL::execute(
+			self::getConnection(),
+			$sql,
+			array(
+				"userip" => $ip,
+				"locked" => (string) $locked,
+				"userid" => (int) $userid
+			)
+		);
 	}
 
 	/**

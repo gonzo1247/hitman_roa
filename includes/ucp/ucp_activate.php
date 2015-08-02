@@ -88,22 +88,31 @@ class ucp_activate
 			add_log('user', $user_row['user_id'], 'LOG_USER_NEW_PASSWORD', $user_row['username']);
 		}
 
-		if (!$update_password)
-		{
-			include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+		// Include ROA-Functions
+		require_once($phpbb_root_path . "roa/classes/class.server.php");
+		global $auth_server_adress;
+		global $auth_server_port;
+		if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+			require_once($phpbb_root_path . "roa/roa_account.php");
 
-			user_active_flip('activate', $user_row['user_id']);
+			if(! $update_password) {
+				include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 
-			$sql = 'UPDATE ' . USERS_TABLE . "
-				SET user_actkey = ''
-				WHERE user_id = {$user_row['user_id']}";
-			$db->sql_query($sql);
+				user_active_flip('activate', $user_row['user_id']);
 
-			// Create the correct logs
-			add_log('user', $user_row['user_id'], 'LOG_USER_ACTIVE_USER');
-			if ($auth->acl_get('a_user'))
-			{
-				add_log('admin', 'LOG_USER_ACTIVE', $user_row['username']);
+				$sql = 'UPDATE ' . USERS_TABLE . "
+					SET user_actkey = ''
+					WHERE user_id = {$user_row['user_id']}";
+				$db->sql_query($sql);
+
+				// Activate WoW-Account
+				account::game_account_activate(auth_account::get_id($user_row['username']));
+
+				// Create the correct logs
+				add_log('user', $user_row['user_id'], 'LOG_USER_ACTIVE_USER');
+				if($auth->acl_get('a_user')) {
+					add_log('admin', 'LOG_USER_ACTIVE', $user_row['username']);
+				}
 			}
 		}
 
