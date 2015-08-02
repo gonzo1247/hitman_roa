@@ -59,6 +59,7 @@ class account {
 
 			$pwd_sha = self::sha_password($username, $pwd);
 			auth_account::update_password(auth_account::get_id($username), $pwd_sha);
+			auth_account::update_locked(auth_account::get_id($username));
 
 			return false;
 		}
