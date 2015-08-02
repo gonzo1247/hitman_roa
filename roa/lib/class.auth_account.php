@@ -133,7 +133,7 @@ class auth_account {
 			self::getConnection(),
 			$sql,
 			array(
-				"locked" => $locked,
+				"locked" => (string) $locked,
 				"ip" => $ip,
 				"userid" => (int) $userid
 			)
