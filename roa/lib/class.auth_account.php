@@ -100,6 +100,32 @@ class auth_account {
 		);
 	}
 
+	public static function update_password($userid, $pwd_hash = ""){
+		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET sha_pass_hash = "pwd_hash WHERE id = :userid';
+
+		return SQL::execute(
+			self::getConnection(),
+			$sql,
+			array(
+				"pwd_hash" => $pwd_hash,
+				"userid" => (int) $userid
+			)
+		);
+	}
+
+	public static function update_email($userid, $emai = "") {
+		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET email = :email WHERE id = :userid';
+
+		return SQL::execute(
+			self::getConnection(),
+			$sql,
+			array(
+				"email" => $emai,
+				"userid" => (int) $userid
+			)
+		);
+	}
+
 	/**
 	 * @return string
 	 */

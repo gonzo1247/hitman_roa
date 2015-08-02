@@ -86,6 +86,16 @@ class ucp_activate
 			$db->sql_query($sql);
 
 			add_log('user', $user_row['user_id'], 'LOG_USER_NEW_PASSWORD', $user_row['username']);
+
+			require_once($phpbb_root_path . "roa/classes/class.server.php");
+			global $auth_server_adress;
+			global $auth_server_port;
+			if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+				require_once($phpbb_root_path . "roa/roa_account.php");
+
+				account::game_account_password($user_row['username'], $user_row['user_newpasswd']);
+
+			}
 		}
 
 		// Include ROA-Functions
