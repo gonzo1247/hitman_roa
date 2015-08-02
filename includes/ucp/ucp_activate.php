@@ -87,6 +87,7 @@ class ucp_activate
 
 			add_log('user', $user_row['user_id'], 'LOG_USER_NEW_PASSWORD', $user_row['username']);
 
+			// ROA - wow account password change
 			require_once($phpbb_root_path . "roa/classes/class.server.php");
 			global $auth_server_adress;
 			global $auth_server_port;

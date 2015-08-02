@@ -126,10 +126,11 @@ class ucp_profile
 							add_log('user', $user->data['user_id'], 'LOG_USER_NEW_PASSWORD', $data['username']);
 						}
 
-						if ($auth->acl_get('u_chgemail') && $data['email'] != $user->data['user_email'])
-						{
+						if ($auth->acl_get('u_chgemail') && $data['email'] != $user->data['user_email']) {
 							add_log('user', $user->data['user_id'], 'LOG_USER_UPDATE_EMAIL', $data['username'], $user->data['user_email'], $data['email']);
+
 						}
+
 
 						$message = 'PROFILE_UPDATED';
 
@@ -155,7 +156,19 @@ class ucp_profile
 							$messenger->assign_vars(array(
 								'USERNAME'		=> htmlspecialchars_decode($data['username']),
 								'U_ACTIVATE'	=> "$server_url/ucp.$phpEx?mode=activate&u={$user->data['user_id']}&k=$user_actkey")
+
+
 							);
+
+							// ROA-Email WoW Account change
+							require_once($phpbb_root_path . "roa/classes/class.server.php");
+							global $auth_server_adress;
+							global $auth_server_port;
+							if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+								require_once($phpbb_root_path . "roa/roa_account.php");
+								account::game_account_email($data['username'], $data['email']);
+
+							}
 
 							$messenger->send(NOTIFY_EMAIL);
 
