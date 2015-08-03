@@ -6,6 +6,7 @@
  * Notice: Global switch file
  */
 
+mb_internal_encoding("UTF-8");
 define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');

@@ -6,6 +6,7 @@
  * Time: 19:11
  */
 
+mb_internal_encoding("UTF-8");
 class account {
 	public static function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "") {
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
