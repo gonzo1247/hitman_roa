@@ -8,6 +8,14 @@
 
 mb_internal_encoding("UTF-8");
 class account {
+	/**
+	 * @param string $username
+	 * @param string $paswd
+	 * @param string $email
+	 * @param string $date
+	 * @param string $ip
+	 * @return bool
+	 */
 	public static function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "") {
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
 		// with RAF functions: recruiter (account guid)
@@ -20,9 +28,11 @@ class account {
 			if($usnam != null)
 				return false;
 
+			// Get recruiter-field
+			$recruiter = self::check_refferer($username);
 			$ujoin = gmdate("Y-m-d H:i:s", $date);
 			$pass_sha = self::sha_password($username, $paswd);
-			auth_account::add($username, $pass_sha, $email, $ujoin, $ip);
+			auth_account::add($username, $pass_sha, $email, $ujoin, "127.0.0.1", 1, 3, 3, $recruiter);
 
 			if(auth_account::get($username))
 				return true;
@@ -78,6 +88,21 @@ class account {
 			}
 		}
 		return false;
+	}
+
+	private static function check_refferer($username) {
+		$phpbb_account = phpbb_account::get($username);
+		if($phpbb_account) {
+			$phpbb_special_fields = phpbb_profile_fields_data::get_by_id($phpbb_account[0]["user_id"]);
+			if($phpbb_special_fields[0]["pf_werb_einen_freund"]) {
+				$rec_id = auth_account::get_id(mb_strtolower($phpbb_special_fields[0]["pf_werb_einen_freund"]));
+				if($rec_id)
+					return $rec_id;
+			}
+		}
+
+		// Default Value
+		return 0;
 	}
 
 }

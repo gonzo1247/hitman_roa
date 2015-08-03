@@ -10,7 +10,20 @@ class auth_account {
 	private static $tablename = "account";
 	private static $connection = "auth_db";
 
-	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = "", $activated = "" ) {
+	/**
+	 * @param string $username
+	 * @param string $sha_pass_hash
+	 * @param string $email
+	 * @param string $joinDate
+	 * @param string $last_ip
+	 * @param int $locked
+	 * @param int $expansion
+	 * @param int $locale
+	 * @param int $recruiter
+	 * @param int|null $activated
+	 * @return int
+	 */
+	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = 0, $activated = 0 ) {
 		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
 			username,
 			sha_pass_hash,
@@ -54,7 +67,7 @@ class auth_account {
 	}
 
 	public static function get($username = "") {
-		$sql = 'SELECT username FROM account WHERE username = :username';
+		$sql = 'SELECT username FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username';
 
 		return SQL::query(
 			self::getConnection(),

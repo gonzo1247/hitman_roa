@@ -11,7 +11,7 @@ class server {
 	public static function serverstatus($adress = "localhost", $port = 80) {
 		if($adress) {
 			if(function_exists("fsockopen")) {
-				$status = fsockopen($adress, $port);
+				$status = @fsockopen($adress, $port);
 
 				if($status)
 					return true;

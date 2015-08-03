@@ -6,7 +6,10 @@
  * Notice: Global switch file
  */
 
+// Set encoding
 mb_internal_encoding("UTF-8");
+
+// Declare constances
 define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
@@ -18,6 +21,7 @@ require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
 
+// Create db connections
 $auth_db = new db(
 	"{$db_auth_type}:host={$db_auth_host};port={$db_auth_port};dbname={$db_auth_dbname};charset=utf8",
 	$db_auth_username,
@@ -36,8 +40,15 @@ $char_db = new db(
 	$db_character_pwd,
 	array()
 );
+$phpbb_db = new db(
+	"{$dbms}:host={$dbhost};port={$dbport};dbname={$dbname};charset=utf8",
+	$dbuser,
+	$phpbb_db_pw,
+	array()
+);
 
 // Assign connections
 db_con::setDbCon($auth_db, "auth_db");
 db_con::setDbCon($char_db, "char_db");
 db_con::setDbCon($world_db, "world_db");
+db_con::setDbCon($phpbb_db, "phpbb_db");
