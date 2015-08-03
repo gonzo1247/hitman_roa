@@ -146,6 +146,7 @@ class ucp_profile
 
 							$messenger = new messenger(false);
 
+
 							$template_file = ($config['require_activation'] == USER_ACTIVATION_ADMIN) ? 'user_activate_inactive' : 'user_activate';
 							$messenger->template($template_file, $user->data['user_lang']);
 
@@ -217,10 +218,26 @@ class ucp_profile
 
 						if (sizeof($sql_ary))
 						{
-							$sql = 'UPDATE ' . USERS_TABLE . '
-								SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
-								WHERE user_id = ' . $user->data['user_id'];
-							$db->sql_query($sql);
+							// RoA Password Change for Game Account
+							require_once($phpbb_root_path . "roa/classes/class.server.php");
+							global $auth_server_adress;
+							global $auth_server_port;
+							if(server::serverstatus($auth_server_adress, $auth_server_port)) {
+								require_once($phpbb_root_path . "roa/roa_account.php");
+
+								$sql = 'UPDATE ' . USERS_TABLE . '
+									SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
+									WHERE user_id = ' . $user->data['user_id'];
+								$db->sql_query($sql);
+
+								$wow_pass = (! empty ($data['new_password'])) ? $data['new_password'] : $data['cur_password'];
+
+								account::game_account_password($wow_pass, $data['username']);
+							}
+							else {
+								trigger_error("Service Tempor?r wegen hoher Server Belastung nicht verf?gbar, bitte versuche es in ein paar Minuten erneut!");
+								return;
+							}
 						}
 
 						// Need to update config, forum, topic, posting, messages, etc.
