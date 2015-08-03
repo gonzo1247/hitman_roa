@@ -46,7 +46,7 @@ class account {
 		return hash('sha1', $SHA1P);
 	}
 
-	public static function game_account_activate ($userid) {
+	public static function game_account_activate($userid) {
 		if (empty ($userid))
 			return false;
 

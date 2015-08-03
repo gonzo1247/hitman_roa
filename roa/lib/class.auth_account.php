@@ -101,7 +101,7 @@ class auth_account {
 	}
 
 	public static function update_password($userid, $pwd_hash = ""){
-		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET sha_pass_hash = :pwd_hash WHERE id = :userid';
+		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET sha_pass_hash = :pwd_hash, v = \'\', s = \'\' WHERE id = :userid';
 
 		return SQL::execute(
 			self::getConnection(),

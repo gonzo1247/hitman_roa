@@ -235,7 +235,7 @@ class ucp_profile
 								account::game_account_password($wow_pass, $data['username']);
 							}
 							else {
-								trigger_error("Service Tempor&auml;r wegen hoher Server Belastung nicht verf&uuml;gbar, bitte versuche es in ein paar Minuten erneut!");
+								trigger_error("Service Temporär wegen hoher Server Belastung nicht verfügbar, bitte versuche es in ein paar Minuten erneut!");
 								return;
 							}
 						}
