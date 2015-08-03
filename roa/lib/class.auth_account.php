@@ -5,6 +5,9 @@
  * Time: 19:33
  */
 
+/**
+ * Class auth_account
+ */
 class auth_account {
 	private static $prefix;
 	private static $tablename = "account";
@@ -23,7 +26,7 @@ class auth_account {
 	 * @param int|null $activated
 	 * @return int
 	 */
-	public static function add($username = "", $sha_pass_hash = "", $email = "", $joinDate = "", $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = 0, $activated = 0 ) {
+	public static function add($username = "", $sha_pass_hash = "", $email = null, $joinDate = null, $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = 0, $activated = 0) {
 		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
 			username,
 			sha_pass_hash,
@@ -66,7 +69,11 @@ class auth_account {
 
 	}
 
-	public static function get($username = "") {
+	/**
+	 * @param string $username
+	 * @return mixed|null
+	 */
+	public static function get($username) {
 		$sql = 'SELECT username FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username';
 
 		return SQL::query(
@@ -79,7 +86,11 @@ class auth_account {
 
 	}
 
-	public static function get_id($username = "") {
+	/**
+	 * @param string $username
+	 * @return bool
+	 */
+	public static function get_id($username) {
 		$sql = 'SELECT id FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username LIMIT 1';
 
 		$result = SQL::query(
@@ -96,9 +107,15 @@ class auth_account {
 	}
 
 	public static function delete() {
-
+//todo
 	}
 
+	/**
+	 * @param int $userid
+	 * @param string $ip
+	 * @param int $locked
+	 * @return int
+	 */
 	public static function update_activated($userid, $ip = "0.0.0.0", $locked = 0) {
 		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET last_ip = :userip, locked = :locked WHERE id = :userid';
 
@@ -113,7 +130,12 @@ class auth_account {
 		);
 	}
 
-	public static function update_password($userid, $pwd_hash = ""){
+	/**
+	 * @param int $userid
+	 * @param string $pwd_hash
+	 * @return int
+	 */
+	public static function update_password($userid, $pwd_hash){
 		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET sha_pass_hash = :pwd_hash, v = \'\', s = \'\' WHERE id = :userid';
 
 		return SQL::execute(
@@ -126,15 +148,20 @@ class auth_account {
 		);
 	}
 
-	public static function update_email($userid, $emai = "") {
+	/**
+	 * @param int $userid
+	 * @param string $email
+	 * @return int
+	 */
+	public static function update_email($userid, $email) {
 		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET email = :email WHERE id = :userid';
 
 		return SQL::execute(
 			self::getConnection(),
 			$sql,
 			array(
-				"email" => $emai,
-				"userid" => (int) $userid
+				"email" => $email,
+				"userid" => $userid
 			)
 		);
 	}

@@ -7,7 +7,16 @@
  * Notes: -
  */
 
+/**
+ * Class server
+ */
 class server {
+	/**
+	 * @param string $adress
+	 * @param int $port
+	 * @return bool
+	 * @throws Exception
+	 */
 	public static function serverstatus($adress = "localhost", $port = 80) {
 		if($adress) {
 			if(function_exists("fsockopen")) {

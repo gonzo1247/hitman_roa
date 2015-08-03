@@ -7,19 +7,26 @@
  * Notes: -
  */
 
+/**
+ * Class phpbb_account
+ */
 class phpbb_account {
 	private static $prefix;
 	private static $tablename = "users";
 	private static $connection = "phpbb_db";
 
 	public static function add() {
-//todo
+		//todo
 	}
 
 	public static function update() {
-//todo
+		//todo
 	}
 
+	/**
+	 * @param string $username
+	 * @return mixed|null
+	 */
 	public static function get($username) {
 		$sql = 'SELECT * FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username';
 
@@ -77,6 +84,4 @@ class phpbb_account {
 	public static function setConnection($connection) {
 		self::$connection = $connection;
 	}
-
-
 }

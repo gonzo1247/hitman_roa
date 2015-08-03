@@ -5,6 +5,9 @@
  * Time: 13:44
  */
 
+/**
+ * Class db_con
+ */
 class db_con {
 	private static $db_con = array();
 

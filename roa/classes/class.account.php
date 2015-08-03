@@ -6,7 +6,9 @@
  * Time: 19:11
  */
 
-mb_internal_encoding("UTF-8");
+/**
+ * Class account
+ */
 class account {
 	/**
 	 * @param string $username
@@ -16,7 +18,7 @@ class account {
 	 * @param string $ip
 	 * @return bool
 	 */
-	public static function game_account_create($username = "", $paswd = "", $email = "", $date = "", $ip = "") {
+	public static function game_account_create($username = "", $paswd = "", $email = "", $date, $ip) { // todo remove unnecessary params
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
 		// with RAF functions: recruiter (account guid)
 
@@ -56,8 +58,12 @@ class account {
 		return hash('sha1', $SHA1P);
 	}
 
+	/**
+	 * @param int $userid
+	 * @return bool
+	 */
 	public static function game_account_activate($userid) {
-		if (empty ($userid))
+		if (empty($userid))
 			return false;
 
 		if (auth_account::update_activated($userid))
@@ -66,7 +72,12 @@ class account {
 		return false;
 	}
 
-	public static function game_account_password($pwd = "", $username = "") {
+	/**
+	 * @param string $pwd
+	 * @param string $username
+	 * @return bool
+	 */
+	public static function game_account_password($pwd, $username) {
 		if(! empty($pwd) && ! empty($username)) {
 			$username = mb_strtolower($username);
 
@@ -77,8 +88,13 @@ class account {
 		return false;
 	}
 
-	public static function game_account_email($username, $email = "") {
-		if (!empty ($username) && !empty ($email)) {
+	/**
+	 * @param string $username
+	 * @param string $email
+	 * @return bool
+	 */
+	public static function game_account_email($username, $email) {
+		if (! empty($username) && ! empty($email)) {
 			$username = mb_strtolower($username);
 
 			if(auth_account::update_email(auth_account::get_id($username), $email)) {
@@ -90,6 +106,10 @@ class account {
 		return false;
 	}
 
+	/**
+	 * @param string $username
+	 * @return bool|int
+	 */
 	private static function check_refferer($username) {
 		$phpbb_account = phpbb_account::get($username);
 		if($phpbb_account) {

@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * Class phpbb_profile_fields_data
+ */
 class phpbb_profile_fields_data {
 	private static $prefix;
 	private static $tablename = "profile_fields_data";
@@ -20,6 +23,14 @@ class phpbb_profile_fields_data {
 		//todo
 	}
 
+	public static function get() {
+		//todo
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed|null
+	 */
 	public static function get_by_id($id) {
 		$sql = 'SELECT * FROM ' . self::getPrefix() . self::getTablename() . ' WHERE user_id = :id LIMIT 1;';
 

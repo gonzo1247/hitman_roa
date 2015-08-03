@@ -21,6 +21,11 @@ require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
 
+//require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');
+//require_once(LIB_DIR . DS . 'class.auth_account.php');
+//require_once(LIB_DIR . DS . 'class.phpbb_profile_fields_data.php');
+//require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+
 // Create db connections
 $auth_db = new db(
 	"{$db_auth_type}:host={$db_auth_host};port={$db_auth_port};dbname={$db_auth_dbname};charset=utf8",
