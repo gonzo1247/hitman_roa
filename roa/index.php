@@ -13,13 +13,16 @@ mb_internal_encoding("UTF-8");
 define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
-
-$roa_output_html = "testtretetext"; // todo make better
+if(! isset($_GET["mod"]))
+	define('MOD', false);
+else
+	define('MOD', preg_replace("/[^a-zA-Z0-9_]/u", "", $_GET["mod"]));
 
 // Include mainclasses
 require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
+require_once(ROA_DIR . DS . 'getfunctions.php');
 
 //require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');
 //require_once(LIB_DIR . DS . 'class.auth_account.php');
@@ -57,3 +60,5 @@ db_con::setDbCon($auth_db, "auth_db");
 db_con::setDbCon($char_db, "char_db");
 db_con::setDbCon($world_db, "world_db");
 db_con::setDbCon($phpbb_db, "phpbb_db");
+
+$roa_output_html = getfunctionOutput();
