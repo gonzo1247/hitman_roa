@@ -21,7 +21,7 @@ class point_costs {
 	 * @return int
 	 */
 	public static function delete($id) {
-		$sql = "DELETE FROM " . self::getFullTableName() . " WHERE id = :id";
+		$sql = 'DELETE FROM ' . self::getFullTableName() . ' WHERE id = :id';
 
 		return SQL::execute(self::getConnection(), $sql, array("id" => $id));
 	}
@@ -35,7 +35,7 @@ class point_costs {
 	 * @return mixed|null
 	 */
 	public static function get($id) {
-		return SQL::query(self::getConnection(), "SELECT * FROM " . self::getFullTableName() . " WHERE id = :id", array("id" => $id));
+		return SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 	}
 
 	/**
@@ -47,7 +47,7 @@ class point_costs {
 		if($limit)
 			$parms = array("limit" => (int) $limit);
 
-		$sql = "SELECT * FROM " . self::getFullTableName() . ($limit) ? " LIMIT :limit" : "";
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ($limit) ? ' LIMIT :limit' : '';
 
 		return SQL::query(self::getConnection(), $sql, $parms);
 	}

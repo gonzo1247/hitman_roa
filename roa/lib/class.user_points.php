@@ -12,21 +12,73 @@ class user_points {
 	private static $tablename = "user_points";
 	private static $connection = "phpbb_db";
 
+	/**
+	 * @param int $id
+	 * @param int $points
+	 * @return int
+	 */
+	private static function add($id, $points = 0) {
+		$params = array("id" => $id, "start_points" => $points);
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
+		user_id,
+		points_curr,
+		points_life
+		) VALUES (
+			:id,
+			:start_points,
+			:start_points
+		)';
 
-	public static function add() {
-
+		return SQL::execute(self::getConnection(), $sql, $params);
 	}
 
-	public static function delete() {
+	public static function delete($id) {
+		if(self::exists($id))
+			return SQL::execute(self::getConnection(), 'DELETE FROM ' . self::getFullTableName() . ' WHERE user_id = :id', array("id" => $id));
 
+		return false;
 	}
 
-	public static function update() {
+	public static function update($id, $change_points = 0) {
+		// Create entry if not exists
+		if(! self::exists($id))
+			self::add($id, $change_points);
 
+		// Get userdata
+		$tmp_userdata = self::get($id);
+
+		// Set new Data
+		$params["new_points"] = $tmp_userdata["points_curr"] + $change_points;
+		$params["id"] = $id;
+		if($change_points > 0)
+			$params["new_life_points"] = $tmp_userdata["points_life"] + $change_points;
+
+		// Execute
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET points_curr = :new_points' . (($change_points > 0) ? ', points_life = :new_life_points' : '') . ' WHERE user_id = :id';
+		return SQL::execute(self::getConnection(), $sql, $params);
 	}
 
-	public static function get() {
+	/**
+	 * @param int $id
+	 * @return bool
+	 */
+	private static function exists($id) {
+		$num = SQL::queryColumnInt(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 
+		if($num > 0)
+			return true;
+		return false;
+	}
+
+	/**
+	 * @param int $id
+	 * @return mixed|null
+	 */
+	public static function get($id) {
+		if(! self::exists($id))
+			self::add($id);
+
+		return SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 	}
 
 	/**
