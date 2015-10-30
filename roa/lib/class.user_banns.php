@@ -10,6 +10,17 @@ class user_banns {
 	private static $tablename = "user_banns";
 	private static $connection = "phpbb_db";
 
+	/**
+	 * @param int $fid -
+	 * @param $gid
+	 * @param $from
+	 * @param $till
+	 * @param $level
+	 * @param $bannedby
+	 * @param int $contact
+	 * @param null $reason
+	 * @return int
+	 */
 	public static function add($fid, $gid, $from, $till, $level, $bannedby, $contact = 0, $reason = NULL) {
 		// fid = forums user id , gid = game user id, from = ban is begin, till = ban is ending, level = Forum, Game or both, bannedby = where is banned the user, contact = will the gm that the user him contact?
 		// reason = reason for this ban

@@ -10,6 +10,17 @@ class user_unbann {
 	private static $tablename = "user_banns";
 	private static $connection = "phpbb_db";
 
+	/**
+	 * @param int $fid - forums user id
+	 * @param int $gid - game user id
+	 * @param int $from - bann beginn
+	 * @param int $till - bann ends
+	 * @param string $level - Bann is active for: Forum, Game or both
+	 * @param string $unbannedby - User is Unbanned by
+	 * @param string $unbannip - IP from Unbanner
+	 * @param int $date - today time and date
+	 * @return int
+	 */
 	public static function add($fid, $gid, $from, $till, $level, $unbannedby, $unbannip, $date) {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (banned_fid, banned_gid, banned_from, banned_till, level, unbannedby, unbannip, date) VALUES
 		{:fid, :gid, :from, :till, :level, :unbannedby, :unbannip, :date)';
@@ -27,7 +38,7 @@ class user_unbann {
 		);
 	}
 
-	public static function delete($fid, $till, $bannedby) {
+	public static function delete() {
 		// never delete entrys from this database
 
 	}
