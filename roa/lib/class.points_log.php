@@ -12,8 +12,27 @@ class points_log {
 	private static $tablename = "points_log";
 	private static $connection = "phpbb_db";
 
+	/**
+	 * @param int $user_id
+	 * @param int $points
+	 * @param string $from
+	 * @param null $reason
+	 * @return int
+	 */
 	public static function add($user_id, $points, $from = "System", $reason = null)  {
-		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from) VALUES (:user_id, :date, :points, :reason, :from)';
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
+			user_id,
+			date,
+			points,
+			reason,
+			from
+		) VALUES (
+			:user_id,
+			:date,
+			:points,
+			:reason,
+			:from
+		)';
 
 		return SQL::execute(self::getConnection(), $sql,
 			array(
@@ -26,6 +45,10 @@ class points_log {
 		);
 	}
 
+	/**
+	 * @param int $id
+	 * @return int
+	 */
 	public static function delete($id) {
 		return SQL::execute(self::getConnection(), 'DELETE FROM '. self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 	}
