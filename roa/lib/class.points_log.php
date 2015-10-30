@@ -34,7 +34,7 @@ class points_log {
 	}
 
 	public static function get($user_id) {
-		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :user_id', array("user_id" => $user_id);
+		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :user_id', array("user_id" => $user_id));
 
 	}
 
