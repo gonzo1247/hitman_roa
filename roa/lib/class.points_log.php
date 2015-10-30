@@ -12,13 +12,13 @@ class points_log {
 	private static $tablename = "points_log";
 	private static $connection = "phpbb_db";
 
-	public static function add($user_id, $date, $points, $reason = NULL, $from)  {
-		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from ) VALUES (:user_id, :date, :points, :reason, :from)';
+	public static function add($user_id, $points, $from = "System", $reason = null)  {
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from) VALUES (:user_id, :date, :points, :reason, :from)';
 
 		return SQL::execute(self::getConnection(), $sql,
 			array(
 				"user_id" => $user_id,
-				"date" => $date,
+				"date" => time(),
 				"points" => $points,
 				"reason" => $reason,
 				"from" => $from,
@@ -26,16 +26,28 @@ class points_log {
 		);
 	}
 
-	public static function delete($id, $user_id) {
-		$sql = 'DELETE FROM '. self::getFullTableName() . ' WHERE id = :id AND user_id = :user_id';
-
-		return SQL::execute(self::getConnection(), $sql, array("id" => $id, "user_id" => $user_id));
-
+	public static function delete($id) {
+		return SQL::execute(self::getConnection(), 'DELETE FROM '. self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 	}
 
-	public static function get($user_id) {
-		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :user_id', array("user_id" => $user_id));
+	/**
+	 * @param int $id
+	 * @return mixed|null
+	 */
+	public static function get($id) {
+		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+	}
 
+	/**
+	 * @param int $user_id
+	 * @param bool $limit
+	 * @return mixed|null
+	 */
+	public static function getByUserId($user_id, $limit = false) {
+		$params["user_id"] = $user_id;
+		if($limit)
+			$params["limit"] = $limit;
+		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :user_id' . ($limit) ? ' LIMIT :limit' : '', $params);
 	}
 
 	/**
