@@ -11,7 +11,7 @@ class char_character {
 	private static $connection = "char_db";
 
 	public static function get_guid($char_name = "") {
-		$sql = 'SELECT guid FROM ' . self::getPrefix() . self::getTablename() . ' WHERE name = :char_name LIMIT 1';
+		$sql = 'SELECT guid FROM ' . self::getFullTableName() . ' WHERE name = :char_name LIMIT 1';
 
 		$result = SQL::query(
 			self::getConnection(),
@@ -66,4 +66,10 @@ class char_character {
 		return self::$connection;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getFullTableName() {
+		return self::getPrefix() . self::getTablename();
+	}
 }

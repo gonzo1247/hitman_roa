@@ -27,7 +27,7 @@ class auth_account {
 	 * @return int
 	 */
 	public static function add($username = "", $sha_pass_hash = "", $email = null, $joinDate = null, $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = 0, $activated = 0) {
-		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			username,
 			sha_pass_hash,
 			email,
@@ -74,7 +74,7 @@ class auth_account {
 	 * @return mixed|null
 	 */
 	public static function get($username) {
-		$sql = 'SELECT username FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username';
+		$sql = 'SELECT username FROM ' . self::getFullTableName() . ' WHERE username = :username';
 
 		return SQL::query(
 			self::getConnection(),
@@ -91,7 +91,7 @@ class auth_account {
 	 * @return bool
 	 */
 	public static function get_id($username) {
-		$sql = 'SELECT id FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username LIMIT 1';
+		$sql = 'SELECT id FROM ' . self::getFullTableName() . ' WHERE username = :username LIMIT 1';
 
 		$result = SQL::query(
 			self::getConnection(),
@@ -117,7 +117,7 @@ class auth_account {
 	 * @return int
 	 */
 	public static function update_activated($userid, $ip = "0.0.0.0", $locked = 0) {
-		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET last_ip = :userip, locked = :locked WHERE id = :userid';
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET last_ip = :userip, locked = :locked WHERE id = :userid';
 
 		return SQL::execute(
 			self::getConnection(),
@@ -136,7 +136,7 @@ class auth_account {
 	 * @return int
 	 */
 	public static function update_password($userid, $pwd_hash){
-		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET sha_pass_hash = :pwd_hash, v = \'\', s = \'\' WHERE id = :userid';
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET sha_pass_hash = :pwd_hash, v = \'\', s = \'\' WHERE id = :userid';
 
 		return SQL::execute(
 			self::getConnection(),
@@ -154,7 +154,7 @@ class auth_account {
 	 * @return int
 	 */
 	public static function update_email($userid, $email) {
-		$sql = 'UPDATE ' . self::getPrefix() . self::getTablename() . ' SET email = :email WHERE id = :userid';
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET email = :email WHERE id = :userid';
 
 		return SQL::execute(
 			self::getConnection(),
@@ -205,5 +205,10 @@ class auth_account {
 		return self::$connection;
 	}
 
-
+	/**
+	 * @return string
+	 */
+	public static function getFullTableName() {
+		return self::getPrefix() . self::getTablename();
+	}
 }

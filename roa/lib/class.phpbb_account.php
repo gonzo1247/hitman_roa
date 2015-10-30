@@ -28,7 +28,7 @@ class phpbb_account {
 	 * @return mixed|null
 	 */
 	public static function get($username) {
-		$sql = 'SELECT * FROM ' . self::getPrefix() . self::getTablename() . ' WHERE username = :username';
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE username = :username';
 
 		return SQL::query(
 			self::getConnection(),
@@ -83,5 +83,12 @@ class phpbb_account {
 	 */
 	public static function setConnection($connection) {
 		self::$connection = $connection;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getFullTableName() {
+		return self::getPrefix() . self::getTablename();
 	}
 }

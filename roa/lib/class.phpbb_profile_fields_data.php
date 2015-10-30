@@ -32,7 +32,7 @@ class phpbb_profile_fields_data {
 	 * @return mixed|null
 	 */
 	public static function get_by_id($id) {
-		$sql = 'SELECT * FROM ' . self::getPrefix() . self::getTablename() . ' WHERE user_id = :id LIMIT 1;';
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :id LIMIT 1;';
 
 		return SQL::query(
 			self::getConnection(),
@@ -89,5 +89,10 @@ class phpbb_profile_fields_data {
 		self::$connection = $connection;
 	}
 
-
+	/**
+	 * @return string
+	 */
+	public static function getFullTableName() {
+		return self::getPrefix() . self::getTablename();
+	}
 }

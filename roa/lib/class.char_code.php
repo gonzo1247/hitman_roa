@@ -11,7 +11,7 @@ class char_code {
 	private static $connection = "char_db";
 
 	public static function add($code = "", $item_id = 0, $account_id = 0, $quantity = 1, $char_guid, $new_level, $title_id, $achievement_id) {
-		$sql = 'INSERT INTO ' . self::getPrefix() . self::getTablename() . ' (
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 		code,
 		item_id,
 		account_id,
@@ -89,4 +89,10 @@ class char_code {
 		return self::$connection;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getFullTableName() {
+		return self::getPrefix() . self::getTablename();
+	}
 }
