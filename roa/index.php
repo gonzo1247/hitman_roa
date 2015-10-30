@@ -22,6 +22,7 @@ else
 require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
+require_once(ROA_MAINCLASSDIR . DS . 'output.php');
 require_once(ROA_DIR . DS . 'getfunctions.php');
 
 //require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');

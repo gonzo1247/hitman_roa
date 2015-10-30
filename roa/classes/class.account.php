@@ -14,15 +14,14 @@ class account {
 	 * @param string $username
 	 * @param string $paswd
 	 * @param string $email
-	 * @param string $date
 	 * @param string $ip
 	 * @return bool
 	 */
-	public static function game_account_create($username = "", $paswd = "", $email = "", $date, $ip) { // todo remove unnecessary params
+	public static function game_account_create($username, $paswd, $email = "none@domain.com", $ip = "127.0.0.1") {
 		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
 		// with RAF functions: recruiter (account guid)
 
-		if (! empty($username) && ! empty($paswd) && ! empty($email) && ! empty($date) && ! empty($ip)) {
+		if (! empty($username) && ! empty($paswd) && ! empty($email) && ! empty($ip)) {
 			$username = mb_strtolower($username);
 
 			// Check is Username Already exist in wow account Database?
@@ -32,9 +31,8 @@ class account {
 
 			// Get recruiter-field
 			$recruiter = self::check_refferer($username);
-			$ujoin = gmdate("Y-m-d H:i:s", $date);
 			$pass_sha = self::sha_password($username, $paswd);
-			auth_account::add($username, $pass_sha, $email, $ujoin, "127.0.0.1", 1, 3, 3, $recruiter);
+			auth_account::add($username, $pass_sha, $email, gmdate("Y-m-d H:i:s", time()), "127.0.0.1", 1, 3, 3, $recruiter);
 
 			if(auth_account::get($username))
 				return true;

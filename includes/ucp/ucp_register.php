@@ -316,7 +316,7 @@ class ucp_register
 
 					// Create WoW-Account
 					require_once($phpbb_root_path . "roa/roa_account.php");
-					if(! account::game_account_create($data['username'], $data['new_password'], $data['email'], time(), $user->ip)) { // todo create forumsuser if wow acc exists with verif.
+					if(! account::game_account_create($data['username'], $data['new_password'], $data['email'], $user->ip)) { // todo create forumsuser if wow acc exists (check email)
 						user_delete("retain", (int) $user_id);
 						trigger_error("Der von dir gew?hlte Account Name exestiert bereits. W?hle bitte einen anderen. (Username exists.)");
 					}
