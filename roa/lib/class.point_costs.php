@@ -12,20 +12,44 @@ class point_costs {
 	private static $tablename = "point_costs";
 	private static $connection = "phpbb_db";
 
-	public static function add() {
-
+	public static function add($name, $costs, $desc = null, $enabled = 0) {
+		//return SQL::execute(self::getConnection(), $sql, array()); todo
 	}
 
-	public static function delete() {
+	/**
+	 * @param int $id
+	 * @return int
+	 */
+	public static function delete($id) {
+		$sql = "DELETE FROM " . self::getFullTableName() . " WHERE id = :id";
 
+		return SQL::execute(self::getConnection(), $sql, array("id" => $id));
 	}
 
-	public static function update() {
-
+	public static function update($id, $name = null, $costs = null, $descr = null, $enabled = null) {
+		//todo
 	}
 
-	public static function get() {
+	/**
+	 * @param int $id
+	 * @return mixed|null
+	 */
+	public static function get($id) {
+		return SQL::query(self::getConnection(), "SELECT * FROM " . self::getFullTableName() . " WHERE id = :id", array("id" => $id));
+	}
 
+	/**
+	 * @param int|bool $limit
+	 * @return mixed|null
+	 */
+	public static function getAll($limit = false) {
+		$parms = array();
+		if($limit)
+			$parms = array("limit" => (int) $limit);
+
+		$sql = "SELECT * FROM " . self::getFullTableName() . ($limit) ? " LIMIT :limit" : "";
+
+		return SQL::query(self::getConnection(), $sql, $parms);
 	}
 
 	/**
