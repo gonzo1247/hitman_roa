@@ -12,19 +12,29 @@ class points_log {
 	private static $tablename = "points_log";
 	private static $connection = "phpbb_db";
 
-	public static function add() {
+	public static function add($user_id, $date, $points, $reason = NULL, $from)  {
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from ) VALUES (:user_id, :date, :points, :reason, :from)';
+
+		return SQL::execute(self::getConnection(), $sql,
+			array(
+				"user_id" => $user_id,
+				"date" => $date,
+				"points" => $points,
+				"reason" => $reason,
+				"from" => $from,
+			)
+		);
+	}
+
+	public static function delete($id, $user_id) {
+		$sql = 'DELETE FROM '. self::getFullTableName() . ' WHERE id = :id AND user_id = :user_id';
+
+		return SQL::execute(self::getConnection(), $sql, array("id" => $id, "user_id" => $user_id));
 
 	}
 
-	public static function delete() {
-
-	}
-
-	public static function update() {
-
-	}
-
-	public static function get() {
+	public static function get($user_id) {
+		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :user_id', array("user_id" => $user_id));
 
 	}
 
