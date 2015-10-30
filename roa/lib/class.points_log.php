@@ -12,6 +12,13 @@ class points_log {
 	private static $tablename = "points_log";
 	private static $connection = "phpbb_db";
 
+	/**
+	 * @param int $user_id - forum user id
+	 * @param int $points - points it changed
+	 * @param string $from - from where is changed the points
+	 * @param string $reason - reason to change the points
+	 * @return int
+	 */
 	public static function add($user_id, $points, $from = "System", $reason = null)  {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from) VALUES (:user_id, :date, :points, :reason, :from)';
 
@@ -26,12 +33,16 @@ class points_log {
 		);
 	}
 
+	/**
+	 * @param int $id - forum user id
+	 * @return int
+	 */
 	public static function delete($id) {
 		return SQL::execute(self::getConnection(), 'DELETE FROM '. self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
 	}
 
 	/**
-	 * @param int $id
+	 * @param int $id - forum user id
 	 * @return mixed|null
 	 */
 	public static function get($id) {
@@ -39,7 +50,7 @@ class points_log {
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param int $user_id - forum user id
 	 * @param bool $limit
 	 * @return mixed|null
 	 */

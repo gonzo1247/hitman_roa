@@ -33,7 +33,7 @@ class user_unbann {
 				"till" => $till,
 				"unbannedby" => $unbannedby,
 				"unbannip" => $unbannip,
-				"date" => time(),
+				"date" => common_functions::currentdate(),
 			)
 		);
 	}
@@ -48,6 +48,12 @@ class user_unbann {
 
 	}
 
+	/**
+	 * @param int $fid - forum user id
+	 * @param int $from - bann beginn
+	 * @param int $till - bann ends
+	 * @return mixed|null
+	 */
 	public static function get($fid, $from, $till) {
 		return SQL::query(self::getConnection(), "SELECT * FROM " . self::getFullTableName() . " WHERE banned_fid = :id AND banned_from = :from AND banned_till = :till", array("id" => $fid, "from" => $from, "till" => $till));
 	}
