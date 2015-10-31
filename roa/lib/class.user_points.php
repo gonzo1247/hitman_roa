@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+// Include req files
+require_once(LIB_DIR . DS . 'class.points_log.php');
+
 /**
  * Class user_points
  */
@@ -46,7 +49,13 @@ class user_points {
 		return false;
 	}
 
-	public static function update($id, $change_points = 0) {
+	/**
+	 * @param int $id
+	 * @param string $reason
+	 * @param int $change_points
+	 * @return int
+	 */
+	public static function update($id, $reason = "Point change", $change_points = 0) {
 		// Create entry if not exists
 		if(! self::exists($id))
 			self::add($id, $change_points);
@@ -60,9 +69,11 @@ class user_points {
 		if($change_points > 0)
 			$params["new_life_points"] = $tmp_userdata["points_life"] + $change_points;
 
-		// Execute
 		$sql = 'UPDATE ' . self::getFullTableName() . ' SET points_curr = :new_points' . (($change_points > 0) ? ', points_life = :new_life_points' : '') . ' WHERE user_id = :id';
-		return SQL::execute(self::getConnection(), $sql, $params);
+
+		// Execute
+		if(SQL::execute(self::getConnection(), $sql, $params) !== false)
+			return points_log::add($id, $change_points, $reason);
 	}
 
 	/**

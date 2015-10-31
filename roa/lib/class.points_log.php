@@ -18,11 +18,11 @@ class points_log {
 	/**
 	 * @param int $user_id - forum user id
 	 * @param int $points - points it changed
-	 * @param string $from - from where is changed the points
 	 * @param string|null $reason - reason to change the points
+	 * @param string $from - from where is changed the points
 	 * @return int
 	 */
-	public static function add($user_id, $points, $from = "System", $reason = null)  {
+	public static function add($user_id, $points, $reason = null, $from = "System")  {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			user_id,
 			date,

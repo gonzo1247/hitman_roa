@@ -22,7 +22,8 @@ else
 require_once(ROA_MAINCLASSDIR . DS . 'class.db_con.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.db.php');
 require_once(ROA_MAINCLASSDIR . DS . 'class.sql.php');
-require_once(ROA_MAINCLASSDIR . DS . 'output.php');
+require_once(ROA_MAINCLASSDIR . DS . 'class.phpbb_id.php');
+require_once(ROA_MAINCLASSDIR . DS . 'class.output.php');
 require_once(ROA_DIR . DS . 'getfunctions.php');
 
 //require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');
@@ -61,5 +62,8 @@ db_con::setDbCon($auth_db, "auth_db");
 db_con::setDbCon($char_db, "char_db");
 db_con::setDbCon($world_db, "world_db");
 db_con::setDbCon($phpbb_db, "phpbb_db");
+
+// Get PHPBB Infos
+new get_phpbb_info();
 
 $roa_output_html = getfunctionOutput();

@@ -9,6 +9,9 @@
 
 class output {
 	public static function point_management() {
+		// Include libs
+		require_once(LIB_DIR . DS . 'class.user_points.php');
+		//require_once();
 		return "";
 	}
 }

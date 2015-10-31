@@ -5,37 +5,48 @@
  * Date: 2015/08/14
  * Time: 16:11
  */
+
+/**
+ * Class codebot
+ */
 class codebot {
-
-	public static function addcode($username = "", $itemid = 0, $quantity = 1,  $titleid = 0, $achievid = 0, $char_guid = 0, $new_level = 0 ) {
+	/**
+	 * @param string $username
+	 * @param int $char_guid
+	 * @param int $itemid
+	 * @param int $quantity
+	 * @param int $titleid
+	 * @param int $achievid
+	 * @param int $new_level
+	 * @return bool
+	 */
+	public static function addcode($username, $char_guid, $itemid = 0, $quantity = 1,  $titleid = 0, $achievid = 0, $new_level = 0) {
 		$account_id = auth_account::get_id($username);
+		$code = self::generate_code();
 
-		if (empty ($account_id)) {
-			trigger_error("Account ID nicht gefunden. Melde dich bitte bei einem GameMaster.");
+		// Check Data
+		if(! $account_id)
 			return false;
-		}
-
-		$code = codebot::generate_code();
-
-		if (empty ($code)) {
-			trigger_error("Code konnte nicht erzeugt werden. Versuch es bitte erneut");
+		if(! $code)
 			return false;
-			}
 
-		char_code::add($code, $itemid, $account_id, $quantity, $char_guid, $new_level, $titleid, $achievid );
-
+		// Add Code
+		if(char_code::add($code, $account_id, $char_guid, $itemid, $new_level, $titleid, $achievid, $quantity) !== false)
+			return true;
+		// Default Value
 		return false;
-
 	}
 
-	public static function generate_code() {
+	/**
+	 * @return bool|string
+	 */
+	private static function generate_code() {
 		$startpos = rand(1, 5);
 		$endpos = rand(11, 16);
 		$code = mb_substr(md5(time(), rand(400, 9282)), $startpos, $endpos);
-
 		$code = mb_strtoupper($code);
 
-		if ($code)
+		if($code)
 			return $code;
 
 		return false;

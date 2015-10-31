@@ -8,12 +8,16 @@
  */
 
 function getfunctionOutput() {
-	switch(MOD) {
-		case 'control':
-			//todo
-		case 'codebot':
-			return output::point_management();
-		default:
-			return "Unbekannter Modus";
+	if(get_phpbb_info::$instance->user_id && mb_strtolower(get_phpbb_info::$instance->username) != 'anonymous') {
+		switch(MOD) {
+			case 'control':
+				//todo
+			case 'codebot':
+				return output::point_management();
+			default:
+				return "Unbekannter Modus";
+		}
 	}
+	// Default Value
+	return "Bitte logge dich ein!";
 }
