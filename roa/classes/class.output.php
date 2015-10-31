@@ -16,9 +16,22 @@ class output {
 
 	public static function exchange_points() {
 		global $roa_url;
+
+		// Execute
+		if(! isset($_POST["id"]))
+			$_POST["id"] = false;
+		if($_POST["id"]) {
+			$_POST["id"] = output::escapeALL($_POST["id"], true);
+
+			// Include LIB
+			require_once(LIB_DIR . DS . 'class.char_code.php');
+
+		}
+
 		// Get own Points
 		$points_row = user_points::get(get_phpbb_info::$instance->user_id);
 
+		// Create Output
 		$code = "<div class=\"points\">Du hast derzeitig <b>" . $points_row['points_curr'] . "</b> Punkte.</div><br />";
 
 		// Get List
@@ -30,7 +43,7 @@ class output {
 			$code .= "enougth_points\">" . $row["points"] . "</span></td><td>" . $row["descriptions"] . "</td><td>";
 
 			if($points_row['points_curr'] >= $row["points"])
-				$code .= "<button type=\"submit\" value=\"" . $row["id"] . "\">Punkte eintauschen</button></td></tr>" . PHP_EOL;
+				$code .= "<button type=\"submit\" name=\"id\" value=\"" . $row["id"] . "\">Punkte eintauschen</button></td></tr>" . PHP_EOL;
 			else
 				$code .= "<button type=\"submit\" value=\"\" disabled>Zu wenig Punkte</button></td></tr>" . PHP_EOL;
 		}

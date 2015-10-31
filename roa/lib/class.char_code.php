@@ -25,7 +25,7 @@ class char_code {
 	 * @param int $quantity
 	 * @return int
 	 */
-	public static function add($code, $account_id, $char_guid, $item_id = 0, $new_level = 0, $title_id = 0, $achievement_id = 0, $quantity = 1) {
+	public static function add($code, $account_id, $char_guid = 0, $item_id = 0, $new_level = 0, $title_id = 0, $achievement_id = 0, $quantity = 1) {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			code,
 			item_id,
