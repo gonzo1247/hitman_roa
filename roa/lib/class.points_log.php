@@ -61,7 +61,11 @@ class points_log {
 	 * @return mixed|null
 	 */
 	public static function get($id) {
-		return SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+		$result = SQL::query(self::getConnection(). 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+
+		if($result !== false)
+			return $result[0];
+		return false;
 	}
 
 	/**

@@ -24,7 +24,7 @@ class user_points {
 	 * @return int
 	 */
 	private static function add($id, $points = 0) {
-		$params = array("id" => $id, "start_points" => $points);
+		$params = array("id" => $id, "start_points" => $points, "life_points" => $points);
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 		user_id,
 		points_curr,
@@ -32,7 +32,7 @@ class user_points {
 		) VALUES (
 			:id,
 			:start_points,
-			:start_points
+			:life_points
 		)';
 
 		return SQL::execute(self::getConnection(), $sql, $params);
@@ -81,7 +81,7 @@ class user_points {
 	 * @return bool
 	 */
 	private static function exists($id) {
-		$num = SQL::queryColumnInt(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+		$num = SQL::queryColumnInt(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :id', array("id" => $id));
 
 		if($num > 0)
 			return true;
@@ -96,7 +96,11 @@ class user_points {
 		if(! self::exists($id))
 			self::add($id);
 
-		return SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+		$result = SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :id', array("id" => $id));
+
+		if($result !== false)
+			return $result[0];
+		return false;
 	}
 
 	/**
