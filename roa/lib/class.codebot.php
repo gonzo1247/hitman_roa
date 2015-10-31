@@ -20,7 +20,7 @@ class codebot {
 	 * @param int $titleid
 	 * @param int $achievid
 	 * @param int $new_level
-	 * @return bool
+	 * @return array
 	 */
 	public static function addcode($username, $char_guid = 0, $itemid = 0, $quantity = 1,  $titleid = 0, $achievid = 0, $new_level = 0) {
 		$account_id = auth_account::get_id(mb_strtolower($username));
@@ -28,15 +28,15 @@ class codebot {
 
 		// Check Data
 		if(! $account_id)
-			return 'Account konnte nicht gefunden werden';
+			return array("fail" => 'Account konnte nicht gefunden werden', "result" => false);
 		if(! $code)
-			return 'Code konnte nicht generiert werden';
+			return array("fail" => 'Code konnte nicht generiert werden', "result" => false);
 
 		// Add Code
 		if(char_code::add($code, $account_id, $char_guid, $itemid, $new_level, $titleid, $achievid, $quantity) !== false)
-			return $code;
+			return array("key" => $code, "result" => true);
 		// Default Value
-		return 'Ein unbekannter Fehler ist aufgetreten...';
+		return array("fail" => 'Ein unbekannter Fehler ist aufgetreten...', "result" => false);
 	}
 
 	/**

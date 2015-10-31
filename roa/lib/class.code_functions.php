@@ -31,7 +31,7 @@ class code_functions extends char_character {
 		if($points_row['points_curr'] >= $product["points"] && $product["enabled"]) {
 			// Remove Points
 			if(user_points::update(get_phpbb_info::$instance->user_id, $product["name"], ($product["points"] * -1)) !== false) {
-				$code = false;
+				$code["result"] = false;
 				if($product["function"]) {
 					// Run Function
 					if(function_exists($product["function"])) {
@@ -42,13 +42,13 @@ class code_functions extends char_character {
 					$code = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
 
 					// Send PM
-					get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code), SYSTEM_USER, "Neuer Code für " . $product["name"]);
+					get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code["key"]), SYSTEM_USER, "Neuer Code für " . $product["name"]);
 				}
 
-				if($code !== true) {
+				if($code["result"] !== true) {
 					// Rollback changes on points if code wasn't generated
 					user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - ROLLBACK", $product["points"]);
-					return "<span class=\"code_fail\">" . $code . "</span><br><br>";
+					return "<span class=\"code_fail\">" . $code["fail"] . "</span><br><br>";
 				} else
 					return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
 			}
