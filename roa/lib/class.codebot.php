@@ -34,7 +34,7 @@ class codebot {
 
 		// Add Code
 		if(char_code::add($code, $account_id, $char_guid, $itemid, $new_level, $titleid, $achievid, $quantity) !== false)
-			return true;
+			return $code;
 		// Default Value
 		return 'Ein unbekannter Fehler ist aufgetreten...';
 	}

@@ -41,10 +41,10 @@ class output {
 
 					} else if($product["item_id"] !== null) {
 						// Add Item
-						$result = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
+						$code = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
 
 						// Send PM
-						get_phpbb_info::$instance->sendPM(output::getCodeMsg($product), SYSTEM_USER, "Neuer Code für " . $product["name"]);
+						get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code), SYSTEM_USER, "Neuer Code für " . $product["name"]);
 					}
 
 					if($result !== true) {
@@ -144,7 +144,7 @@ class output {
 			</div>";
 	}
 
-	private static function getCodeMsg($product) {
+	private static function getCodeMsg($product, $code) {
 		//todo
 		return "hallo";
 	}
