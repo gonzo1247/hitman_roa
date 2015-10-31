@@ -94,7 +94,7 @@ class code_functions {
 	 * @param int $oldaccountid - old account id
 	 * @return bool|int
 	 */
-	private static function setCharTransf($charguid, $newaccountid, $oldaccountid) {
+	private static function setCharTrans($charguid, $newaccountid, $oldaccountid) {
 		if ($newaccountid == $oldaccountid)
 			return false;
 		if ($newaccountid == 0)
