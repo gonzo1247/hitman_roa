@@ -32,7 +32,7 @@ class output {
 			$product = point_costs::get($_POST["id"]);
 
 			// Check if there are enough points
-			if($points_row['points_curr'] >= $product["points"]) {
+			if($points_row['points_curr'] >= $product["points"] && $product["enabled"]) {
 				// Remove Points
 				if(user_points::update(get_phpbb_info::$instance->user_id, $product["name"], ($product["points"] * -1)) !== false) {
 					$result = false;
@@ -50,10 +50,12 @@ class output {
 					if($result !== true) {
 						// Rollback changes on points if code wasn't generated
 						user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - ROLLBACK", $product["points"]);
+						$result = "<span class=\"code_fail\">" . $result . "</span><br><br>";
 					} else
 						$result = "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
 				}
-			}
+			} else
+				$result = "<span class=\"code_fail\">Leider hast du dafür nicht genügend Punkte!</span><br><br>";
 		}
 
 		// Get own Points (may again to update them)
@@ -69,13 +71,15 @@ class output {
 		$code .= "<form action=\"" . $roa_url . "\" method=\"post\"><table>" . PHP_EOL;
 		$code .= "<tr><th>Name</th><th>Kostet</th><th colspan=\"2\">Beschreibung</th></tr>" . PHP_EOL;
 		foreach($all_costs_rows as $row) {
-			$code .= "<tr><td>" . $row["name"] . "</td><td><span class=\"" . (($points_row['points_curr'] < $row["points"]) ? 'not_' : '');
-			$code .= "enougth_points\">" . $row["points"] . "</span></td><td>" . $row["descriptions"] . "</td><td>";
+			if($row["enabled"]) {
+				$code .= "<tr><td>" . $row["name"] . "</td><td><span class=\"" . (($points_row['points_curr'] < $row["points"]) ? 'not_' : '');
+				$code .= "enougth_points\">" . $row["points"] . "</span></td><td>" . $row["descriptions"] . "</td><td>";
 
-			if($points_row['points_curr'] >= $row["points"])
-				$code .= "<button type=\"submit\" name=\"id\" value=\"" . $row["id"] . "\">Punkte eintauschen</button></td></tr>" . PHP_EOL;
-			else
-				$code .= "<button type=\"submit\" value=\"\" disabled>Zu wenig Punkte</button></td></tr>" . PHP_EOL;
+				if ($points_row['points_curr'] >= $row["points"])
+					$code .= "<button type=\"submit\" name=\"id\" value=\"" . $row["id"] . "\">Punkte eintauschen</button></td></tr>" . PHP_EOL;
+				else
+					$code .= "<button type=\"submit\" value=\"\" disabled>Zu wenig Punkte</button></td></tr>" . PHP_EOL;
+			}
 		}
 		$code .= "</table></form>";
 
@@ -142,5 +146,6 @@ class output {
 
 	private static function getCodeMsg($product) {
 		//todo
+		return "hallo";
 	}
 }

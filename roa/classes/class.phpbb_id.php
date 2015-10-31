@@ -19,6 +19,8 @@ class get_phpbb_info {
 	public $group_id = false;
 	public $color;
 	public $email;
+	private $unreadPM;
+	private $newPM;
 
 
 	/**
@@ -143,6 +145,8 @@ class get_phpbb_info {
 			$this->username = $result[0]['username'];
 			$this->group_id = $result[0]['group_id'];
 			$this->email = $result[0]['user_email'];
+			$this->unreadPM = $result[0]['user_unread_privmsg'];
+			$this->newPM = $result[0]['user_new_privmsg'];
 		}
 		unset($result);
 	}
@@ -155,12 +159,85 @@ class get_phpbb_info {
 	}
 
 	/**
-	 * @param $msg
-	 * @param $u_id
+	 * @param string $msg
+	 * @param int $from
 	 * @param string $subject
+	 * @param bool|int $to
 	 * @return bool
 	 */
-	public function sendPM($msg, $u_id, $subject = "New PM") {
+	public function sendPM($msg, $from, $subject = "New PM", $to = false) {
+		if($to === false)
+			$to = $this->user_id;
+
+		// Add Message
+		$sql = 'INSERT INTO ' . self::getPrefix() . 'privmsgs (
+			author_id,
+			author_ip,
+			message_time,
+			message_subject,
+			message_text,
+			to_address
+		) VALUES (
+			:from,
+			:ip,
+			:date,
+			:subject,
+			:message,
+			:to
+		)';
+
+		$message_id = SQL::execute(
+			self::getConnection(),
+			$sql,
+			array(
+				"from" => $from,
+				"ip" => "127.0.0.1",
+				"date" => time(),
+				"subject" => $subject,
+				"message" => $msg,
+				"to" => "u_" . $to
+			)
+		);
+		unset($sql);
+
+		if($message_id === false)
+			return false;
+
+		// Assign Message to folder
+		$sql = 'INSERT INTO ' . self::getPrefix() . 'privmsgs_to (
+			msg_id,
+			user_id,
+			author_id
+		) VALUES (
+			:msg_id,
+			:user_to,
+			:user_from
+		)';
+
+		$result = SQL::execute(self::getConnection(), $sql, array(
+				"msg_id" => $message_id,
+				"user_to" => $to,
+				"user_from" => $from
+		));
+
+		if($result === false) {
+			// Remove unused Message From Database
+			SQL::execute(self::getConnection(), 'DELETE FROM ' . self::getPrefix() . 'privmsgs WHERE msg_id = :id', array("id" => $message_id));
+
+			return false;
+		}
+		unset($sql);
+		unset($message_id);
+
+		// Update unread Messages
+		$sql = 'UPDATE ' . self::getPrefix() . 'users SET user_new_privmsg = :new_pms, user_unread_privmsg = :new_unread_pms WHERE user_id = :to';
+
+		SQL::execute(self::getConnection(), $sql, array(
+			"to" => $to,
+			"new_pms" => $this->newPM + 1,
+			"new_unread_pms" => $this->unreadPM + 1
+		));
+
 		return true;
 	}
 }
