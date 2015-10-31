@@ -13,10 +13,10 @@ class points_log {
 	private static $connection = "phpbb_db";
 
 	/**
-	 * @param int $user_id
-	 * @param int $points
-	 * @param string $from
-	 * @param null $reason
+	 * @param int $user_id - forum user id
+	 * @param int $points - points it changed
+	 * @param string $from - from where is changed the points
+	 * @param string|null $reason - reason to change the points
 	 * @return int
 	 */
 	public static function add($user_id, $points, $from = "System", $reason = null)  {
@@ -46,7 +46,7 @@ class points_log {
 	}
 
 	/**
-	 * @param int $id
+	 * @param int $id - forum user id
 	 * @return int
 	 */
 	public static function delete($id) {
@@ -54,7 +54,7 @@ class points_log {
 	}
 
 	/**
-	 * @param int $id
+	 * @param int $id - forum user id
 	 * @return mixed|null
 	 */
 	public static function get($id) {
@@ -62,7 +62,7 @@ class points_log {
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param int $user_id - forum user id
 	 * @param bool $limit
 	 * @return mixed|null
 	 */

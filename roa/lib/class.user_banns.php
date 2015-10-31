@@ -11,19 +11,17 @@ class user_banns {
 	private static $connection = "phpbb_db";
 
 	/**
-	 * @param int $fid -
-	 * @param $gid
-	 * @param $from
-	 * @param $till
-	 * @param $level
-	 * @param $bannedby
-	 * @param int $contact
-	 * @param null $reason
+	 * @param int $fid - forum user id
+	 * @param int $gid - game user id
+	 * @param int $from - bann beginns
+	 * @param int $till - bann ends
+	 * @param string $level - Bann is active for: Forum, Game or both
+	 * @param string $bannedby - Banned By
+	 * @param int $contact - will the GM that the user him Contact -> 1 when not -> 0
+	 * @param string $reason - Reason why the player is banned
 	 * @return int
 	 */
 	public static function add($fid, $gid, $from, $till, $level, $bannedby, $contact = 0, $reason = NULL) {
-		// fid = forums user id , gid = game user id, from = ban is begin, till = ban is ending, level = Forum, Game or both, bannedby = where is banned the user, contact = will the gm that the user him contact?
-		// reason = reason for this ban
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (fid, gid, from, till, level, bannedby, contact, reason) VALUES (:fid, :gid, :from, :till, :level, :bannedby, :contact, :reason)';
 
 		return SQL::execute(self::getConnection(), $sql,
@@ -40,10 +38,16 @@ class user_banns {
 		);
 	}
 
-	public static function delete($fid, $till, $bannedby) {
-		$sql = 'DELETE FROM ' . self::getFullTableName() . ' WHERE fid = :fid AND till = :till AND bannedby = :bannedby)';
+	/**
+	 * @param int $fid - forum user id
+	 * @param int $till - bann beginn
+	 * @return int
+	 */
 
-		return SQL::execute(self::getConnection(), $sql, array("fid" => $fid, "till" => $till, "bannedby" => $bannedby));
+	public static function delete($fid, $till) {
+		$sql = 'DELETE FROM ' . self::getFullTableName() . ' WHERE fid = :fid AND till = :till)';
+
+		return SQL::execute(self::getConnection(), $sql, array("fid" => $fid, "till" => $till));
 
 	}
 

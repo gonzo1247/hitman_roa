@@ -50,7 +50,7 @@ class user_unbann {
 				"till" => $till,
 				"unbannedby" => $unbannedby,
 				"unbannip" => $unbannip,
-				"date" => time(),
+				"date" => common_functions::currentdate(),
 			)
 		);
 	}
@@ -64,9 +64,9 @@ class user_unbann {
 	}
 
 	/**
-	 * @param int $fid
-	 * @param int $from
-	 * @param int $till
+	 * @param int $fid - forum user id
+	 * @param int $from - bann beginn
+	 * @param int $till - bann ends
 	 * @return mixed|null
 	 */
 	public static function get($fid, $from, $till) {
