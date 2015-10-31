@@ -12,15 +12,15 @@ class sql {
 	protected static $sqlCache = array();
 
 	/**
-	 * @param string|null $name
+	 * @param string|null $connection_name
 	 * @param string $statement
 	 * @param null $fields
 	 * @param int $type
 	 * @return mixed|null
 	 * @throws Exception
 	 */
-	public static function query($name = null, $statement, $fields = null, $type = PDO::FETCH_ASSOC) {
-		$db = ($name) ? db_con::getDbCon($name) : DB::getInstance();
+	public static function query($connection_name = null, $statement, $fields = null, $type = PDO::FETCH_ASSOC) {
+		$db = ($connection_name) ? db_con::getDbCon($connection_name) : DB::getInstance();
 		if (! isset(self::$sqlCache[$statement]))
 			self::$sqlCache[$statement] = $db->prepare($statement);
 
@@ -37,14 +37,14 @@ class sql {
 	}
 
 	/**
-	 * @param string|null $name
+	 * @param string|null $connection_name
 	 * @param string $statement
 	 * @param array|null $fields
 	 * @return int
 	 * @throws Exception
 	 */
-	public static function queryColumnInt($name = null, $statement, $fields = null) {
-		$db = ($name) ? db_con::getDbCon($name) : DB::getInstance();
+	public static function queryColumnInt($connection_name = null, $statement, $fields = null) {
+		$db = ($connection_name) ? db_con::getDbCon($connection_name) : DB::getInstance();
 		if (! isset(self::$sqlCache[$statement]))
 			self::$sqlCache[$statement] = $db->prepare($statement);
 
@@ -58,14 +58,14 @@ class sql {
 	}
 
 	/**
-	 * @param string|null $name
+	 * @param string|null $connection_name
 	 * @param string $statement
 	 * @param null $fields
 	 * @return int
 	 * @throws Exception
 	 */
-	public static function execute($name = null, $statement, $fields = null) {
-		$db = ($name) ? db_con::getDbCon($name) : DB::getInstance();
+	public static function execute($connection_name = null, $statement, $fields = null) {
+		$db = ($connection_name) ? db_con::getDbCon($connection_name) : DB::getInstance();
 		if (!isset(self::$sqlCache[$statement]))
 			self::$sqlCache[$statement] = $db->prepare($statement);
 
