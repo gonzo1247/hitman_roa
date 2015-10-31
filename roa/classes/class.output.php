@@ -25,14 +25,44 @@ class output {
 
 			// Include LIB
 			require_once(LIB_DIR . DS . 'class.char_code.php');
+			require_once(LIB_DIR . DS . 'class.codebot.php');
 
+			// Get own Points
+			$points_row = user_points::get(get_phpbb_info::$instance->user_id);
+			$product = point_costs::get($_POST["id"]);
+
+			// Check if there are enough points
+			if($points_row['points_curr'] >= $product["points"]) {
+				// Remove Points
+				if(user_points::update(get_phpbb_info::$instance->user_id, $product["name"], ($product["points"] * -1)) !== false) {
+					$result = false;
+					if($product["function"]) {
+						// Run Function
+
+					} else if($product["item_id"] !== null) {
+						// Add Item
+						$result = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
+
+						// Send PM
+						get_phpbb_info::$instance->sendPM(output::getCodeMsg($product), SYSTEM_USER, "Neuer Code für " . $product["name"]);
+					}
+
+					if($result !== true) {
+						// Rollback changes on points if code wasn't generated
+						user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - ROLLBACK", $product["points"]);
+					} else
+						$result = "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
+				}
+			}
 		}
 
-		// Get own Points
+		// Get own Points (may again to update them)
 		$points_row = user_points::get(get_phpbb_info::$instance->user_id);
 
 		// Create Output
-		$code = "<div class=\"points\">Du hast derzeitig <b>" . $points_row['points_curr'] . "</b> Punkte.</div><br />";
+		if(! isset($result))
+			$result = "";
+		$code = "<div class=\"points\">" . $result . "Du hast derzeitig <b>" . $points_row['points_curr'] . "</b> Punkte.</div><br />";
 
 		// Get List
 		$all_costs_rows = point_costs::getAll();
@@ -108,5 +138,9 @@ class output {
 					</span>
 				</div>
 			</div>";
+	}
+
+	private static function getCodeMsg($product) {
+		//todo
 	}
 }

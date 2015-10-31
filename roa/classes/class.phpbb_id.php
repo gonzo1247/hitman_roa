@@ -153,4 +153,14 @@ class get_phpbb_info {
 	private static function getConnection() {
 		return self::$connection;
 	}
+
+	/**
+	 * @param $msg
+	 * @param $u_id
+	 * @param string $subject
+	 * @return bool
+	 */
+	public function sendPM($msg, $u_id, $subject = "New PM") {
+		return true;
+	}
 }

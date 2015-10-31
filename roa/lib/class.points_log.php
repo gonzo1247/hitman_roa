@@ -25,10 +25,10 @@ class points_log {
 	public static function add($user_id, $points, $reason = null, $from = "System")  {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			user_id,
-			date,
+			`date`,
 			points,
 			reason,
-			from
+			`from`
 		) VALUES (
 			:user_id,
 			:date,
@@ -39,11 +39,11 @@ class points_log {
 
 		return SQL::execute(self::getConnection(), $sql,
 			array(
-				"user_id" => $user_id,
+				"user_id" => (int) $user_id,
 				"date" => time(),
-				"points" => $points,
+				"points" => (int) $points,
 				"reason" => $reason,
-				"from" => $from,
+				"from" => $from
 			)
 		);
 	}

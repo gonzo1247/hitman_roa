@@ -14,6 +14,7 @@ define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
 define('LIB_DIR', ROA_DIR . DS . 'lib');
+define('SYSTEM_USER', $system_user_id);
 if(! isset($_GET["mod"]))
 	define('MOD', false);
 else
