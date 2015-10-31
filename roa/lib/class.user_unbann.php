@@ -7,7 +7,7 @@
  */
 class user_unbann {
 	private static $prefix;
-	private static $tablename = "user_banns";
+	private static $tablename = "user_unbanns";
 	private static $connection = "phpbb_db";
 
 	/**
