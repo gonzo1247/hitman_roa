@@ -86,6 +86,56 @@ class char_code {
 	}
 
 	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function getchar($code) {
+		$sql = 'SELECT char_guid FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
+
+	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function gettitle($code) {
+		$sql = 'SELECT title_id FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
+
+	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function getarchiev($code) {
+		$sql = 'SELECT archievement_id FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
+
+	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function getlevel($code) {
+		$sql = 'SELECT new_level FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
+
+	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function getaccount($code) {
+		$sql = 'SELECT account_id FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function getTablename() {
