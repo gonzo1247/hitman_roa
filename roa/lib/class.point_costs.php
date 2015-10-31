@@ -12,7 +12,7 @@
  */
 class point_costs {
 	private static $prefix;
-	private static $tablename = "point_costs";
+	private static $tablename = "points_costs";
 	private static $connection = "phpbb_db";
 
 	public static function add($name, $costs, $desc = null, $enabled = 0) {
@@ -38,7 +38,11 @@ class point_costs {
 	 * @return mixed|null
 	 */
 	public static function get($id) {
-		return SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+		$result = SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id', array("id" => $id));
+
+		if($result !== false)
+			return $result[0];
+		return false;
 	}
 
 	/**
@@ -50,7 +54,7 @@ class point_costs {
 		if($limit)
 			$parms = array("limit" => (int) $limit);
 
-		$sql = 'SELECT * FROM ' . self::getFullTableName() . ($limit) ? ' LIMIT :limit' : '';
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . (($limit) ? ' LIMIT :limit' : '');
 
 		return SQL::query(self::getConnection(), $sql, $parms);
 	}

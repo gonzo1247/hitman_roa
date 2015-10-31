@@ -1,0 +1,32 @@
+Thanks for the post
+PHP Version: 5.5.9-1ubuntu4.14
+DBMS: MySQL 5.5.46-0ubuntu0.14.04.2
+phpBB3 Version: 3.0.14
+
+Entferne Index poster_id von Tabelle phpbb_3thanks
+FEHLER: Der Index poster_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Entferne Index user_id von Tabelle phpbb_3thanks
+FEHLER: Der Index user_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Entferne Index forum_id von Tabelle phpbb_3thanks
+FEHLER: Der Index forum_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Entferne Index topic_id von Tabelle phpbb_3thanks
+FEHLER: Der Index topic_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Entferne Index post_id von Tabelle phpbb_3thanks
+FEHLER: Der Index post_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Lösche die Spalte thanks_time aus Tabelle phpbb_3thanks
+FEHLER: Die Spalte thanks_time existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Lösche die Spalte forum_id aus Tabelle phpbb_3thanks
+FEHLER: Die Spalte forum_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Lösche die Spalte topic_id aus Tabelle phpbb_3thanks
+FEHLER: Die Spalte topic_id existiert nicht in Tabelle phpbb_3thanks.<br /><br />SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Lösche Datenbanktabelle: phpbb_3thanks
+FEHLER: Datenbanktabelle phpbb_3thanks existiert nicht.
+

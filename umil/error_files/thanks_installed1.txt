@@ -1,0 +1,35 @@
+Thanks for the post
+PHP Version: 5.5.9-1ubuntu4.14
+DBMS: MySQL 5.5.46-0ubuntu0.14.04.2
+phpBB3 Version: 3.0.14
+
+Eine neue Datenbanktabelle erstellen: phpbb_33thanks
+SQL ERROR Table 'phpbb_33thanks' already exists
+
+Eine neue Spalte topic_id der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Duplicate column name 'topic_id'
+
+Eine neue Spalte forum_id der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Duplicate column name 'forum_id'
+
+Eine neue Spalte thanks_time der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Duplicate column name 'thanks_time'
+
+Update values for the _thanks table
+SQL ERROR Table 'forum_roa.phpbb_3thanks' doesn't exist
+
+Füge Index post_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Duplicate key name 'post_id'
+
+Füge Index topic_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Duplicate key name 'topic_id'
+
+Füge Index forum_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Duplicate key name 'forum_id'
+
+Füge Index user_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Duplicate key name 'user_id'
+
+Füge Index poster_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Duplicate key name 'poster_id'
+

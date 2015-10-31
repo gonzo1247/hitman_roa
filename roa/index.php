@@ -13,6 +13,7 @@ mb_internal_encoding("UTF-8");
 define('ROA_DIR', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('ROA_MAINCLASSDIR', ROA_DIR . DS . 'classes');
+define('LIB_DIR', ROA_DIR . DS . 'lib');
 if(! isset($_GET["mod"]))
 	define('MOD', false);
 else

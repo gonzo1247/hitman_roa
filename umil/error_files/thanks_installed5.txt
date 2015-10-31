@@ -1,0 +1,32 @@
+Thanks for the post
+PHP Version: 5.5.9-1ubuntu4.14
+DBMS: MySQL 5.5.46-0ubuntu0.14.04.2
+phpBB3 Version: 3.0.14
+
+Eine neue Datenbanktabelle erstellen: phpbb_3thanks
+FEHLER: Die Datenbanktabelle phpbb_3thanks existiert bereits.
+
+Eine neue Spalte topic_id der Tabelle phpbb_3thanks hinzufügen
+FEHLER: Die Spalte topic_id existiert bereits in Tabelle phpbb_3thanks.
+
+Eine neue Spalte forum_id der Tabelle phpbb_3thanks hinzufügen
+FEHLER: Die Spalte forum_id existiert bereits in Tabelle phpbb_3thanks.
+
+Eine neue Spalte thanks_time der Tabelle phpbb_3thanks hinzufügen
+FEHLER: Die Spalte thanks_time existiert bereits in Tabelle phpbb_3thanks.
+
+Füge Index post_id der Tabelle phpbb_3thanks hinzu
+FEHLER: Der Index post_id existiert bereits in Tabelle phpbb_3thanks.
+
+Füge Index topic_id der Tabelle phpbb_3thanks hinzu
+FEHLER: Der Index topic_id existiert bereits in Tabelle phpbb_3thanks.
+
+Füge Index forum_id der Tabelle phpbb_3thanks hinzu
+FEHLER: Der Index forum_id existiert bereits in Tabelle phpbb_3thanks.
+
+Füge Index user_id der Tabelle phpbb_3thanks hinzu
+FEHLER: Der Index user_id existiert bereits in Tabelle phpbb_3thanks.
+
+Füge Index poster_id der Tabelle phpbb_3thanks hinzu
+FEHLER: Der Index poster_id existiert bereits in Tabelle phpbb_3thanks.
+
