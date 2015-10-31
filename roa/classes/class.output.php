@@ -7,56 +7,31 @@
  * Notes: -
  */
 
+/**
+ * Class output
+ */
 class output {
+	/**
+	 * @return string
+	 */
 	public static function point_management() {
 
 		// Output-Code
 		return "";
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	public static function exchange_points() {
 		global $roa_url;
 
 		// Execute
 		if(! isset($_POST["id"]))
 			$_POST["id"] = false;
-		if($_POST["id"]) {
-			$_POST["id"] = output::escapeALL($_POST["id"], true);
 
-			// Include LIB
-			require_once(LIB_DIR . DS . 'class.char_code.php');
-			require_once(LIB_DIR . DS . 'class.codebot.php');
-
-			// Get own Points
-			$points_row = user_points::get(get_phpbb_info::$instance->user_id);
-			$product = point_costs::get($_POST["id"]);
-
-			// Check if there are enough points
-			if($points_row['points_curr'] >= $product["points"] && $product["enabled"]) {
-				// Remove Points
-				if(user_points::update(get_phpbb_info::$instance->user_id, $product["name"], ($product["points"] * -1)) !== false) {
-					$result = false;
-					if($product["function"]) {
-						// Run Function
-
-					} else if($product["item_id"] !== null) {
-						// Add Item
-						$code = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
-
-						// Send PM
-						get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code), SYSTEM_USER, "Neuer Code für " . $product["name"]);
-					}
-
-					if($result !== true) {
-						// Rollback changes on points if code wasn't generated
-						user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - ROLLBACK", $product["points"]);
-						$result = "<span class=\"code_fail\">" . $result . "</span><br><br>";
-					} else
-						$result = "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
-				}
-			} else
-				$result = "<span class=\"code_fail\">Leider hast du dafür nicht genügend Punkte!</span><br><br>";
-		}
+		if($_POST["id"])
+			$result = code_functions::execute_codebot($_POST["id"]);
 
 		// Get own Points (may again to update them)
 		$points_row = user_points::get(get_phpbb_info::$instance->user_id);
@@ -144,7 +119,7 @@ class output {
 			</div>";
 	}
 
-	private static function getCodeMsg($product, $code) {
+	public static function getCodeMsg($product, $code) {
 		//todo
 		return "hallo";
 	}

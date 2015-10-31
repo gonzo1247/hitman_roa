@@ -62,6 +62,8 @@ class get_phpbb_info {
 		unset($this->group_id);
 		unset($this->color);
 		unset($this->email);
+		unset($this->unreadPM);
+		unset($this->newPM);
 	}
 
 	/**

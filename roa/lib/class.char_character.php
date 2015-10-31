@@ -14,7 +14,11 @@ class char_character {
 	private static $tablename = "characters";
 	private static $connection = "char_db";
 
-	public static function get_guid($char_name = "") {
+	/**
+	 * @param string $char_name
+	 * @return bool
+	 */
+	public static function get_guid($char_name) {
 		$sql = 'SELECT guid FROM ' . self::getFullTableName() . ' WHERE name = :char_name LIMIT 1';
 
 		$result = SQL::query(
@@ -66,8 +70,60 @@ class char_character {
 	/**
 	 * @return string
 	 */
-	private static function getConnection() {
+	protected static function getConnection() {
 		return self::$connection;
+	}
+
+	/**
+	 * @param int $charguid - character guid
+	 * @return int
+	 */
+	protected static function getFlag($charguid) {
+		$sql = 'SELECT at_login FROM ' . self::getFullTableName() . ' WHERE guid = :guid';
+
+		return SQL::query(self::getConnection(), $sql, array("guid" => $charguid));
+	}
+
+	/**
+	 * @param int $code - code id
+	 * @param int $newacc - new account id
+	 * @param int $oldacc - old account id
+	 * @return int|string
+	 */
+	protected static function tradecode($code, $newacc, $oldacc) {
+		$char = char_code::getchar($code);
+
+		if ($char != 0)
+			return "Nur nicht Charakter gebundene Codes können getauscht werden.";
+		if ($newacc == 0)
+			return "Neue Account ID ist Ungültig";
+
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account_id = :new, trade_to_id = :new, trade_from_id = :old WHERE code = :code';
+
+		return SQL::execute(self::getConnection(), $sql,
+			array(
+				"new" => $newacc,
+				"old" => $oldacc,
+				"code" => $code
+			)
+		);
+	}
+
+	/**
+	 * @param int $charguid - character guid
+	 * @return int
+	 */
+	protected static function updateCustomize($charguid) {
+		$activeflag = self::getFlag($charguid);
+		$flag = 8;
+		if ($activeflag != 0)
+			$newflag = $activeflag + $flag;
+		else
+			$newflag = $flag;
+
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+
+		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
 	}
 
 	/**
@@ -75,5 +131,19 @@ class char_character {
 	 */
 	public static function getFullTableName() {
 		return self::getPrefix() . self::getTablename();
+	}
+
+	/**
+	 * @param bool|int $limit
+	 * @return mixed|null
+	 */
+	public static function getAll($limit = false) {
+		$parms = array();
+		if($limit)
+			$parms = array("limit" => (int) $limit);
+
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ($limit) ? ' LIMIT :limit' : '';
+
+		return SQL::query(self::getConnection(), $sql, $parms);
 	}
 }

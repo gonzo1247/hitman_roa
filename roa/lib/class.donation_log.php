@@ -5,6 +5,10 @@
  * Date: 2015/10/31
  * Time: 1:18
  */
+
+/**
+ * Class donation_log
+ */
 class donation_log {
 	private static $prefix;
 	private static $tablename = "donation_log";
@@ -66,7 +70,10 @@ class donation_log {
 		);
 	}
 
-
+	/**
+	 * @param bool|int $limit
+	 * @return mixed|null
+	 */
 	public static function getAll($limit = false) {
 		$parms = array();
 		if($limit)

@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * @return string
+ */
 function getfunctionOutput() {
 	if(get_phpbb_info::$instance->user_id && mb_strtolower(get_phpbb_info::$instance->username) != 'anonymous') {
 		// Escape Userdata
@@ -31,6 +34,7 @@ function getfunctionOutput() {
 				// Include LIB
 				require_once(LIB_DIR . DS . 'class.user_points.php');
 				require_once(LIB_DIR . DS . 'class.point_costs.php');
+				require_once(LIB_DIR . DS . 'class.code_functions.php');
 
 				return output::HTMLTemplate("Punkte verwalten", output::exchange_points());
 			default:
