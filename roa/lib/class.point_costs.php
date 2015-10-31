@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * Class point_costs
+ */
 class point_costs {
 	private static $prefix;
 	private static $tablename = "point_costs";

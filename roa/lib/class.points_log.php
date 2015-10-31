@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * Class points_log
+ */
 class points_log {
 	private static $prefix;
 	private static $tablename = "points_log";
@@ -16,11 +19,23 @@ class points_log {
 	 * @param int $user_id - forum user id
 	 * @param int $points - points it changed
 	 * @param string $from - from where is changed the points
-	 * @param string $reason - reason to change the points
+	 * @param string|null $reason - reason to change the points
 	 * @return int
 	 */
 	public static function add($user_id, $points, $from = "System", $reason = null)  {
-		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, points, reason, from) VALUES (:user_id, :date, :points, :reason, :from)';
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
+			user_id,
+			date,
+			points,
+			reason,
+			from
+		) VALUES (
+			:user_id,
+			:date,
+			:points,
+			:reason,
+			:from
+		)';
 
 		return SQL::execute(self::getConnection(), $sql,
 			array(

@@ -5,6 +5,10 @@
  * Date: 2015/10/30
  * Time: 23:07
  */
+
+/**
+ * Class user_banns
+ */
 class user_banns {
 	private static $prefix;
 	private static $tablename = "user_banns";
@@ -51,16 +55,27 @@ class user_banns {
 
 	}
 
+	/**
+	 *
+	 */
 	public static function update() {
-		// not needet
-
+		// VOID
 	}
 
+	/**
+	 * @param int $fid
+	 * @param int $from
+	 * @param int $till
+	 * @return mixed|null
+	 */
 	public static function get($fid, $from, $till) {
 		 return SQL::query(self::getConnection(), "SELECT * FROM " . self::getFullTableName() . " WHERE id = :id AND from = :from AND till = :till", array("id" => $fid, "from" => $from, "till" => $till));
 	}
 
-
+	/**
+	 * @param bool|int $limit
+	 * @return mixed|null
+	 */
 	public static function getAll($limit = false) {
 		$parms = array();
 		if($limit)

@@ -5,30 +5,45 @@
  * Date: 2015/08/15
  * Time: 11:20
  */
+
+/**
+ * Class char_code
+ */
 class char_code {
 	private static $prefix;
-	private static $tablename = "code";
+	private static $tablename = "codes";
 	private static $connection = "char_db";
 
-	public static function add($code = "", $item_id = 0, $account_id = 0, $quantity = 1, $char_guid, $new_level, $title_id, $achievement_id) {
+	/**
+	 * @param string $code
+	 * @param int $account_id
+	 * @param int $char_guid
+	 * @param int $item_id
+	 * @param int $new_level
+	 * @param int $title_id
+	 * @param int $achievement_id
+	 * @param int $quantity
+	 * @return int
+	 */
+	public static function add($code, $account_id, $char_guid, $item_id = 0, $new_level = 0, $title_id = 0, $achievement_id = 0, $quantity = 1) {
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
-		code,
-		item_id,
-		account_id,
-		quantity,
-		char_guid,
-		new_level,
-		title_id,
-		achievement_id
+			code,
+			item_id,
+			account_id,
+			quantity,
+			char_guid,
+			new_level,
+			title_id,
+			achievement_id
 		) VALUES (
-		:code,
-		:item_id,
-		:account,
-		:quantity,
-		:char_guid,
-		:new_level,
-		:title_id,
-		:achiev_id
+			:code,
+			:item_id,
+			:account_id,
+			:quantity,
+			:char_guid,
+			:new_level,
+			:title_id,
+			:achiev_id
 		)';
 
 		return SQL::execute(
@@ -48,7 +63,27 @@ class char_code {
 
 	}
 
+	/**
+	 * @param string $code
+	 * @return int
+	 */
+	public static function delete($code) {
+		return SQL::execute(self::getConnection(), 'DELETE FROM ' . self::getFullTableName() . ' WHERE code = :code', array("code" => $code));
+	}
 
+	public static function update() {
+		// VOID
+	}
+
+	/**
+	 * @param string $code
+	 * @return mixed|null
+	 */
+	public static function get($code) {
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE code = :code';
+
+		return SQL::query(self::getConnection(), $sql, array("code" => $code));
+	}
 
 	/**
 	 * @return string
