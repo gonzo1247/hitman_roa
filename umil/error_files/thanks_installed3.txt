@@ -1,0 +1,29 @@
+Thanks for the post
+PHP Version: 5.5.9-1ubuntu4.14
+DBMS: MySQL 5.5.46-0ubuntu0.14.04.2
+phpBB3 Version: 3.0.14
+
+Eine neue Spalte topic_id der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Eine neue Spalte forum_id der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Eine neue Spalte thanks_time der Tabelle phpbb_33thanks hinzufügen
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Füge Index post_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Füge Index topic_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Füge Index forum_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Füge Index user_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
+Füge Index poster_id der Tabelle phpbb_33thanks hinzu
+SQL ERROR Table 'forum_roa.phpbb_333thanks' doesn't exist
+
