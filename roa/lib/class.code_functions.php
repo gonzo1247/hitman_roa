@@ -90,6 +90,24 @@ class code_functions {
 
 	/**
 	 * @param int $charguid - character guid
+	 * @param int $newaccountid - new account id
+	 * @param int $oldaccountid - old account id
+	 * @return bool|int
+	 */
+	private static function setCharTransf($charguid, $newaccountid, $oldaccountid) {
+		if ($newaccountid == $oldaccountid)
+			return false;
+		if ($newaccountid == 0)
+			return false;
+
+		$sql = "UPDATE " . self::getFullTableName() . ' SET account = new WHERE guid = guid';
+		user_transfer_log::add($charguid, $oldaccountid, $newaccountid);
+
+		return SQL::execute(self::getConnection(), $sql, array("new" => $newaccountid, "guid" => $charguid ));
+	}
+
+	/**
+	 * @param int $charguid - character guid
 	 * @return int
 	 */
 	private static function getFlag($charguid) {
