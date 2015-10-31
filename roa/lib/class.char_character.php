@@ -5,6 +5,10 @@
  * Date: 2015/08/15
  * Time: 12:28
  */
+
+/**
+ * Class char_character
+ */
 class char_character {
 	private static $prefix;
 	private static $tablename = "characters";

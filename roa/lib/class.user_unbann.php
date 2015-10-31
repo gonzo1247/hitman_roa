@@ -5,6 +5,10 @@
  * Date: 2015/10/30
  * Time: 23:33
  */
+
+/**
+ * Class user_unbann
+ */
 class user_unbann {
 	private static $prefix;
 	private static $tablename = "user_banns";
@@ -55,10 +59,16 @@ class user_unbann {
 		);
 	}
 
+	/**
+	 *
+	 */
 	private static function delete() {
 		// VOID
 	}
 
+	/**
+	 *
+	 */
 	private static function update() {
 		// VOID
 	}

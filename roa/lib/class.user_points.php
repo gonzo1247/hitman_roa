@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * Class user_points
+ */
 class user_points {
 	private static $prefix;
 	private static $tablename = "user_points";
@@ -32,6 +35,10 @@ class user_points {
 		return SQL::execute(self::getConnection(), $sql, $params);
 	}
 
+	/**
+	 * @param int $id
+	 * @return bool|int
+	 */
 	public static function delete($id) {
 		if(self::exists($id))
 			return SQL::execute(self::getConnection(), 'DELETE FROM ' . self::getFullTableName() . ' WHERE user_id = :id', array("id" => $id));

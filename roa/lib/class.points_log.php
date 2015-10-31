@@ -7,6 +7,9 @@
  * Notes: -
  */
 
+/**
+ * Class points_log
+ */
 class points_log {
 	private static $prefix;
 	private static $tablename = "points_log";
