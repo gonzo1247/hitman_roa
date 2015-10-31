@@ -100,10 +100,35 @@ class code_functions {
 		if ($newaccountid == 0)
 			return false;
 
-		$sql = "UPDATE " . self::getFullTableName() . ' SET account = new WHERE guid = guid';
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account = new WHERE guid = guid';
 		user_transfer_log::add($charguid, $oldaccountid, $newaccountid);
 
 		return SQL::execute(self::getConnection(), $sql, array("new" => $newaccountid, "guid" => $charguid ));
+	}
+
+	/**
+	 * @param int $code - code id
+	 * @param int $newacc - new account id
+	 * @param int $oldacc - old account id
+	 * @return int|string
+	 */
+	private static function tradecode($code, $newacc, $oldacc) {
+		$char = char_code::getchar($code);
+
+		if ($char != 0)
+			return "Nur nicht Charakter gebundene Codes können getauscht werden.";
+		if ($newacc == 0)
+			return "Neue Account ID ist Ungültig";
+
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account_id = :new, trade_to_id = :new, trade_from_id = :old WHERE code = :code';
+
+		return SQL::execute(self::getConnection(), $sql,
+			array(
+				"new" => $newacc,
+				"old" => $oldacc,
+				"code" => $code
+			)
+		);
 	}
 
 	/**
