@@ -145,9 +145,11 @@ class code_functions extends char_character {
 				$error = "Der Charakter gehört dir nicht!";
 			else {
 				// Change gender
-				if(! char_character::customize($char_guid))
+				if(! char_character::updateFlag($char_guid, 8))
 					$error = "Ein unbekannter Fehler ist beim ändern des Geschlechtes aufgetreten...";
 			}
+			unset($char);
+			unset($own_wow_acc);
 		}
 
 		if(! $char_guid || $error) {
@@ -197,9 +199,11 @@ class code_functions extends char_character {
 				$error = "Der Charakter gehört dir nicht!";
 			else {
 				// Change Race
-				if(! char_character::newRace($char_guid))
+				if(! char_character::updateFlag($char_guid, 128))
 					$error = "Ein unbekannter Fehler ist beim ändern der Rasse aufgetreten...";
 			}
+			unset($char);
+			unset($own_wow_acc);
 		}
 
 		if(! $char_guid || $error) {
@@ -232,9 +236,11 @@ class code_functions extends char_character {
 				$error = "Der Charakter gehört dir nicht!";
 			else {
 				// Change Faction
-				if(! char_character::newFaction($char_guid))
+				if(! char_character::updateFlag($char_guid, 64))
 					$error = "Ein unbekannter Fehler ist beim ändern der Fraktion aufgetreten...";
 			}
+			unset($char);
+			unset($own_wow_acc);
 		}
 
 		if(! $char_guid || $error) {
