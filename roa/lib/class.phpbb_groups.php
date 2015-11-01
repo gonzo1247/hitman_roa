@@ -2,57 +2,46 @@
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
  * Authors-Website: http://petschko.eona.in/
- * Date: 03.08.2015
- * Time: 21:41
+ * Date: 01.11.2015
+ * Time: 18:14
  * Notes: -
  */
 
 /**
- * Class phpbb_account
+ * Class phpbb_groups
  */
-class phpbb_account {
+class phpbb_groups {
 	private static $prefix;
-	private static $tablename = "users";
+	private static $tablename = "groups";
 	private static $connection = "phpbb_db";
 
 	public static function add() {
+		// VOID
+	}
+
+	public static function delete() {
+		// VOID
+	}
+
+	public static function get() {
 		//todo
 	}
 
 	public static function update() {
-		//todo
+		// VOID
 	}
 
 	/**
-	 * @param int $id
-	 * @return mixed
+	 * @param string $name
+	 * @return bool|int
 	 */
-	public static function get($id) {
-		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE user_id = :id';
+	public static function getId($name) {
+		$sql = 'SELECT group_id FROM ' . self::getFullTableName() . ' WHERE group_name = :name LIMIT 1';
+		$result = SQL::query(self::getConnection(), $sql, array("name" => $name));
 
-		return SQL::query(
-			self::getConnection(),
-			$sql,
-			array(
-				"id" => $id
-			)
-		);
-	}
-
-	/**
-	 * @param string $username
-	 * @return mixed|null
-	 */
-	public static function getByName($username) {
-		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE username = :username';
-
-		return SQL::query(
-			self::getConnection(),
-			$sql,
-			array(
-				"username" => $username
-			)
-		);
+		if($result !== false)
+			return $result[0]["group_id"];
+		return false;
 	}
 
 	/**

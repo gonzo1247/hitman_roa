@@ -54,9 +54,6 @@ class get_phpbb_info {
 	 *
 	 */
 	public function __destruct() {
-		unset(self::$prefix);
-		unset(self::$connection);
-		unset(self::$instance);
 		unset($this->user_id);
 		unset($this->username);
 		unset($this->group_id);
@@ -241,5 +238,30 @@ class get_phpbb_info {
 		));
 
 		return true;
+	}
+
+	public function sendPMtoGroup($groupId, $message, $user_id, $subject) {
+		//sendPMtoGroup(5, "msg", SYSTEM_USER, "Charakter wiederherstellungs Anfrage - " . get_phpbb_info::$instance->username . " -> Char: " . $charname)
+
+	}
+
+	/**
+	 * @param bool|int $user_id
+	 * @return string
+	 */
+	public function usernameLink($user_id = false) {
+		if(! $user_id) {
+			$user_id = $this->user_id;
+			$color = $this->color;
+			$username = $this->username;
+		} else {
+			// Get PHPBB Data
+			$user_data = phpbb_account::get($user_id);
+			$color = $user_data[0]["user_colour"];
+			$username = $user_data[0]["username"];
+			unset($user_data);
+		}
+
+		return "<a href=\"memberlist.php?mode=viewprofile&u=" . $user_id . "\" target=\"_blank\" style=\"color: #" . $color . "\">" . $username . "</a>";
 	}
 }

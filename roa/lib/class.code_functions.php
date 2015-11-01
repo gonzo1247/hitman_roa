@@ -59,7 +59,7 @@ class code_functions extends char_character {
 					return "<span class=\"code_fail\">" . $code["fail"] . "</span><br><br>";
 				} else {
 					if($product["code"] == 1)
-						return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
+						return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\" target=\"_blank\">-> Zum Posteingang</a></span><br><br>";
 					else {
 						// Add exchange product if it has limits
 						if($product["aviable_count"] != -1)
@@ -72,6 +72,28 @@ class code_functions extends char_character {
 		} else
 			return "<span class=\"code_fail\">Leider hast du dafür nicht genügend Punkte!</span><br><br>";
 		return "";
+	}
+
+	private static function charRestore($id) {
+		if(! isset($_POST['charname']))
+			$_POST['charname'] = "";
+
+		$charname = output::escapeALL($_POST['charname'], true);
+		$error = false;
+
+		if($charname) {
+			// Send PM to Admin group
+			if(! get_phpbb_info::$instance->sendPMtoGroup(5, output::char_restorePMmsg($charname), SYSTEM_USER, "Charakter wiederherstellungs Anfrage - " . get_phpbb_info::$instance->username . " -> Char: " . $charname))
+				$error = "Ein unbekannter Fehler ist beim senden der PM aufgetreten...";
+		}
+
+		if(! $charname || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			$desc = "Bitte trage hier deinen Charakternamen ein. Eine Private-Nachricht wird dann an einen Administrator gesendet, bitte habe nach diesen Vorgang ein klein wenig Geduld!";
+			return array("result" => "other", "code" => output::getText($id, "charname", $_POST['charname'], $desc, $error));
+		}
+		return array("result" => true);
 	}
 
 	/**
@@ -161,20 +183,40 @@ class code_functions extends char_character {
 	}
 
 	/**
-	 * @param int $charguid - character guid
+	 * @param int $id
 	 * @return int
 	 */
-	private static function updateRename($charguid) {
-		$activeflag = self::getFlag($charguid);
-		$flag = 1;
-		if ($activeflag != 0)
-			$newflag = $activeflag + $flag;
-		else
-			$newflag = $flag;
+	private static function updateRename($id) {
+		if(! isset($_POST['char_guid']))
+			$_POST['char_guid'] = "";
 
-		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+		$char_guid = output::escapeALL($_POST['char_guid'], true);
+		$error = false;
 
-		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+		if($char_guid) {
+			$char = char_character::get($char_guid);
+			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+
+			// Check input and data
+			if($char === false)
+				$error = "Der Charakter existiert nicht!";
+			else if($char["account"] != $own_wow_acc[0]["id"])
+				$error = "Der Charakter gehört dir nicht!";
+			else {
+				// Change Name
+				if(! char_character::updateFlag($char_guid, 1))
+					$error = "Ein unbekannter Fehler ist beim ändern des Namens aufgetreten...";
+			}
+			unset($char);
+			unset($own_wow_acc);
+		}
+
+		if(! $char_guid || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			return array("result" => "other", "code" => output::getChar($id, $_POST['char_guid'], $error));
+		}
+		return array("result" => true);
 	}
 
 	/**

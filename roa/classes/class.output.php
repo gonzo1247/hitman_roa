@@ -132,15 +132,15 @@ class output {
 	 */
 	public static function getCodeMsg($product, $code) {
 		return "Hallo " . get_phpbb_info::$instance->username . ",\r\n" . "\r\ndu hast einen RoA Code bekommen und kannst diesen Ingame Einlösen.\r\nSuche in Sturmwind oder Orgrimmar vor dem Auktionshaus nach einem Codebot.
-		\r\n\r\nDein RoA-Code lautet:\r\n" . $code . "\r\n\r\nSolltest du einen Titel, ein Erfolg oder ein Level Up bekommen haben, so ist dieser Code an den Charakter gebunden
-		\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team";
+			\r\n\r\nDein RoA-Code lautet:\r\n" . $code . "\r\n\r\nSolltest du einen Titel, ein Erfolg oder ein Level Up bekommen haben, so ist dieser Code an den Charakter gebunden
+			\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
 
 	/**
 	 * @param int $product_id
-	 * @param int $char_guid
-	 * @param string $account
-	 * @param string $error
+	 * @param mixed $char_guid
+	 * @param mixed $account
+	 * @param string|bool $error
 	 * @return string
 	 */
 	public static function getCharTransfer($product_id, $char_guid, $account, $error) {
@@ -160,7 +160,7 @@ class output {
 
 	/**
 	 * @param array $chars
-	 * @param int $char_guid_selected
+	 * @param mixed $char_guid_selected
 	 * @return string
 	 */
 	private static function charlist($chars, $char_guid_selected) {
@@ -177,11 +177,21 @@ class output {
 		return $code;
 	}
 
+	/**
+	 * @param array $product
+	 * @return string
+	 */
 	public static function getPointActionsSuccess($product) {
 		return "Hallo " . get_phpbb_info::$instance->username . ",\r\n\r\ndie Aktion " .$product["name"] . " wurde erfolgreich ausgeführt.\r\n\r\nDies ist lediglich eine Bestätigung.
-		\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team";
+			\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
 
+	/**
+	 * @param int $id
+	 * @param mixed $char_guid
+	 * @param string|bool $error
+	 * @return string
+	 */
 	public static function getChar($id, $char_guid, $error) {
 		$product = point_costs::get($id);
 
@@ -195,5 +205,24 @@ class output {
 		$code .= "<input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><input type=\"submit\" value=\"Ausführen\"></form></div>";
 
 		return self::HTMLTemplate("> " . $product["name"] . " - Charakter auswählen", $code);
+	}
+
+	public static function getText($id, $fieldname, $value, $desc_text, $error) {
+		$product = point_costs::get($id);
+
+		$code = "<div class=\"roa_selectfield\"><p>" . $desc_text . "</p><br>" . PHP_EOL;
+		if($error)
+			$code .= "<div class=\"code_fail\">" . $error . "</div>";
+		$code .= "<form action=\"?mod=" . MOD . "\" method=\"post\">";
+		$code .= "<!-- Yes we using tables! --><table><tr><td>Charakternamen eingeben:</td>";
+		$code .= "<td><input type=\"text\" name=\"" . $fieldname . "\" value=\"" . $value . "\"></td></tr></table>";
+		$code .= "<input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><input type=\"submit\" value=\"Absenden\"></form></div>";
+
+		return self::HTMLTemplate("> " . $product["name"] . " - Informationen ausfüllen", $code);
+	}
+
+	public static function char_restorePMmsg($charname) {
+		return "Es wurde eine Charakter Wiederherstellung von dem User \"" . get_phpbb_info::$instance->usernameLink() . "\" beantragt.\r\n\r\n
+			Der Charakter soll wiederhergestellt werden: " . $charname . "\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
 }

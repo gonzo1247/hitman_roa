@@ -109,7 +109,7 @@ class account {
 	 * @return bool|int
 	 */
 	private static function check_refferer($username) {
-		$phpbb_account = phpbb_account::get($username);
+		$phpbb_account = phpbb_account::getByName($username);
 		if($phpbb_account) {
 			$phpbb_special_fields = phpbb_profile_fields_data::get_by_id($phpbb_account[0]["user_id"]);
 			if($phpbb_special_fields[0]["pf_werb_einen_freund"]) {

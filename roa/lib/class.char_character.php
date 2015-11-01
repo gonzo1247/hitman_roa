@@ -130,7 +130,11 @@ class char_character {
 	protected static function getFlag($charguid) {
 		$sql = 'SELECT at_login FROM ' . self::getFullTableName() . ' WHERE guid = :guid';
 
-		return SQL::query(self::getConnection(), $sql, array("guid" => $charguid));
+		$result = SQL::query(self::getConnection(), $sql, array("guid" => $charguid));
+
+		if($result === false)
+			return 0;
+		return $result[0]["at_login"];
 	}
 
 	/**
@@ -168,7 +172,7 @@ class char_character {
 		$activeflag = self::getFlag($charguid);
 
 		if($activeflag != 0 && ! $overwrite)
-			$newflag = (int) $activeflag + (int) $newflag;
+			$newflag = $activeflag + $newflag;
 
 		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
 
