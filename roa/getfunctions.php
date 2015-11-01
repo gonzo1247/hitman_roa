@@ -36,6 +36,7 @@ function getfunctionOutput() {
 				require_once(LIB_DIR . DS . 'class.user_points.php');
 				require_once(LIB_DIR . DS . 'class.point_costs.php');
 				require_once(LIB_DIR . DS . 'class.code_functions.php');
+				require_once(LIB_DIR . DS . 'class.points_exchange.php');
 
 				return output::HTMLTemplate("Punkte verwalten", output::exchange_points());
 			default:

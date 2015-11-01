@@ -27,6 +27,10 @@ class code_functions extends char_character {
 		$points_row = user_points::get(get_phpbb_info::$instance->user_id);
 		$product = point_costs::get($id);
 
+		// Check if user has exceded limit of exchange product
+		if(points_exchange::getNumByUserId(get_phpbb_info::$instance->user_id, $product["id"]) > $product["aviable_count"] && $product["aviable_count"] != -1)
+			return "<span class=\"code_fail\">Du kannst das nicht mehr eintauschen.</span><br><br>";
+
 		// Check if there are enough points
 		if($points_row['points_curr'] >= $product["points"] && $product["enabled"]) {
 			// Remove Points
@@ -56,8 +60,13 @@ class code_functions extends char_character {
 				} else {
 					if($product["code"] == 1)
 						return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
-					else
+					else {
+						// Add exchange product if it has limits
+						if($product["aviable_count"] != -1)
+							points_exchange::add(get_phpbb_info::$instance->user_id, $product["id"]);
+
 						return "<span class=\"code_success\">Aktion erfolgreich ausgeführt!</span><br><br>";
+					}
 				}
 			}
 		} else

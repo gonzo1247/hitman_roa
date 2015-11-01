@@ -54,8 +54,10 @@ class output {
 				$code .= "<tr><td>" . $row["name"] . "</td><td><span class=\"" . (($points_row['points_curr'] < $row["points"]) ? 'not_' : '');
 				$code .= "enougth_points\">" . $row["points"] . "</span></td><td>" . $row["descriptions"] . "</td><td>";
 
-				if ($points_row['points_curr'] >= $row["points"])
+				if ($points_row['points_curr'] >= $row["points"] && (points_exchange::getNumByUserId(get_phpbb_info::$instance->user_id, $row["id"]) < $row["aviable_count"] || $row["aviable_count"] == -1))
 					$code .= "<button type=\"submit\" name=\"id\" value=\"" . $row["id"] . "\">Punkte eintauschen</button></td></tr>" . PHP_EOL;
+				else if(points_exchange::getNumByUserId(get_phpbb_info::$instance->user_id, $row["id"]) >= $row["aviable_count"] && $row["aviable_count"] != -1)
+					$code .= "<button type=\"submit\" value=\"\" disabled>Kann nicht mehr eingelöst werden (Limitiert auf " . $row["aviable_count"] . "x)</button></td></tr>" . PHP_EOL;
 				else
 					$code .= "<button type=\"submit\" value=\"\" disabled>Zu wenig Punkte</button></td></tr>" . PHP_EOL;
 			}
