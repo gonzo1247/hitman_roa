@@ -107,7 +107,7 @@ class auth_account {
 	}
 
 	public static function delete() {
-//todo
+		//todo
 	}
 
 	/**

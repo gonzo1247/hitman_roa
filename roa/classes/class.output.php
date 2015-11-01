@@ -129,7 +129,6 @@ class output {
 	 * @return string
 	 */
 	public static function getCodeMsg($product, $code) {
-		//todo
 		return "Hallo " . get_phpbb_info::$instance->username . ",\r\n" . "\r\ndu hast einen RoA Code bekommen und kannst diesen Ingame Einlösen.\r\nSuche in Sturmwind oder Orgrimmar vor dem Auktionshaus nach einem Codebot.
 		\r\n\r\nDein RoA-Code lautet:\r\n" . $code . "\r\n\r\nSolltest du einen Titel, ein Erfolg oder ein Level Up bekommen haben, so ist dieser Code an den Charakter gebunden
 		\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team";

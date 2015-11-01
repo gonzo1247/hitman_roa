@@ -78,6 +78,7 @@ class code_functions extends char_character {
 		if($newaccount && $char_guid){
 			// Make Char Transfer
 			// Get New Acc id
+			//todo
 		}
 
 		// Show input field if something is missing
