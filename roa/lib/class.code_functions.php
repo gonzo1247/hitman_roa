@@ -74,6 +74,10 @@ class code_functions extends char_character {
 		return "";
 	}
 
+	/**
+	 * @param int $id
+	 * @return array
+	 */
 	private static function setCharTrans($id) {
 		if(! isset($_POST['new_acc']))
 			$_POST['new_acc'] = "";
@@ -115,6 +119,37 @@ class code_functions extends char_character {
 			$product = point_costs::get($id);
 			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
 			return array("result" => "other", "code" => output::getCharTransfer($id, $_POST['char_guid'], $_POST['new_acc'], $error));
+		}
+		return array("result" => true);
+	}
+
+	private static function updateCustomize($id) {
+		if(! isset($_POST['char_guid']))
+			$_POST['char_guid'] = "";
+
+		$char_guid = output::escapeALL($_POST['char_guid'], true);
+		$error = false;
+
+		if($char_guid) {
+			$char = char_character::get($char_guid);
+			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+
+			// Check input and data
+			if($char === false)
+				$error = "Der Charakter existiert nicht!";
+			else if($char["account"] != $own_wow_acc[0]["id"])
+				$error = "Der Charakter gehört dir nicht!";
+			else {
+				// Change gender
+				if(! char_character::customize($char_guid))
+					$error = "Ein unbekannter Fehler ist beim ändern des Geschlechtes aufgetreten...";
+			}
+		}
+
+		if(! $char_guid || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			return array("result" => "other", "code" => output::getChar($id, $_POST['char_guid'], $error));
 		}
 		return array("result" => true);
 	}

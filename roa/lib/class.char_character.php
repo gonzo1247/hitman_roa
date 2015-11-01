@@ -160,19 +160,23 @@ class char_character {
 
 	/**
 	 * @param int $charguid - character guid
-	 * @return int
+	 * @return bool
 	 */
-	protected static function updateCustomize($charguid) {
+	protected static function customize($charguid) {
 		$activeflag = self::getFlag($charguid);
 		$flag = 8;
-		if ($activeflag != 0)
-			$newflag = $activeflag + $flag;
+		if($activeflag != 0)
+			$newflag = (int) $activeflag + (int) $flag;
 		else
 			$newflag = $flag;
 
 		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
 
-		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+		$result = SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+
+		if($result !== false)
+			return true;
+		return false;
 	}
 
 	/**

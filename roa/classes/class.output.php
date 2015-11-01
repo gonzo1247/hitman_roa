@@ -181,4 +181,19 @@ class output {
 		return "Hallo " . get_phpbb_info::$instance->username . ",\r\n\r\ndie Aktion " .$product["name"] . " wurde erfolgreich ausgeführt.\r\n\r\nDies ist lediglich eine Bestätigung.
 		\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team";
 	}
+
+	public static function getChar($id, $char_guid, $error) {
+		$product = point_costs::get($id);
+
+		$code = "<div class=\"roa_selectfield\"><p>Bitte wähle einen Charakter aus, mit dem du folgende Aktion ausführen möchtest: " . $product["name"] . "</p><br>" . PHP_EOL;
+		if($error)
+			$code .= "<div class=\"code_fail\">" . $error . "</div>";
+		$code .= "<form action=\"?mod=" . MOD . "\" method=\"post\">";
+		$code .= "<!-- Yes we using tables! --><table><tr><th>Charakter auswählen</th></tr>" . PHP_EOL;
+		$code .= "<tr><td><select name='char_guid'>" . self::charlist(char_character::getAllFromAccount(auth_account::get_id(mb_strtolower(get_phpbb_info::$instance->username))), $char_guid);
+		$code .= "</select></td></tr></table>";
+		$code .= "<input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><input type=\"submit\" value=\"Ausführen\"></form></div>";
+
+		return self::HTMLTemplate("> " . $product["name"] . " - Charakter auswählen", $code);
+	}
 }
