@@ -180,6 +180,48 @@ class char_character {
 	}
 
 	/**
+	 * @param int $charguid - character guid
+	 * @return int
+	 */
+	protected static function newFaction($charguid) {
+		$activeflag = self::getFlag($charguid);
+		$flag = 64;
+		if ($activeflag != 0)
+			$newflag = (int) $activeflag + (int) $flag;
+		else
+			$newflag = $flag;
+
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+
+		$result = SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+
+		if($result !== false)
+			return true;
+		return false;
+	}
+
+	/**
+	 * @param int $charguid - character guid
+	 * @return bool
+	 */
+	protected static function newRace($charguid) {
+		$activeflag = self::getFlag($charguid);
+		$flag = 128;
+		if ($activeflag != 0)
+			$newflag = (int) $activeflag + (int) $flag;
+		else
+			$newflag = $flag;
+
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+
+		$result = SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+
+		if($result !== false)
+			return true;
+		return false;
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function getFullTableName() {

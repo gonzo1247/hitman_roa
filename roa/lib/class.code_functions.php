@@ -123,6 +123,10 @@ class code_functions extends char_character {
 		return array("result" => true);
 	}
 
+	/**
+	 * @param int $id
+	 * @return array
+	 */
 	private static function updateCustomize($id) {
 		if(! isset($_POST['char_guid']))
 			$_POST['char_guid'] = "";
@@ -172,36 +176,72 @@ class code_functions extends char_character {
 	}
 
 	/**
-	 * @param int $charguid - character guid
-	 * @return int
+	 * @param int $id
+	 * @return array
 	 */
-	private static function updateRace($charguid) {
-		$activeflag = self::getFlag($charguid);
-		$flag = 128;
-		if ($activeflag != 0)
-			$newflag = $activeflag + $flag;
-		else
-			$newflag = $flag;
+	private static function updateRace($id) {
+		if(! isset($_POST['char_guid']))
+			$_POST['char_guid'] = "";
 
-		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+		$char_guid = output::escapeALL($_POST['char_guid'], true);
+		$error = false;
 
-		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+		if($char_guid) {
+			$char = char_character::get($char_guid);
+			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+
+			// Check input and data
+			if($char === false)
+				$error = "Der Charakter existiert nicht!";
+			else if($char["account"] != $own_wow_acc[0]["id"])
+				$error = "Der Charakter gehört dir nicht!";
+			else {
+				// Change Race
+				if(! char_character::newRace($char_guid))
+					$error = "Ein unbekannter Fehler ist beim ändern der Rasse aufgetreten...";
+			}
+		}
+
+		if(! $char_guid || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			return array("result" => "other", "code" => output::getChar($id, $_POST['char_guid'], $error));
+		}
+		return array("result" => true);
 	}
 
 	/**
-	 * @param int $charguid - character guid
-	 * @return int
+	 * @param int $id
+	 * @return array
 	 */
-	private static function updateFaction($charguid) {
-		$activeflag = self::getFlag($charguid);
-		$flag = 64;
-		if ($activeflag != 0)
-			$newflag = $activeflag + $flag;
-		else
-			$newflag = $flag;
+	private static function updateFaction($id) {
+		if(! isset($_POST['char_guid']))
+			$_POST['char_guid'] = "";
 
-		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
+		$char_guid = output::escapeALL($_POST['char_guid'], true);
+		$error = false;
 
-		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
+		if($char_guid) {
+			$char = char_character::get($char_guid);
+			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+
+			// Check input and data
+			if($char === false)
+				$error = "Der Charakter existiert nicht!";
+			else if($char["account"] != $own_wow_acc[0]["id"])
+				$error = "Der Charakter gehört dir nicht!";
+			else {
+				// Change Faction
+				if(! char_character::newFaction($char_guid))
+					$error = "Ein unbekannter Fehler ist beim ändern der Fraktion aufgetreten...";
+			}
+		}
+
+		if(! $char_guid || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			return array("result" => "other", "code" => output::getChar($id, $_POST['char_guid'], $error));
+		}
+		return array("result" => true);
 	}
 }
