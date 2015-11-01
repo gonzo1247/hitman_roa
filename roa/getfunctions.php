@@ -32,6 +32,7 @@ function getfunctionOutput() {
 				return output::HTMLTemplate("Punkte Log", output::point_management());
 			case 'points_management':
 				// Include LIB
+				require_once(LIB_DIR . DS . 'class.auth_account.php');
 				require_once(LIB_DIR . DS . 'class.user_points.php');
 				require_once(LIB_DIR . DS . 'class.point_costs.php');
 				require_once(LIB_DIR . DS . 'class.code_functions.php');

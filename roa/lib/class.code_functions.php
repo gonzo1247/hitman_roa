@@ -34,26 +34,59 @@ class code_functions extends char_character {
 				$code["result"] = false;
 				if($product["function"]) {
 					// Run Function
-					if(function_exists($product["function"])) {
-
-					}
-				} else if($product["item_id"] !== null) {
+					if (method_exists(__CLASS__, $product["function"]))
+						$code = self::$product["function"]($id);
+				}else if($product["item_id"] !== null) {
 					// Add Item
 					$code = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
-
-					// Send PM
-					get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code["key"]), SYSTEM_USER, "Neuer Code für " . $product["name"]);
 				}
 
-				if($code["result"] !== true) {
+				// Send PM
+				if($code["result"] === true && $product["code"] == 1)
+					get_phpbb_info::$instance->sendPM(output::getCodeMsg($product, $code["key"]), SYSTEM_USER, "Neuer Code für " . $product["name"]);
+				else if($code["result"] === true)
+					get_phpbb_info::$instance->sendPM(output::getPointActionsSuccess($product), SYSTEM_USER, $product["name"] . ": Aktion erfolgreich ausgeführt");
+
+				if($code["result"] === "other")
+					return $code;
+				else if($code["result"] !== true) {
 					// Rollback changes on points if code wasn't generated
 					user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - ROLLBACK", $product["points"]);
 					return "<span class=\"code_fail\">" . $code["fail"] . "</span><br><br>";
-				} else
-					return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
+				} else {
+					if($product["code"] == 1)
+						return "<span class=\"code_success\">Code wurde erfolgreich erstellt, du erhälst eine PM mit dem Code! <a href=\"ucp.php?i=pm&folder=inbox\">-> Zum Posteingang</a></span><br><br>";
+					else
+						return "<span class=\"code_success\">Aktion erfolgreich ausgeführt!</span><br><br>";
+				}
 			}
 		} else
 			return "<span class=\"code_fail\">Leider hast du dafür nicht genügend Punkte!</span><br><br>";
+		return "";
+	}
+
+	private static function setCharTrans($id) {
+		if(! isset($_POST['new_acc']))
+			$_POST['new_acc'] = "";
+		if(! isset($_POST['char_guid']))
+			$_POST['char_guid'] = "";
+
+		$newaccount = output::escapeALL($_POST['new_acc'], true);
+		$char_guid = output::escapeALL($_POST['char_guid'], true);
+		$error = false;
+
+		if($newaccount && $char_guid){
+			// Make Char Transfer
+			// Get New Acc id
+		}
+
+		// Show input field if something is missing
+		if(! $newaccount || ! $char_guid || $error) {
+			$product = point_costs::get($id);
+			user_points::update(get_phpbb_info::$instance->user_id, $product["name"] . " - Angaben fehlten -> Rückgabe der Punkte", $product["points"]);
+			return array("result" => "other", "code" => output::getCharTransfer($id, $_POST['char_guid'], $_POST['new_acc'], $error));
+		}
+		return array("result" => true);
 	}
 
 	/**
@@ -105,23 +138,5 @@ class code_functions extends char_character {
 		$sql = 'UPDATE ' . self::getFullTableName() . ' SET at_login = :flag WHERE guid = :guid';
 
 		return SQL::execute(self::getConnection(), $sql, array("guid" => $charguid, "flag" => $newflag));
-	}
-
-	/**
-	 * @param int $charguid - character guid
-	 * @param int $newaccountid - new account id
-	 * @param int $oldaccountid - old account id
-	 * @return bool|int
-	 */
-	private static function setCharTrans($charguid, $newaccountid, $oldaccountid) {
-		if ($newaccountid == $oldaccountid)
-			return false;
-		if ($newaccountid == 0)
-			return false;
-
-		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account = new WHERE guid = guid';
-		user_transfer_log::add($charguid, $oldaccountid, $newaccountid);
-
-		return SQL::execute(self::getConnection(), $sql, array("new" => $newaccountid, "guid" => $charguid ));
 	}
 }
