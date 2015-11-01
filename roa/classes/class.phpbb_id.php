@@ -240,9 +240,28 @@ class get_phpbb_info {
 		return true;
 	}
 
-	public function sendPMtoGroup($groupId, $message, $user_id, $subject) {
-		//sendPMtoGroup(5, "msg", SYSTEM_USER, "Charakter wiederherstellungs Anfrage - " . get_phpbb_info::$instance->username . " -> Char: " . $charname)
+	/**
+	 * @param string $groupName
+	 * @param string $message
+	 * @param int $from_id
+	 * @param string $subject
+	 * @return bool
+	 */
+	public function sendPMtoGroup($groupName, $message, $from_id, $subject) {
+		require_once(LIB_DIR . DS . 'class.phpbb_groups.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_group_members.php');
 
+		$members = phpbb_group_members::getUserList(phpbb_groups::getId($groupName));
+
+		$send = 0;
+		foreach($members as $memberrow) {
+			if($this->sendPM($message, $from_id, $subject, $memberrow["user_id"]))
+				$send++;
+		}
+
+		if($send > 0)
+			return true;
+		return false;
 	}
 
 	/**
@@ -255,6 +274,7 @@ class get_phpbb_info {
 			$color = $this->color;
 			$username = $this->username;
 		} else {
+			require_once(LIB_DIR . DS . 'class.phpbb_account.php');
 			// Get PHPBB Data
 			$user_data = phpbb_account::get($user_id);
 			$color = $user_data[0]["user_colour"];
@@ -262,6 +282,6 @@ class get_phpbb_info {
 			unset($user_data);
 		}
 
-		return "<a href=\"memberlist.php?mode=viewprofile&u=" . $user_id . "\" target=\"_blank\" style=\"color: #" . $color . "\">" . $username . "</a>";
+		return "<a href=\"memberlist.php?mode=viewprofile&u=" . $user_id . "\" class=\"username-coloured\" target=\"_blank\" style=\"color: #" . $color . "\">" . $username . "</a>";
 	}
 }

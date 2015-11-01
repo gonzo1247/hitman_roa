@@ -222,7 +222,7 @@ class output {
 	}
 
 	public static function char_restorePMmsg($charname) {
-		return "Es wurde eine Charakter Wiederherstellung von dem User \"" . get_phpbb_info::$instance->usernameLink() . "\" beantragt.\r\n\r\n
+		return "Es wurde eine Charakter Wiederherstellung von dem User " . get_phpbb_info::$instance->usernameLink() . " beantragt.\r\n\r\n
 			Der Charakter soll wiederhergestellt werden: " . $charname . "\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
 }

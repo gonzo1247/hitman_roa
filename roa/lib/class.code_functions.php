@@ -83,7 +83,7 @@ class code_functions extends char_character {
 
 		if($charname) {
 			// Send PM to Admin group
-			if(! get_phpbb_info::$instance->sendPMtoGroup(5, output::char_restorePMmsg($charname), SYSTEM_USER, "Charakter wiederherstellungs Anfrage - " . get_phpbb_info::$instance->username . " -> Char: " . $charname))
+			if(! get_phpbb_info::$instance->sendPMtoGroup("ADMINISTRATORS", output::char_restorePMmsg($charname), SYSTEM_USER, "Charakter wiederherstellungs Anfrage - " . get_phpbb_info::$instance->username . " -> Char: " . $charname))
 				$error = "Ein unbekannter Fehler ist beim senden der PM aufgetreten...";
 		}
 
