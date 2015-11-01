@@ -96,4 +96,28 @@ class phpbb_groups {
 	public static function getFullTableName() {
 		return self::getPrefix() . self::getTablename();
 	}
+
+	/**
+	 * @param int $groupId
+	 * @return string
+	 */
+	public static function getColor($groupId) {
+		$result = SQL::query(self::getConnection(), 'SELECT group_colour FROM ' . self::getFullTableName() . ' WHERE group_id = :id', array("id" => $groupId));
+
+		if($result)
+			return $result[0]["group_colour"];
+		return "";
+	}
+
+	/**
+	 * @param int $group_id
+	 * @return string
+	 */
+	public static function getGroupName($group_id) {
+		$result = SQL::query(self::getConnection(), 'SELECT group_name FROM ' . self::getFullTableName() . ' WHERE group_id = :id', array("id" => $group_id));
+
+		if($result)
+			return $result[0]["group_name"];
+		return "Gruppen-ID: " . $group_id;
+	}
 }

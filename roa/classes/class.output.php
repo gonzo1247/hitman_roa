@@ -225,4 +225,9 @@ class output {
 		return "Es wurde eine Charakter Wiederherstellung von dem User " . get_phpbb_info::$instance->usernameLink() . " beantragt.\r\n\r\n
 			Der Charakter soll wiederhergestellt werden: " . $charname . "\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
+
+	public static function newGroupPM($user_id, $getGroupName) {
+		return "Hallo " . get_phpbb_info::$instance->usernameLink($user_id) . "\r\n\r\ndu bist nun Mitglied in der Gruppe " . $getGroupName . "!\r\n
+			Herzlichen Glückwunsch!\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
+	}
 }

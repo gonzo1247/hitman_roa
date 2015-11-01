@@ -37,8 +37,18 @@ class phpbb_group_members {
 
 		$result = SQL::execute(self::getConnection(), $sql, array("g_id" => $group_id, "u_id" => $user_id, "g_leader" => $leader, "pending" => $pending));
 
-		if($result !== false)
+		if($result !== false) {
+			// Include libs
+			require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+			// Empty permission for creating new
+			phpbb_account::clearUserPerms($user_id);
+
+			// Send PM new Group
+			if(SEND_PM_GROUPCHANGE)
+				get_phpbb_info::$instance->sendPM(output::newGroupPM($user_id, phpbb_groups::getGroupName($group_id)), SYSTEM_USER, "Willkommen in der Benutzergruppe " . phpbb_groups::getGroupName($group_id), $user_id);
+
 			return true;
+		}
 		return false;
 	}
 
@@ -115,5 +125,19 @@ class phpbb_group_members {
 	 */
 	public static function getFullTableName() {
 		return self::getPrefix() . self::getTablename();
+	}
+
+	/**
+	 * @param int $user_id
+	 * @param int $groupId
+	 * @return bool
+	 */
+	public static function isUserInGroup($user_id, $groupId) {
+		$result = SQL::queryColumnInt(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE group_id = :g_id AND user_id = :u_id', array("g_id" => $groupId, "u_id" => $user_id));
+
+		if($result !== false)
+			if($result > 0)
+				return true;
+		return false;
 	}
 }
