@@ -40,7 +40,7 @@ class code_functions extends char_character {
 					// Run Function
 					if (method_exists(__CLASS__, $product["function"]))
 						$code = self::$product["function"]($id);
-				}else if($product["item_id"] !== null) {
+				} else if($product["item_id"] !== null) {
 					// Add Item
 					$code = codebot::addcode(get_phpbb_info::$instance->username, 0, $product["item_id"], $product["qty"]);
 				}
@@ -74,6 +74,10 @@ class code_functions extends char_character {
 		return "";
 	}
 
+	/**
+	 * @param int $id
+	 * @return array
+	 */
 	private static function charRestore($id) {
 		if(! isset($_POST['charname']))
 			$_POST['charname'] = "";
@@ -94,6 +98,23 @@ class code_functions extends char_character {
 			return array("result" => "other", "code" => output::getText($id, "charname", $_POST['charname'], $desc, $error));
 		}
 		return array("result" => true);
+	}
+
+	/**
+	 * @param int $id
+	 * @return array
+	 */
+	private static function changeAvatar($id) {
+		require_once(LIB_DIR . DS . 'class.phpbb_groups.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_group_members.php');
+
+		if(phpbb_group_members::isUserInGroup(get_phpbb_info::$instance->user_id, phpbb_groups::getId(ROA_AVATAR_GROUP)))
+			return array("result" => false, "fail" => "Du bist bereits in der Gruppe " . ROA_AVATAR_GROUP . "!");
+
+		if(phpbb_group_members::add(phpbb_groups::getId(ROA_AVATAR_GROUP), get_phpbb_info::$instance->user_id))
+			return array("result" => true);
+		else
+			return array("result" => false, "fail" => "Ein unbekannter Fehler ist beim hinzufügen der Gruppe aufgetreten.");
 	}
 
 	/**

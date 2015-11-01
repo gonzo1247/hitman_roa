@@ -107,4 +107,34 @@ class phpbb_account {
 	public static function getFullTableName() {
 		return self::getPrefix() . self::getTablename();
 	}
+
+	/**
+	 * @param $user_id
+	 * @return bool
+	 */
+	public static function clearUserPerms($user_id) {
+		$result = SQL::execute(self::getConnection(), 'UPDATE ' . self::getFullTableName() . ' SET user_permissions = \'\' WHERE user_id = :id', array("id" => $user_id));
+
+		if($result !== false)
+			return true;
+		return false;
+	}
+
+	/**
+	 * @param int $user_id
+	 * @param int $groupId
+	 * @param string $groupColor
+	 * @return bool
+	 */
+	public static function updateMainGroup($user_id, $groupId, $groupColor) {
+		$result = SQL::execute(
+			self::getConnection(),
+			'UPDATE ' . self::getFullTableName() . ' SET group_id = :group_id AND user_colour = :color WHERE user_id = :u_id',
+			array("group_id" => $groupId, "color" => $groupColor, "u_id" => $user_id)
+		);
+
+		if($result !== false)
+			return true;
+		return false;
+	}
 }
