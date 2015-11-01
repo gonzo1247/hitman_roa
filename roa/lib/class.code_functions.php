@@ -85,9 +85,29 @@ class code_functions extends char_character {
 		$error = false;
 
 		if($newaccount && $char_guid){
-			// Make Char Transfer
-			// Get New Acc id
-			//todo
+			// Get CharacterData
+			$char = char_character::get($char_guid);
+			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$new_acc_id = auth_account::get_id($newaccount);
+
+			// Precheck if character is offline
+			if($char === false)
+				$error = "Der Charakter existiert nicht!";
+			else if(char_character::isOnline($char_guid))
+				$error = "Der ausgewählte Charakter darf nicht online sein!";
+			else if($char["account"] != $own_wow_acc[0]["id"]) // Check if char is on own Account
+				$error = "Der Charakter gehört dir nicht!";
+			else if(auth_account::get_id($newaccount) === false)
+				$error = "Der Zielaccount existiert nicht.";
+			else if(char_character::getNumCharsOnAccount($new_acc_id) >= 10) // check if the target account has less than 10 chars
+				$error = "Der Zielaccount kann keine weiteren Charaktäre aufnehmen, bitte lösche dort einen Charakter oder wähle einen anderen Account aus.";
+			else {
+				// Make Char Transfer
+				if(! char_character::charTrans($char_guid, $new_acc_id, $own_wow_acc[0]["id"]))
+					$error = "Ein unbekannter Fehler ist beim Transferieren aufgetreten...";
+			}
+			unset($char);
+			unset($own_wow_acc);
 		}
 
 		// Show input field if something is missing

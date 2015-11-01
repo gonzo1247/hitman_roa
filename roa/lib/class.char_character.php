@@ -15,6 +15,37 @@ class char_character {
 	private static $connection = "char_db";
 
 	/**
+	 * @param int $guid
+	 * @return bool|array
+	 */
+	public static function get($guid) {
+		$result = SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE guid = :id LIMIT 1', array("id" => $guid));
+
+		if($result !== false)
+			return $result[0];
+		return false;
+	}
+	/**
+	 * @param bool|int $char_guid
+	 * @param bool|string $charname
+	 * @return bool
+	 */
+	public static function isOnline($char_guid = false, $charname = false) {
+		if($char_guid)
+			$param["search"] = $char_guid;
+		else
+			$param["search"] = $charname;
+
+		$sql = 'SELECT online FROM ' . self::getFullTableName() . ' WHERE ' . (($char_guid) ? ' guid = :search' : ' name = :search') . ' LIMIT 1';
+
+		$result = SQL::query(self::getConnection(), $sql, $param);
+
+		if($result !== false)
+			return boolval($result[0]["online"]);
+		return false;
+	}
+
+	/**
 	 * @param string $char_name
 	 * @return bool
 	 */
@@ -82,6 +113,14 @@ class char_character {
 		$sql = 'SELECT guid, account, name, level FROM ' . self::getFullTableName() . ' WHERE account = :id';
 
 		return SQL::query(self::getConnection(), $sql, array("id" => $get_id));
+	}
+
+	/**
+	 * @param int $acc_id
+	 * @return int
+	 */
+	public static function getNumCharsOnAccount($acc_id) {
+		return count(self::getAllFromAccount($acc_id));
 	}
 
 	/**
@@ -161,17 +200,23 @@ class char_character {
 	 * @param int $charguid - character guid
 	 * @param int $newaccountid - new account id
 	 * @param int $oldaccountid - old account id
-	 * @return bool|int
+	 * @return bool
 	 */
-	/*protected static function setCharTrans($charguid, $newaccountid, $oldaccountid) {
+	protected static function charTrans($charguid, $newaccountid, $oldaccountid) {
+		require_once(LIB_DIR . DS . 'class.user_transfer_log.php');
+
 		if ($newaccountid == $oldaccountid)
 			return false;
 		if ($newaccountid == 0)
 			return false;
 
-		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account = new WHERE guid = guid';
+		$sql = 'UPDATE ' . self::getFullTableName() . ' SET account = :new WHERE guid = :guid';
 		user_transfer_log::add($charguid, $oldaccountid, $newaccountid);
 
-		return SQL::execute(self::getConnection(), $sql, array("new" => $newaccountid, "guid" => $charguid ));
-	}*/
+		$result = SQL::execute(self::getConnection(), $sql, array("new" => $newaccountid, "guid" => $charguid ));
+
+		if($result !== false)
+			return true;
+		return false;
+	}
 }

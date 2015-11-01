@@ -7,7 +7,7 @@
  */
 class user_transfer_log {
 	private static $prefix;
-	private static $tablename = "user_transfer_log";
+	private static $tablename = "char_transfer_log";
 	private static $connection = "phpbb_db";
 
 	/**

@@ -26,7 +26,7 @@ class account {
 
 			// Check is Username Already exist in wow account Database?
 			$usnam = auth_account::get($username);
-			if($usnam != null)
+			if($usnam === false)
 				return false;
 
 			// Get recruiter-field
@@ -34,7 +34,7 @@ class account {
 			$pass_sha = self::sha_password($username, $paswd);
 			auth_account::add($username, $pass_sha, $email, gmdate("Y-m-d H:i:s", time()), "127.0.0.1", 1, 3, 3, $recruiter);
 
-			if(auth_account::get($username))
+			if(auth_account::get($username) !== false)
 				return true;
 
 			return false;

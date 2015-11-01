@@ -74,9 +74,9 @@ class auth_account {
 	 * @return mixed|null
 	 */
 	public static function get($username) {
-		$sql = 'SELECT username FROM ' . self::getFullTableName() . ' WHERE username = :username';
+		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE username = :username';
 
-		return SQL::query(
+		$result = SQL::query(
 			self::getConnection(),
 			$sql,
 			array(
@@ -84,6 +84,9 @@ class auth_account {
 			)
 		);
 
+		if($result !== false)
+			return $result;
+		return false;
 	}
 
 	/**
