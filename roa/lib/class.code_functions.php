@@ -126,7 +126,7 @@ class code_functions extends char_character {
 			else if(auth_account::get_id($newaccount) === false)
 				$error = "Der Zielaccount existiert nicht.";
 			else if(char_character::getNumCharsOnAccount($new_acc_id) >= 10) // check if the target account has less than 10 chars
-				$error = "Der Zielaccount kann keine weiteren Charaktäre aufnehmen, bitte lösche dort einen Charakter oder wähle einen anderen Account aus.";
+				$error = "Der Zielaccount kann keine weiteren Charaktere aufnehmen, bitte lösche dort einen Charakter oder wähle einen anderen Account aus.";
 			else {
 				// Make Char Transfer
 				if(! char_character::charTrans($char_guid, $new_acc_id, $own_wow_acc[0]["id"]))
