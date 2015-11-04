@@ -11,7 +11,7 @@
  * @return string
  */
 function getfunctionOutput() {
-	if(get_phpbb_info::$instance->user_id && mb_strtolower(get_phpbb_info::$instance->username) != 'anonymous') {
+	if(get_phpbb_info::$instance->user_id && mb_strtolower(get_phpbb_info::$instance->username) != 'anonymous') { //todo check server before doing this implement
 		// Escape Userdata
 		$_GET = output::escapeALL($_GET);
 		$_POST = output::escapeALL($_POST);
@@ -24,6 +24,13 @@ function getfunctionOutput() {
 		switch(MOD) {
 			case 'control':
 				//todo
+			case 'wow_account_info':
+				// Include Mainfunctions
+				require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');
+				// Include Lib
+				require_once(LIB_DIR . DS . 'class.auth_account.php');
+
+				return output::HTMLTemplate("World of Warcraft-Account Status", output::accountInfo());
 			case 'points_history':
 				// Include LIB
 				require_once(LIB_DIR . DS . 'class.user_points.php');
@@ -40,9 +47,9 @@ function getfunctionOutput() {
 
 				return output::HTMLTemplate("Punkte verwalten", output::exchange_points());
 			default:
-				return "Unbekannter Modus";
+				return output::HTMLTemplate("Info", "Unbekannter Modus");
 		}
 	}
 	// Default Value
-	return "Bitte logge dich ein!";
+	return output::HTMLTemplate("Info", "Bitte logge dich ein!");
 }

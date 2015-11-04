@@ -19,6 +19,7 @@ class get_phpbb_info {
 	public $group_id = false;
 	public $color;
 	public $email;
+	public $ip;
 	private $unreadPM;
 	private $newPM;
 
@@ -42,6 +43,7 @@ class get_phpbb_info {
 			// Check if IP is the same like the ip in DB
 			if($sessiondata[0]['session_ip'] == $ip) {
 				$this->user_id = $sessiondata[0]['session_user_id'];
+				$this->ip = $sessiondata[0]['session_ip'];
 				$this->getPHPBBUserInfo(); // Set Data
 			}
 

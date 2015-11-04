@@ -207,6 +207,14 @@ class output {
 		return self::HTMLTemplate("> " . $product["name"] . " - Charakter auswählen", $code);
 	}
 
+	/**
+	 * @param int $id
+	 * @param string $fieldname
+	 * @param int|string $value
+	 * @param string $desc_text
+	 * @param bool|string $error
+	 * @return string
+	 */
 	public static function getText($id, $fieldname, $value, $desc_text, $error) {
 		$product = point_costs::get($id);
 
@@ -221,13 +229,116 @@ class output {
 		return self::HTMLTemplate("> " . $product["name"] . " - Informationen ausfüllen", $code);
 	}
 
+	/**
+	 * @param string $charname
+	 * @return string
+	 */
 	public static function char_restorePMmsg($charname) {
 		return "Es wurde eine Charakter Wiederherstellung von dem User " . get_phpbb_info::$instance->usernameLink() . " beantragt.\r\n\r\n
 			Der Charakter soll wiederhergestellt werden: " . $charname . "\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
 	}
 
+	/**
+	 * @param int $user_id
+	 * @param string $getGroupName
+	 * @return string
+	 */
 	public static function newGroupPM($user_id, $getGroupName) {
 		return "Hallo " . get_phpbb_info::$instance->usernameLink($user_id) . "\r\n\r\ndu bist nun Mitglied in der Gruppe " . $getGroupName . "!\r\n
 			Herzlichen Glückwunsch!\r\n\r\nMfg\r\n\r\nDein Rise of Azhara Team\r\n\r\nHinweis: Diese Nachricht wurde automatisch erstellt.";
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function accountInfo() {
+		$wow_acc_exists = auth_account::exists(get_phpbb_info::$instance->username, false);
+		if(! isset($_POST["password"]) && ! $wow_acc_exists)
+			$_POST["password"] = false;
+
+		// Try to create Account
+		$error = false;
+		$creation = null;
+		if(! $wow_acc_exists && $_POST["password"]) {
+			// Check PHPBB Passwd todo check forums pw
+			$creation = account::game_account_create(get_phpbb_info::$instance->username, $_POST["password"], get_phpbb_info::$instance->email, get_phpbb_info::$instance->ip, false);
+			if($creation === true) {
+				// Activate
+				account::game_account_activate(auth_account::get_id(get_phpbb_info::$instance->username));
+
+				// Check again!
+				$wow_acc_exists = auth_account::exists(get_phpbb_info::$instance->username, false);
+				if(! $wow_acc_exists)
+					$error = "WoW-Account konnte nicht erstellt werden...";
+			} else
+				$error = $creation;
+		}
+
+		//todo show if its banned show characters show if its locked
+		$code = "			<div class=\"wow_account\">
+				<p>Dein WoW-Account <span class=\"" . (($wow_acc_exists) ? "green\">" . (($creation === true) ? "wurde erfolgreich erstellt!" : "Existiert!") . "</span>" : "red\">Existiert nicht!</span> Bitte erstelle ihn nun hier:" ) . "</p>" .
+			((! $wow_acc_exists) ? output::formWoWAccountCreate($_POST["password"], $error) : '') . PHP_EOL . "			</div>";
+
+		return $code;
+	}
+
+	/**
+	 * @param string|bool $error
+	 * @return string
+	 */
+	private static function formWoWAccountCreate($error) {
+		$code = "";
+		if($error)
+			$code .= "<div class=\"roa_error\">" . $error . "</div>" . PHP_EOL;
+		$code .= "<form action=\"?mod=" . MOD . "\" method=\"post\">" . PHP_EOL;
+		$code .= "Foren Passwort: " . self::inputField("", "password", "password") . "<br />" . PHP_EOL;
+		$code .= self::submitButton("WoW-Account erstellen") . PHP_EOL;
+		$code .= "</form>" . PHP_EOL;
+
+		return $code;
+	}
+
+	// todo remove if classes html are done------------------------------------------------------------------------------------
+	/**
+	 * @param string|int $value
+	 * @param string|bool $name
+	 * @param string $type
+	 * @param string|bool $id
+	 * @param string|bool $cssClasses
+	 * @param bool $enabled
+	 * @param string|bool $other
+	 * @return string
+	 */
+	private static function inputField($value, $name = false, $type = "text", $id = false, $cssClasses = false, $enabled = true, $other = false) {
+		return "<input" . (($id) ? " id=\"" . $id . "\"" : "") . (($cssClasses) ? " class=\"" . $cssClasses . "\"" : "") .
+		" type=\"" . $type . "\"" . (($name) ? " name=\"" . $name . "\"" : "") . " value=\"" . $value . "\"" . (($other) ? " " . $other : "") .
+		((! $enabled) ? " disabled" : "") . ">";
+	}
+
+	/**
+	 * @param string|int$value
+	 * @param string $type
+	 * @param string|bool $name
+	 * @param string|bool $id
+	 * @param string|bool $cssClasses
+	 * @param bool $enabled
+	 * @param string|bool $other
+	 * @return string
+	 */
+	private static function submitButton($value, $type = "submit", $name = false, $id = false, $cssClasses = false, $enabled = true, $other = false) {
+		return self::inputField($value, $name, $type, $id, $cssClasses, $enabled, $other);
+	}
+
+	/**
+	 * @param $value
+	 * @param bool $name
+	 * @param bool $checked
+	 * @param bool $id
+	 * @param bool $cssClasses
+	 * @param bool $enabled
+	 * @param $other
+	 */
+	private static function checkBox($value, $name = false, $checked = false, $id = false, $cssClasses = false, $enabled = true, $other) {
+		//todo make better in class
 	}
 }

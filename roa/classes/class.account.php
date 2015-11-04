@@ -15,11 +15,10 @@ class account {
 	 * @param string $paswd
 	 * @param string $email
 	 * @param string $ip
+	 * @param bool $allow_get_existing
 	 * @return bool
 	 */
-	public static function game_account_create($username, $paswd, $email = "none@domain.com", $ip = "127.0.0.1") {
-		// wow account table needs: id, username, pass hash, email, joindata, last_ip, expansion, locale
-		// with RAF functions: recruiter (account guid)
+	public static function game_account_create($username, $paswd, $email = "none@domain.com", $ip = "127.0.0.1", $allow_get_existing = true) {
 
 		if (! empty($username) && ! empty($paswd) && ! empty($email) && ! empty($ip)) {
 			// Make little
@@ -30,13 +29,13 @@ class account {
 			$pass_sha = self::sha_password($username, $paswd);
 
 			// Check is Username Already exist in wow account Database?
-			if(auth_account::exists($username, false)) {
+			if(auth_account::exists($username, false) && $allow_get_existing) {
 				// Check if the use typed the same data like the existing account
 				$wow_acc_info = auth_account::getByName($username);
 
 				if($wow_acc_info[0]["sha_pass_hash"] == $pass_sha && mb_strtolower($wow_acc_info[0]["email"]) == $email) {
 					// Disable WoW-Account until Forums-Account is activated
-					auth_account::update_activated($wow_acc_info[0]["id"], "127.0.0.1", 1);
+					auth_account::update_activated($wow_acc_info[0]["id"], $ip, 1);
 
 					// return true for successfully "creation"
 					return true;
@@ -44,21 +43,24 @@ class account {
 
 				// Failed verification
 				return "Die von dir eingegebenen Daten (Passwort & E-Mailadresse) stimmen nicht mit dem bereits existierenden WoW-User " . $username . " überein!<br />" .
-					"Bitte gebe die korrekten Daten an, um deinen alten WoW-Account zu erhalten oder nutze einen nicht vergebenen Usernamen, wenn du einen neuen erstellen möchtest!";
-			}
+					"WICHTIGE INFO: WoW-Account ignorieren die Groß/Kleinschreibung!<br />" .
+					"Bitte gebe die korrekten Daten an, um deinen alten WoW-Account zu erhalten oder nutze einen nicht vergebenen Usernamen, wenn du einen neuen erstellen möchtest!<hr />" .
+					"(WoW-Account exists, if its yours, type in the correct E-Mail and Password of your old Acc! If its not yours please choose another Name.)";
+			} elseif(auth_account::exists($username, false))
+				return "Der Account existiert bereits!";
 
 			// Get recruiter-field
 			$recruiter = self::check_refferer($username);
 
-			auth_account::add($username, $pass_sha, $email, gmdate("Y-m-d H:i:s", time()), "127.0.0.1", 1, 3, 3, $recruiter);
+			auth_account::add($username, $pass_sha, $email, gmdate("Y-m-d H:i:s", time()), $ip, 1, 3, 3, $recruiter);
 
 			if(auth_account::exists($username, false) !== false)
 				return true; // Success!
 
-			return "Account konnte nicht erstellt werden... Unbekannter Fehler!";
+			return "Account konnte nicht erstellt werden... Unbekannter Fehler! (Can't create WoW-Account - Unknown Error...)";
 		}
 
-		return "Angaben fehlen, bitte fülle alles erforderliche aus!";
+		return "Angaben fehlen, bitte fülle alles erforderliche aus! (Please fill all out whats needed!)";
 	}
 
 	/**
@@ -127,6 +129,9 @@ class account {
 	 * @return bool|int
 	 */
 	private static function check_refferer($username) {
+		require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_profile_fields_data.php');
+
 		$phpbb_account = phpbb_account::getByName($username);
 		if($phpbb_account) {
 			$phpbb_special_fields = phpbb_profile_fields_data::get_by_id($phpbb_account[0]["user_id"]);
