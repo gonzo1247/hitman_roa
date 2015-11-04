@@ -22,13 +22,14 @@ class donation_log {
 	 * @return int
 	 */
 	public static function add($user_id, $money, $by, $paypal = NULL) {
-		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, money, by, paypal) VALUES (:id, :date, :by, :paypal)';
+		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (user_id, date, money, by, paypal) VALUES (:id, :date, :money, :by, :paypal)';
 
 		return SQL::execute(self::getConnection(),
 			$sql,
 			array(
 				"id" => $user_id,
 				"date" => time(),
+				"money" => $money,
 				"by" => $by,
 				"paypal" => $paypal
 			)
@@ -129,5 +130,4 @@ class donation_log {
 	public static function getFullTableName() {
 		return self::getPrefix() . self::getTablename();
 	}
-
 }
