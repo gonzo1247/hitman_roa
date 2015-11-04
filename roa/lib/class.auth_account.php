@@ -70,10 +70,40 @@ class auth_account {
 	}
 
 	/**
+	 * @param int $id
+	 * @return bool|array
+	 */
+	public static function get($id) {
+		$result = SQL::query(self::getConnection(), 'SELECT * FROM ' . self::getFullTableName() . ' WHERE id = :id LIMIT 1', array("id" => $id));
+
+		if($result !== false)
+			return $result[0];
+		return false;
+	}
+
+	/**
+	 * @param string|int $value
+	 * @param bool $use_id
+	 * @return bool
+	 */
+	public static function exists($value, $use_id = true) {
+		if($use_id) {
+			if(self::get($value) === false)
+				return false;
+			return true;
+		}
+
+		// Use Name
+		if(self::getByName($value) === false)
+			return false;
+		return true;
+	}
+
+	/**
 	 * @param string $username
 	 * @return mixed|null
 	 */
-	public static function get($username) {
+	public static function getByName($username) {
 		$sql = 'SELECT * FROM ' . self::getFullTableName() . ' WHERE username = :username';
 
 		$result = SQL::query(

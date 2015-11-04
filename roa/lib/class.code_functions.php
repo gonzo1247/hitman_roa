@@ -134,7 +134,7 @@ class code_functions extends char_character {
 		if($newaccount && $char_guid){
 			// Get CharacterData
 			$char = char_character::get($char_guid);
-			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$own_wow_acc = auth_account::getByName(get_phpbb_info::$instance->username);
 			$new_acc_id = auth_account::get_id($newaccount);
 
 			// Precheck if character is offline
@@ -179,7 +179,7 @@ class code_functions extends char_character {
 
 		if($char_guid) {
 			$char = char_character::get($char_guid);
-			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$own_wow_acc = auth_account::getByName(get_phpbb_info::$instance->username);
 
 			// Check input and data
 			if($char === false)
@@ -216,7 +216,7 @@ class code_functions extends char_character {
 
 		if($char_guid) {
 			$char = char_character::get($char_guid);
-			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$own_wow_acc = auth_account::getByName(get_phpbb_info::$instance->username);
 
 			// Check input and data
 			if($char === false)
@@ -253,7 +253,7 @@ class code_functions extends char_character {
 
 		if($char_guid) {
 			$char = char_character::get($char_guid);
-			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$own_wow_acc = auth_account::getByName(get_phpbb_info::$instance->username);
 
 			// Check input and data
 			if($char === false)
@@ -290,7 +290,7 @@ class code_functions extends char_character {
 
 		if($char_guid) {
 			$char = char_character::get($char_guid);
-			$own_wow_acc = auth_account::get(get_phpbb_info::$instance->username);
+			$own_wow_acc = auth_account::getByName(get_phpbb_info::$instance->username);
 
 			// Check input and data
 			if($char === false)

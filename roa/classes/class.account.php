@@ -22,25 +22,43 @@ class account {
 		// with RAF functions: recruiter (account guid)
 
 		if (! empty($username) && ! empty($paswd) && ! empty($email) && ! empty($ip)) {
+			// Make little
 			$username = mb_strtolower($username);
+			$email = mb_strtolower($email);
+
+			// Generate WoW-Password
+			$pass_sha = self::sha_password($username, $paswd);
 
 			// Check is Username Already exist in wow account Database?
-			$usnam = auth_account::get($username);
-			if($usnam === false)
-				return false;
+			if(auth_account::exists($username, false)) {
+				// Check if the use typed the same data like the existing account
+				$wow_acc_info = auth_account::getByName($username);
+
+				if($wow_acc_info[0]["sha_pass_hash"] == $pass_sha && mb_strtolower($wow_acc_info[0]["email"]) == $email) {
+					// Disable WoW-Account until Forums-Account is activated
+					auth_account::update_activated($wow_acc_info[0]["id"], "127.0.0.1", 1);
+
+					// return true for successfully "creation"
+					return true;
+				}
+
+				// Failed verification
+				return "Die von dir eingegebenen Daten (Passwort & E-Mailadresse) stimmen nicht mit dem bereits existierenden WoW-User " . $username . " überein!<br />" .
+					"Bitte gebe die korrekten Daten an, um deinen alten WoW-Account zu erhalten oder nutze einen nicht vergebenen Usernamen, wenn du einen neuen erstellen möchtest!";
+			}
 
 			// Get recruiter-field
 			$recruiter = self::check_refferer($username);
-			$pass_sha = self::sha_password($username, $paswd);
+
 			auth_account::add($username, $pass_sha, $email, gmdate("Y-m-d H:i:s", time()), "127.0.0.1", 1, 3, 3, $recruiter);
 
-			if(auth_account::get($username) !== false)
-				return true;
+			if(auth_account::exists($username, false) !== false)
+				return true; // Success!
 
-			return false;
+			return "Account konnte nicht erstellt werden... Unbekannter Fehler!";
 		}
 
-		return false;
+		return "Angaben fehlen, bitte fülle alles erforderliche aus!";
 	}
 
 	/**

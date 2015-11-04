@@ -316,13 +316,15 @@ class ucp_register
 
 					// Create WoW-Account
 					require_once($phpbb_root_path . "roa/roa_account.php");
-					if(! account::game_account_create($data['username'], $data['new_password'], $data['email'], $user->ip)) { // todo create forumsuser if wow acc exists (check email)
+					$roa_acc_result = account::game_account_create($data['username'], $data['new_password'], $data['email'], $user->ip);
+					if($roa_acc_result !== true) {
+						// Delete PHPBB-User if WoW-Creation fails and show error msg
 						user_delete("retain", (int) $user_id);
-						trigger_error("Der von dir gew?hlte Account Name exestiert bereits. W?hle bitte einen anderen. (Username exists.)");
+						trigger_error($roa_acc_result);
 					}
 
 				} else
-					throw new Exception("Auth-Server nicht erreichbar! Adresse: \"" . $auth_server_adress . ":" . $auth_server_port . "\"");
+					throw new Exception("Auth-Server derzeitig nicht erreichbar, versuche es später erneut! Adresse: \"" . $auth_server_adress . ":" . $auth_server_port . "\" (Can't reach WoW-Server try again later!)");
 				// Roa Account end
 
 				// This should not happen, because the required variables are listed above...

@@ -33,7 +33,7 @@ class sql {
 		if (count($result) > 0)
 			return $result;
 
-		return null;
+		return false;
 	}
 
 	/**
