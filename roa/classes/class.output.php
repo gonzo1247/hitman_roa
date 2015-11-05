@@ -7,10 +7,12 @@
  * Notes: -
  */
 
+require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+
 /**
  * Class output
  */
-class output {
+class output extends phpbb_account {
 	/**
 	 * @return string
 	 */
@@ -260,24 +262,27 @@ class output {
 		$error = false;
 		$creation = null;
 		if(! $wow_acc_exists && $_POST["password"]) {
-			// Check PHPBB Passwd todo check forums pw
-			$creation = account::game_account_create(get_phpbb_info::$instance->username, $_POST["password"], get_phpbb_info::$instance->email, get_phpbb_info::$instance->ip, false);
-			if($creation === true) {
-				// Activate
-				account::game_account_activate(auth_account::get_id(get_phpbb_info::$instance->username));
+			// Check if PHPBB Password is correct
+			if(phpbb_account::phpbb_check_hash($_POST["password"], phpbb_account::getUserPassword(get_phpbb_info::$instance->user_id))) {
+				$creation = account::game_account_create(get_phpbb_info::$instance->username, $_POST["password"], get_phpbb_info::$instance->email, get_phpbb_info::$instance->ip, false);
+				if ($creation === true) {
+					// Activate
+					account::game_account_activate(auth_account::get_id(get_phpbb_info::$instance->username));
 
-				// Check again!
-				$wow_acc_exists = auth_account::exists(get_phpbb_info::$instance->username, false);
-				if(! $wow_acc_exists)
-					$error = "WoW-Account konnte nicht erstellt werden...";
+					// Check again!
+					$wow_acc_exists = auth_account::exists(get_phpbb_info::$instance->username, false);
+					if (!$wow_acc_exists)
+						$error = "WoW-Account konnte nicht erstellt werden...";
+				} else
+					$error = $creation;
 			} else
-				$error = $creation;
+				$error = "Bitte gebe das richtige Passwort ein!";
 		}
 
 		//todo show if its banned show characters show if its locked
 		$code = "			<div class=\"wow_account\">
 				<p>Dein WoW-Account <span class=\"" . (($wow_acc_exists) ? "green\">" . (($creation === true) ? "wurde erfolgreich erstellt!" : "Existiert!") . "</span>" : "red\">Existiert nicht!</span> Bitte erstelle ihn nun hier:" ) . "</p>" .
-			((! $wow_acc_exists) ? output::formWoWAccountCreate($_POST["password"], $error) : '') . PHP_EOL . "			</div>";
+			((! $wow_acc_exists) ? output::formWoWAccountCreate($error) : '') . PHP_EOL . "			</div>";
 
 		return $code;
 	}
