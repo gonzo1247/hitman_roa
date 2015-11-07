@@ -62,12 +62,20 @@ $phpbb_db = new db(
 	$phpbb_db_pw,
 	array()
 );
+/*
+$lol_db = new db(
+	"{$db_lol_type}:host={$db_lol_host};port={$db_lol_port};dbname={$db_lol_username};charset=utf8",
+	$db_lol_username,
+	$db_lol_pwd,
+	array()
+); */
 
 // Assign connections
 db_con::setDbCon($auth_db, "auth_db");
 db_con::setDbCon($char_db, "char_db");
 db_con::setDbCon($world_db, "world_db");
 db_con::setDbCon($phpbb_db, "phpbb_db");
+// db_con::setDbCon($lol_db, "lolforum");
 
 // Get PHPBB Infos
 new get_phpbb_info();
