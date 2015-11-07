@@ -35,7 +35,13 @@ class user_points {
 			:life_points
 		)';
 
-		return SQL::execute(self::getConnection(), $sql, $params);
+		$result = SQL::execute(self::getConnection(), $sql, $params);
+
+		if($result !== false) {
+			if(self::exists($id))
+				return self::update($id, "Jeder erhält einmalig 50 Punkte, wenn er einen Account erstellt!", 50);
+		}
+		return false;
 	}
 
 	/**
@@ -93,6 +99,7 @@ class user_points {
 		// Execute
 		if(SQL::execute(self::getConnection(), $sql, $params) !== false)
 			return points_log::add($id, $change_points, $reason);
+		return false;
 	}
 
 	/**
