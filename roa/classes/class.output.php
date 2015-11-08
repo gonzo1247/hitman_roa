@@ -44,6 +44,9 @@ class output extends phpbb_account {
 		// Get own Points (may again to update them)
 		$points_row = user_points::get(get_phpbb_info::$instance->user_id);
 
+		// Check if has enough Points for VIP
+		user_points::check_vip(get_phpbb_info::$instance->user_id, $points_row['points_curr']);
+
 		// Create Output
 		$code = "<div class=\"points\">" . $result . "Du hast derzeitig <b>" . $points_row['points_curr'] . "</b> Punkte.</div><br />";
 
