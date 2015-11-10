@@ -143,6 +143,8 @@ ul.profile-icons li span { display:none; }
 .report-icon, .report-icon a	{ background: none top left no-repeat; }
 .warn-icon, .warn-icon a		{ background: none top left no-repeat; }
 .edit-icon, .edit-icon a		{ background: none top left no-repeat; }
+.thanks-icon, .thanks-icon a	{ background: none top left no-repeat; }
+.removethanks-icon, .removethanks-icon a	{ background: none top left no-repeat; }
 .delete-icon, .delete-icon a	{ background: none top left no-repeat; }
 .info-icon, .info-icon a		{ background: none top left no-repeat; }
 
@@ -165,6 +167,8 @@ ul.profile-icons li.netlogsn-icon		{ width: {IMG_ICON_CONTACT_NETLOG_WIDTH}px; h
 ul.profile-icons li.twittersn-icon		{ width: {IMG_ICON_CONTACT_TWIT_WIDTH}px; height: {IMG_ICON_CONTACT_TWIT_HEIGHT}px; }
 ul.profile-icons li.report-icon		{ width: 19px; height: 17px; }
 ul.profile-icons li.edit-icon		{ width: 16px; height: 18px; }
+ul.profile-icons li.thanks-icon		{ width: 14px; height: 14px; }
+ul.profile-icons li.removethanks-icon		{ width: 16px; height: 16px; }
 ul.profile-icons li.delete-icon		{ width: 16px; height: 15px; }
 ul.profile-icons li.info-icon		{ width: 16px; height: 17px; }
 ul.profile-icons li.warn-icon		{ width: 16px; height: 16px; }
@@ -240,7 +244,9 @@ a.mcp-icon {
 /* Moderator icons */
 .report-icon, .report-icon a	{ background-image: url("{T_IMAGESET_PATH}/images/icons/biohazard-button.gif"); }
 .edit-icon, .edit-icon a		{ background-image: url("{T_IMAGESET_PATH}/images/icons/edit-button.gif"); }
-.delete-icon, .delete-icon a	{ background-image: url("{T_IMAGESET_PATH}/images/icons/delete-icon.gif"); } 
+.thanks-icon, .thanks-icon a	{ background-image: url("{T_IMAGESET_PATH}/images/icons/icon_thanks.gif"); }
+.removethanks-icon, .removethanks-icon a	{ background-image: url("{T_IMAGESET_PATH}/images/icons/icon_remove_thanks.gif"); }
+.delete-icon, .delete-icon a	{ background-image: url("{T_IMAGESET_PATH}/images/icons/delete-icon.gif"); }
 .info-icon, .info-icon a		{ background-image: url("{T_IMAGESET_PATH}/images/icons/icon-help.gif"); }
 .warn-icon, .warn-icon a		{ background-image: url("{T_IMAGESET_PATH}/images/icons/warn.gif"); } /* Need updated warn icon */
 
