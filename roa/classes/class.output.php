@@ -306,6 +306,13 @@ class output extends phpbb_account {
 		return $code;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public static function implementImpressum() {
+		return file_get_contents(ROA_DIR . DS . 'HTML' . DS . 'impressum.html');
+	}
+
 	// todo remove if classes html are done------------------------------------------------------------------------------------
 	/**
 	 * @param string|int $value
