@@ -167,8 +167,8 @@ ul.profile-icons li.netlogsn-icon		{ width: {IMG_ICON_CONTACT_NETLOG_WIDTH}px; h
 ul.profile-icons li.twittersn-icon		{ width: {IMG_ICON_CONTACT_TWIT_WIDTH}px; height: {IMG_ICON_CONTACT_TWIT_HEIGHT}px; }
 ul.profile-icons li.report-icon		{ width: 19px; height: 17px; }
 ul.profile-icons li.edit-icon		{ width: 16px; height: 18px; }
-ul.profile-icons li.thanks-icon		{ width: 14px; height: 14px; }
-ul.profile-icons li.removethanks-icon		{ width: 16px; height: 16px; }
+ul.profile-icons li.thanks-icon		{ width: 99px; height: 18px; }
+ul.profile-icons li.removethanks-icon		{ width: 89px; height: 18px; }
 ul.profile-icons li.delete-icon		{ width: 16px; height: 15px; }
 ul.profile-icons li.info-icon		{ width: 16px; height: 17px; }
 ul.profile-icons li.warn-icon		{ width: 16px; height: 16px; }

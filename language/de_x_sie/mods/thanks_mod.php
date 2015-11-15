@@ -39,22 +39,22 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'CLEAR_LIST_THANKS'			=> 'Clear Thanks List',
-	'CLEAR_LIST_THANKS_CONFIRM'	=> 'Do you really want to clear the user`s Thanks List?',
-	'CLEAR_LIST_THANKS_GIVE'	=> 'List of thanks issued by the user was cleared.',
-	'CLEAR_LIST_THANKS_POST'	=> 'List of thanks in the message was cleared.',
-	'CLEAR_LIST_THANKS_RECEIVE'	=> 'List of thanks obtained by the user was cleared.',
+	'CLEAR_LIST_THANKS'			=> 'Lösche "Danke"-Liste',
+	'CLEAR_LIST_THANKS_CONFIRM'	=> 'Möchtesten Sie wirklich die "Danke"-Liste des Benutzers löschen?',
+	'CLEAR_LIST_THANKS_GIVE'	=> 'List of thanks issued by the user was cleared.', //todo
+	'CLEAR_LIST_THANKS_POST'	=> 'List of thanks in the message was cleared.', //todo
+	'CLEAR_LIST_THANKS_RECEIVE'	=> 'List of thanks obtained by the user was cleared.', //todo
 
-	'DISABLE_REMOVE_THANKS'		=> 'Deleting thanks has been disabled by the administrator',
+	'DISABLE_REMOVE_THANKS'		=> '"Danke" entfernen wurde vom Administrator abgestellt!',
 	
 	'GIVEN'						=> 'Has&nbsp;thanked',
 	'GLOBAL_INCORRECT_THANKS'	=> 'You cannot give thanks for a Global Announcement that has no reference to a particular forum.',
 	'GRATITUDES'				=> 'Thanks list',
 	
-	'INCORRECT_THANKS'			=> 'Invalid thank',
+	'INCORRECT_THANKS'			=> 'Ungültiges "Danke"',
 	
-	'JUMP_TO_FORUM'				=> 'Jump to forum',
-	'JUMP_TO_TOPIC'				=> 'Jump to topic',
+	'JUMP_TO_FORUM'				=> 'Springen Sie zum Forum',
+	'JUMP_TO_TOPIC'				=> 'Springen Sie zum Thema',
 
 	'FOR_MESSAGE'				=> ' for post',
 	'FURTHER_THANKS'     	    => ' and one more user',
@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 	'RATING_NO_VIEW_TOPLIST'	=> 'You are not authorised to view the toplist.',
 	'RATING_VIEW_TOPLIST_NO'	=> 'Toplist is empty or disabled by administrator',
 	'RATING_FORUM'				=> 'Forum',
-	'RATING_POST'				=> 'Post',
+	'RATING_POST'				=> 'Beitrag',
 	'RATING_TOP_FORUM'			=> 'Rating forums',
 	'RATING_TOP_POST'			=> 'Rating posts',
 	'RATING_TOP_TOPIC'			=> 'Rating topics',	
