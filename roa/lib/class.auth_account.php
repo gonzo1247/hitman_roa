@@ -31,7 +31,7 @@ class auth_account {
 			$rec_data = 0;
 		}
 		else
-			#rec_data = time();
+			$rec_data = time();
 
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			username,
