@@ -27,6 +27,12 @@ class auth_account {
 	 * @return int
 	 */
 	public static function add($username = "", $sha_pass_hash = "", $email = null, $joinDate = null, $last_ip = "127.0.0.1", $locked = 1, $expansion = 3, $locale = 3, $recruiter = 0, $activated = 0) {
+		if ($recruiter == 0) {
+			$rec_data = 0;
+		}
+		else
+			#rec_data = time();
+
 		$sql = 'INSERT INTO ' . self::getFullTableName() . ' (
 			username,
 			sha_pass_hash,
@@ -37,6 +43,7 @@ class auth_account {
 			expansion,
 			locale,
 			recruiter,
+			recruiter_date,
 			activated
 		) VALUES (
 			:username,
@@ -48,6 +55,7 @@ class auth_account {
 			:expansion,
 			:locale,
 			:recruiter,
+			:rec_data,
 			:activated
 		)';
 		return SQL::execute(
@@ -63,6 +71,7 @@ class auth_account {
 				"expansion" => $expansion,
 				"locale" => $locale,
 				"recruiter" => $recruiter,
+				"rec_data" => $rec_data,
 				"activated" => $activated
 			)
 		);
