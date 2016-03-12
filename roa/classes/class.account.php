@@ -43,7 +43,7 @@ class account {
 
 				// Failed verification
 				return "Die von dir eingegebenen Daten (Passwort & E-Mailadresse) stimmen nicht mit dem bereits existierenden WoW-User " . $username . " überein!<br />" .
-					"WICHTIGE INFO: WoW-Account ignorieren die Groß/Kleinschreibung!<br />" .
+					"WICHTIGE INFO: WoW-Accounts ignorieren die Groß/Kleinschreibung!<br />" .
 					"Bitte gebe die korrekten Daten an, um deinen alten WoW-Account zu erhalten oder nutze einen nicht vergebenen Usernamen, wenn du einen neuen erstellen möchtest!<hr />" .
 					"(WoW-Account exists, if its yours, type in the correct E-Mail and Password of your old Acc! If its not yours please choose another Name.)";
 			} elseif(auth_account::exists($username, false))

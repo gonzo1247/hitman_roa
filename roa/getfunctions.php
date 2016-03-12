@@ -46,10 +46,15 @@ function getfunctionOutput() {
 				require_once(LIB_DIR . DS . 'class.points_exchange.php');
 
 				return output::HTMLTemplate("Punkte verwalten", output::exchange_points());
-			default:
-				return output::HTMLTemplate("Info", "Unbekannter Modus");
 		}
 	}
-	// Default Value
-	return output::HTMLTemplate("Info", "Bitte logge dich ein!");
+
+	// No-Login req
+	switch(MOD) {
+		case 'impressum':
+			return output::HTMLTemplate("Impressum", output::implementImpressum());
+		default:
+			// Default Value
+			return output::HTMLTemplate("Info", "Unbekannter Modus oder logge dich ein!");
+	}
 }

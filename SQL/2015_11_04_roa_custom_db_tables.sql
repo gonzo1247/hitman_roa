@@ -80,5 +80,4 @@ CREATE TABLE `roa_user_banns` (
 `bannedby`  varchar(50) NOT NULL ,
 `contact`  int(1) NULL ,
 `reason`  varchar(255) NULL 
-)
-;
+);

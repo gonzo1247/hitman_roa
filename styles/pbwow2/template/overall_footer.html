@@ -16,6 +16,7 @@
 		<div class="navbar">
 			<div class="inner">
 				<ul class="linklist">
+					<!-- IF U_PORTAL --><li class="icon-home"><a href="{U_PORTAL}">{L_PORTAL}</a></li><!-- ENDIF -->
 					<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a></li>
 						<!-- IF not S_IS_BOT -->
 							<!-- IF S_WATCH_FORUM_LINK --><li <!-- IF S_WATCHING_FORUM -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{S_WATCH_FORUM_LINK}" title="{S_WATCH_FORUM_TITLE}">{S_WATCH_FORUM_TITLE}</a></li><!-- ENDIF -->
@@ -28,7 +29,9 @@
 				<!-- IF S_QUICK_STYLE_OPTIONS and not TOPBAR_CODE --><!-- INCLUDE prime_quick_style.html --><!-- ENDIF -->
 			</div>
 		</div>
-		<div class="copyright">{CREDIT_LINE}<!-- Please don't remove. phpBB and PBWoW 2 are offered to you for free. -->
+		<div class="copyright">
+			<a href="{U_PORTAL}?mod=impressum">{L_IMPRESSUM}</a><!-- | <a href="{U_PORTAL}?mod=cookies">{L_COOKIE_INFO}</a> not needed at the moment (cookie law is inactive)-->
+			<br />{CREDIT_LINE}<!-- Please don't remove. phpBB and PBWoW 2 are offered to you for free. -->
 			<!-- IF TRANSLATION_INFO --><br />{TRANSLATION_INFO}<!-- ENDIF -->
 			<!-- IF DEBUG_OUTPUT --><br />{DEBUG_OUTPUT}<!-- ENDIF -->
 			<!-- IF U_ACP --><br /><strong><a href="{U_ACP}">{L_ACP}</a></strong><!-- ENDIF -->

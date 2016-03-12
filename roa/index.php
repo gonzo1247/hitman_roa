@@ -6,6 +6,9 @@
  * Notice: Global switch file
  */
 
+// Remove Error-Reporting
+error_reporting(0);
+
 // Set encoding
 mb_internal_encoding("UTF-8");
 

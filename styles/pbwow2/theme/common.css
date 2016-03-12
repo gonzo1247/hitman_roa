@@ -1208,3 +1208,8 @@ p.rules a {
 		opacity: 0;
 	}
 }
+
+/* Overwrite this from forumsstyle on portal are other rules */
+#portal-body ul.topiclist dt {
+	width: 100% !important;
+}

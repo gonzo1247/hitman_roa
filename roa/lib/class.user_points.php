@@ -35,7 +35,13 @@ class user_points {
 			:life_points
 		)';
 
-		return SQL::execute(self::getConnection(), $sql, $params);
+		$result = SQL::execute(self::getConnection(), $sql, $params);
+
+		if($result !== false) {
+			if(self::exists($id))
+				return self::update($id, "Jeder erhält einmalig 50 Punkte, wenn er einen Account erstellt!", 50);
+		}
+		return false;
 	}
 
 	/**
@@ -56,11 +62,6 @@ class user_points {
 	 * @return int
 	 */
 	public static function update($id, $reason = "Point change", $change_points = 0) {
-		// Include LIB
-		require_once(LIB_DIR . DS . 'class.phpbb_groups.php');
-		require_once(LIB_DIR . DS . 'class.phpbb_group_members.php');
-		require_once(LIB_DIR . DS . 'class.phpbb_account.php');
-
 		// Create entry if not exists
 		if(! self::exists($id))
 			self::add($id, $change_points);
@@ -77,22 +78,42 @@ class user_points {
 		$sql = 'UPDATE ' . self::getFullTableName() . ' SET points_curr = :new_points' . (($change_points > 0) ? ', points_life = :new_life_points' : '') . ' WHERE user_id = :id';
 
 		// Add to VIP-Group if reaches a specific amount of points
-		if(! phpbb_group_members::isUserInGroup($id, phpbb_groups::getId(ROA_VIP_GROUP))) {
-			if($params["new_points"] >= ROA_VIP_POINTS) {
-				// Add to group
-				phpbb_group_members::add(phpbb_groups::getId(ROA_VIP_GROUP), $id);
-
-				// Set Main Group
-				phpbb_account::updateMainGroup($id, phpbb_groups::getId(ROA_VIP_GROUP), phpbb_groups::getColor(phpbb_groups::getId(ROA_VIP_GROUP)));
-
-				// Add to Log
-				points_log::add($id, 0, "Du hast " . ROA_VIP_POINTS . " Punkte erreicht und wurdest daher in die " . ROA_VIP_GROUP . "-Gruppe aufgenommen! Glückwunsch!");
-			}
-		}
+		self::check_vip($id, $params["new_points"]);
 
 		// Execute
 		if(SQL::execute(self::getConnection(), $sql, $params) !== false)
 			return points_log::add($id, $change_points, $reason);
+		return false;
+	}
+
+	/**
+	 * @param int $id
+	 * @param int $points
+	 */
+	public static function check_vip($id, $points) {
+		// Include LIB
+		require_once(LIB_DIR . DS . 'class.phpbb_groups.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_group_members.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+		require_once(LIB_DIR . DS . 'class.phpbb_log.php');
+
+		// Is already VIP
+		if(phpbb_group_members::isUserInGroup($id, phpbb_groups::getId(ROA_VIP_GROUP)))
+			return;
+
+		// Has enough Points
+		if($points < ROA_VIP_POINTS)
+			return;
+
+		// Add to group
+		phpbb_group_members::add(phpbb_groups::getId(ROA_VIP_GROUP), $id);
+
+		// Set Main Group
+		phpbb_account::updateMainGroup($id, phpbb_groups::getId(ROA_VIP_GROUP), phpbb_groups::getColor(phpbb_groups::getId(ROA_VIP_GROUP)));
+
+		// Add to Log
+		points_log::add($id, 0, "Du hast " . ROA_VIP_POINTS . " Punkte erreicht und wurdest daher in die " . ROA_VIP_GROUP . "-Gruppe aufgenommen! Glückwunsch!");
+		//phpbb_log::add(0, SYSTEM_USER, get_phpbb_info::$instance->ip, time(), "LOG_USERS_ADDED", "a:2:{i:0;s:7:\"" . ROA_VIP_GROUP . "\";i:1;s:8:\"" . get_phpbb_info::$instance->username . "\";}"); todo fix
 	}
 
 	/**

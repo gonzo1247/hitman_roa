@@ -129,7 +129,7 @@ class phpbb_account {
 	public static function updateMainGroup($user_id, $groupId, $groupColor) {
 		$result = SQL::execute(
 			self::getConnection(),
-			'UPDATE ' . self::getFullTableName() . ' SET group_id = :group_id AND user_colour = :color WHERE user_id = :u_id',
+			'UPDATE ' . self::getFullTableName() . ' SET group_id = :group_id, user_colour = :color WHERE user_id = :u_id',
 			array("group_id" => $groupId, "color" => $groupColor, "u_id" => $user_id)
 		);
 

@@ -6,8 +6,8 @@
 		<div class="inner"><span class="corners-top"><span></span></span>
 
 		<ul class="linklist">
-			<li class="icon-home"><!-- IF U_PORTAL --><a href="{U_PORTAL}">{L_PORTAL}</a> &#187; <!-- ENDIF -->
-			<!--<a href="{U_INDEX}" accesskey="h">{L_INDEX}</a></li> 
+			<!-- IF U_PORTAL --><li class="icon-home"><a href="{U_PORTAL}">{L_PORTAL}</a></li><!-- ENDIF -->
+			<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a></li>
 				<!-- IF not S_IS_BOT -->
 					<!-- IF S_WATCH_FORUM_LINK --><li <!-- IF S_WATCHING_FORUM -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{S_WATCH_FORUM_LINK}" title="{S_WATCH_FORUM_TITLE}">{S_WATCH_FORUM_TITLE}</a></li><!-- ENDIF -->
 					<!-- IF U_WATCH_TOPIC --><li <!-- IF S_WATCHING_TOPIC -->class="icon-unsubscribe"<!-- ELSE -->class="icon-subscribe"<!-- ENDIF -->><a href="{U_WATCH_TOPIC}" title="{L_WATCH_TOPIC}">{L_WATCH_TOPIC}</a></li><!-- ENDIF -->
@@ -20,7 +20,9 @@
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 
-	<div class="copyright">{CREDIT_LINE}
+	<div class="copyright">
+		<a href="{U_PORTAL}?mod=impressum">{L_IMPRESSUM}</a><!-- | <a href="{U_PORTAL}?mod=cookies">{L_COOKIE_INFO}</a> not needed at the moment (cookie law is inactive)-->
+		<br />{CREDIT_LINE}
 		<!-- IF TRANSLATION_INFO --><br />{TRANSLATION_INFO}<!-- ENDIF -->
 		<!-- IF DEBUG_OUTPUT --><br />{DEBUG_OUTPUT}<!-- ENDIF -->
 		<!-- IF U_ACP --><br /><strong><a href="{U_ACP}">{L_ACP}</a></strong><!-- ENDIF -->

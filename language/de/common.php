@@ -278,6 +278,7 @@ $lang = array_merge($lang, array(
 	'IMAGE'						=> 'Bild',
 	'IMAGE_FILETYPE_INVALID'	=> 'Der Grafikdateityp %d wird für den MIME-Typ %s nicht unterstützt.',
 	'IMAGE_FILETYPE_MISMATCH'	=> 'Fehlerhafter Grafikdateityp: Dateiendung %1$s erwartet, aber Endung %2$s erhalten.',
+	'IMPRESSUM'					=> 'Impressum',
 	'IN'						=> 'in',
 	'INDEX'						=> 'Foren-Übersicht',
 	'INFORMATION'				=> 'Information',
