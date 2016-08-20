@@ -24,6 +24,7 @@ require_once(ROA_MAINCLASSDIR . DS . 'class.account.php');
 require_once(LIB_DIR . DS . 'class.auth_account.php');
 require_once(LIB_DIR . DS . 'class.phpbb_profile_fields_data.php');
 require_once(LIB_DIR . DS . 'class.phpbb_account.php');
+require_once(LIB_DIR . DS . 'class.mantis.account.php');
 
 // Get global config vars
 global $db_auth_type;
@@ -39,6 +40,13 @@ global $dbname;
 global $dbuser;
 global $phpbb_db_pw;
 
+global $dbmantis;
+global $dbmantishost;
+global $dbmantisport;
+global $dbmantisname;
+global $dbmantisuser;
+global $dbmantispw;
+
 // Create db connections
 $auth_db = new db(
 	"{$db_auth_type}:host={$db_auth_host};port={$db_auth_port};dbname={$db_auth_dbname};charset=utf8",
@@ -53,6 +61,14 @@ $phpbb_db = new db(
 	array()
 );
 
+$mantis_db = new db(
+	"{$dbmantis}:host={$dbmantishost};port={$dbmantisport};dbname={$dbmantisname};charset=utf8",
+	$dbmantisuser,
+	$dbmantispw,
+	array()
+);
+
 // Assisgn connections
 db_con::setDbCon($auth_db, "auth_db");
 db_con::setDbCon($phpbb_db, "phpbb_db");
+db_con::setDbCon($mantis_db, "mantis_db");

@@ -323,6 +323,14 @@ class ucp_register
 						trigger_error($roa_acc_result);
 					}
 
+					// Create Mantis Account
+				//	$roa_mantis_result = mantis_account::add($data['username'], $data['user_password'], $data['email']);
+				//	if($roa_mantis_result !== true) {
+				//		// Delete PHPBB-User
+				//		user_delete("retain", (int) $user_id);
+				//		trigger_error($roa_mantis_result);
+				//	}
+
 				} else
 					throw new Exception("Auth-Server derzeitig nicht erreichbar, versuche es später erneut! Adresse: \"" . $auth_server_adress . ":" . $auth_server_port . "\" (Can't reach WoW-Server try again later!)");
 				// Roa Account end

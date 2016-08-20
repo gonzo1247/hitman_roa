@@ -65,6 +65,13 @@ $phpbb_db = new db(
 	$phpbb_db_pw,
 	array()
 );
+
+$mantis_db = new db(
+	"{$db_mantis_type}:host={$db_mantis_host};port={$db_mantis_port};dbname={$db_mantis_dbname};charset=utf8",
+	$db_mantis_username,
+	$db_mantis_pwd,
+	array()
+);
 /*
 $lol_db = new db(
 	"{$db_lol_type}:host={$db_lol_host};port={$db_lol_port};dbname={$db_lol_username};charset=utf8",
