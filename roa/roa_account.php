@@ -40,12 +40,12 @@ global $dbname;
 global $dbuser;
 global $phpbb_db_pw;
 
-global $dbmantis;
-global $dbmantishost;
-global $dbmantisport;
-global $dbmantisname;
-global $dbmantisuser;
-global $dbmantispw;
+global $db_mantis_type;
+global $db_mantis_host;
+global $db_mantis_dbname;
+global $db_mantis_port;
+global $db_mantis_username;
+global $db_mantis_pwd;
 
 // Create db connections
 $auth_db = new db(
@@ -62,9 +62,9 @@ $phpbb_db = new db(
 );
 
 $mantis_db = new db(
-	"{$dbmantis}:host={$dbmantishost};port={$dbmantisport};dbname={$dbmantisname};charset=utf8",
-	$dbmantisuser,
-	$dbmantispw,
+	"{$db_mantis_type}:host={$db_mantis_host};port={$db_mantis_port};dbname={$db_mantis_dbname};charset=utf8",
+	$db_mantis_username,
+	$db_mantis_pwd,
 	array()
 );
 

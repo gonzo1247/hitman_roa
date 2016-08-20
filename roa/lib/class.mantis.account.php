@@ -3,7 +3,7 @@
 /**
  * Created by Severin Weitz [gonzo1247@yahoo.de]
  * Date: 2016/08/20
- * Time: 11:59
+ * Time: 11:58
  */
 class mantis_account {
 	private static $prefix;
@@ -21,14 +21,14 @@ class mantis_account {
 			password,
 			enabled,
 			access_level,
-			data_created
+			date_created
 		) VALUES (
 			:username,
 			:email,
 			:password,
 			:enabled,
 			:access_level,
-			:data_created
+			:date_created
 
 		)';
 		return SQL::execute(
@@ -40,7 +40,7 @@ class mantis_account {
 				"password" => $md5_pw,
 				"enabled" => $enabled,
 				"access_level" => $acces_level,
-				"data_created" => $date_created
+				"date_created" => $date_created
 			)
 		);
 
